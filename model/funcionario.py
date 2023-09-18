@@ -7,6 +7,7 @@ funcionarioFields = {
     "nome": fields.String,
     "sexo": fields.String,
     "rg": fields.String,
+    "cpf": fields.String,
     "dataNascimento": fields.String,
     "email": fields.String,
     "cargo": fields.String
@@ -21,8 +22,8 @@ class Funcionario(Pessoa):
 
     __mapper_args__ = {"polymorphic_identity": "funcionario"}
 
-    def __init__(self, nome, sexo, rg, dataNascimento, email, cargo):
-        super().__init__(nome, sexo, rg, dataNascimento)
+    def __init__(self, nome, sexo, rg, cpf, dataNascimento, email, cargo):
+        super().__init__(nome, sexo, rg, cpf, dataNascimento)
         self.email = email
         self.cargo = cargo
 

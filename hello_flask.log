@@ -1,0 +1,12 @@
+2023-09-18 10:34:56,804 WARNING _internal _log  * Debugger is active!
+2023-09-18 10:34:56,812 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-09-18 10:35:01,707 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:01] "DELETE /funcionario/1 HTTP/1.1" 200 -
+2023-09-18 10:35:04,506 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:04] "DELETE /funcionario/5 HTTP/1.1" 200 -
+2023-09-18 10:35:06,691 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:06] "GET /funcionario/1 HTTP/1.1" 200 -
+2023-09-18 10:35:10,490 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:10] "GET /funcionarios HTTP/1.1" 200 -
+2023-09-18 10:35:11,073 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:11] "GET /funcionarios HTTP/1.1" 200 -
+2023-09-18 10:35:18,188 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:18] "POST /funcionarios HTTP/1.1" 200 -
+2023-09-18 10:35:22,993 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:22] "GET /funcionario/1 HTTP/1.1" 200 -
+2023-09-18 10:35:30,524 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:30] "GET /funcionarios HTTP/1.1" 200 -
+2023-09-18 10:35:34,368 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:34] "DELETE /funcionario/7 HTTP/1.1" 200 -
+2023-09-18 10:35:38,889 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 10:35:38] "GET /funcionarios HTTP/1.1" 200 -

@@ -64,12 +64,12 @@ class Funcionarios(Resource):
         
         
         
-        # except:
+        except:
           
-        #   logger.error("Erro ao cadastrar o Funcionário")
+          logger.error("Erro ao cadastrar o Funcionário")
 
-        #   codigo = Message(2, "Erro ao cadastrar o Funcionário")
-        #   return marshal(codigo, msgFields), 400
+          codigo = Message(2, "Erro ao cadastrar o Funcionário")
+          return marshal(codigo, msgFields), 400
         
 
 class FuncionarioId(Resource):

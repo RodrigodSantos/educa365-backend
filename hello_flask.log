@@ -1,7 +1,5 @@
-2023-09-18 11:11:01,143 WARNING _internal _log  * Debugger is active!
-2023-09-18 11:11:01,148 INFO _internal _log  * Debugger PIN: 113-706-223
-2023-09-18 11:11:02,251 ERROR funcionarios get Funcionário de id: 8 não encontrado
-2023-09-18 11:11:02,253 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 11:11:02] "[33mGET /funcionario/8 HTTP/1.1[0m" 404 -
-2023-09-18 11:11:09,017 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 11:11:09] "GET /funcionario/9 HTTP/1.1" 200 -
-2023-09-18 11:11:11,362 INFO funcionarios get Funcionários listados com sucesso!
-2023-09-18 11:11:11,364 INFO _internal _log 127.0.0.1 - - [18/Sep/2023 11:11:11] "GET /funcionarios HTTP/1.1" 200 -
+2023-09-19 10:42:19,145 WARNING _internal _log  * Debugger is active!
+2023-09-19 10:42:19,151 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-09-19 10:42:21,721 INFO funcionarios get Funcionários listados com sucesso!
+2023-09-19 10:42:21,728 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 10:42:21] "GET /funcionarios HTTP/1.1" 200 -
+2023-09-19 10:42:29,482 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 10:42:29] "GET /funcionario/51 HTTP/1.1" 200 -

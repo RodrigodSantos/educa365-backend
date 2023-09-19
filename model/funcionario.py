@@ -1,6 +1,7 @@
 from flask_restful import fields
 from helpers.database import db
 from model.pessoa import Pessoa
+from model.dateFormat import DateFormat
 
 funcionarioFields = {
     "id": fields.Integer,
@@ -8,7 +9,7 @@ funcionarioFields = {
     "sexo": fields.String,
     "rg": fields.String,
     "cpf": fields.String,
-    "dataNascimento": fields.String,
+    "dataNascimento": DateFormat,
     "email": fields.String,
     "cargo": fields.String
 }

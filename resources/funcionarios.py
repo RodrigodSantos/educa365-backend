@@ -3,6 +3,8 @@ from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
 
+import datetime
+
 from model.funcionario import Funcionario, funcionarioFields
 from model.mensagem import Message, msgFields
 from model.pessoa import Pessoa
@@ -28,12 +30,19 @@ class Funcionarios(Resource):
         args = parser.parse_args()
         try:
 
+            dataNascimento = args['dataNascimento'].split('-')
+            dataNascimento = datetime.datetime(
+                int(dataNascimento[0]), 
+                int(dataNascimento[1]), 
+                int(dataNascimento[2])
+                )
+
             funcionario = Funcionario(
               args['nome'], 
               args['sexo'], 
               args['rg'],
               args['cpf'],
-              args['dataNascimento'], 
+              dataNascimento, 
               args['email'], 
               args['cargo']
               )
@@ -45,16 +54,23 @@ class Funcionarios(Resource):
             return marshal(funcionario, funcionarioFields), 200
         
         except IntegrityError:
-            logger.error("Erro ao cadastrar o Funcionário - Email ja cadastrado no sistema")
+            
+            # return marshal(funcionario, funcionarioFields), 200
 
-            codigo = Message(1, "Email ja cadastrado no sistema")
+            logger.error("Erro ao cadastrar o Funcionário - Email, cpf ou rg ja cadastrado no sistema")
+
+            codigo = Message(1, "Erro ao cadastrar o Funcionário - Email, cpf ou rg ja cadastrado no sistema")
             return marshal(codigo, msgFields)
         
-        except:
-          logger.error("Erro ao cadastrar o Funcionário")
+        
+        
+        # except:
+          
+        #   logger.error("Erro ao cadastrar o Funcionário")
 
-          codigo = Message(2, "Erro ao cadastrar o Funcionário")
-          return marshal(codigo, msgFields), 400
+        #   codigo = Message(2, "Erro ao cadastrar o Funcionário")
+        #   return marshal(codigo, msgFields), 400
+        
 
 class FuncionarioId(Resource):
     def get(self, id):

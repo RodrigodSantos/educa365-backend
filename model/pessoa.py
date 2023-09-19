@@ -1,15 +1,16 @@
 from flask_restful import fields
 from helpers.database import db
+import datetime
 
-pessoaFeilds = {
-    'id': fields.Integer,
-    'nome': fields.String,
-    'sexo': fields.String,
-    'rg': fields.String,
-    'cpf': fields.String,
-    'dataNascimento': fields.String,
-    'tipo': fields.String
-}
+# pessoaFeilds = {
+#     'id': fields.Integer,
+#     'nome': fields.String,
+#     'sexo': fields.String,
+#     'rg': fields.String,
+#     'cpf': fields.String,
+#     'dataNascimento': fields.DateTime,
+#     'tipo': fields.String
+# }
 
 class Pessoa(db.Model):
     __tablename__ = 'tbPessoa'
@@ -19,7 +20,7 @@ class Pessoa(db.Model):
     sexo = db.Column(db.String, nullable=False)
     rg = db.Column(db.String, nullable=False, unique=True)
     cpf = db.Column(db.String, nullable=False, unique=True)
-    dataNascimento = db.Column(db.String, nullable=False)
+    dataNascimento = db.Column(db.DateTime, nullable=False)
     tipo = db.Column(db.String, nullable=False)
 
     __mapper_args__ = {

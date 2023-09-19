@@ -1,16 +1,15 @@
 from flask_restful import fields
 from helpers.database import db
-import datetime
 
-# pessoaFeilds = {
-#     'id': fields.Integer,
-#     'nome': fields.String,
-#     'sexo': fields.String,
-#     'rg': fields.String,
-#     'cpf': fields.String,
-#     'dataNascimento': fields.DateTime,
-#     'tipo': fields.String
-# }
+pessoaFeilds = {
+    'id': fields.Integer,
+    'nome': fields.String,
+    'sexo': fields.String,
+    'rg': fields.String,
+    'cpf': fields.String,
+    'dataNascimento': fields.DateTime,
+    'tipo': fields.String
+}
 
 class Pessoa(db.Model):
     __tablename__ = 'tbPessoa'

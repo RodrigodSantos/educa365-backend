@@ -8,6 +8,7 @@ import datetime
 from model.funcionario import Funcionario, funcionarioFields
 from model.mensagem import Message, msgFields
 from model.pessoa import Pessoa
+from model.endereco import Endereco
 
 parser = reqparse.RequestParser()
 
@@ -18,6 +19,7 @@ parser.add_argument("cpf", type=str, help="Cpf não informado", required=False)
 parser.add_argument("dataNascimento", type=str, help="Data de nascimento não informada", required=False)
 parser.add_argument("email", type=str, help="Email não informado", required=False)
 parser.add_argument("cargo", type=str, help="Cargo não informado", required=False)
+parser.add_argument("endereco", type=dict, help="Endereço não informado", required=False)
 
 class Funcionarios(Resource):
     def get(self):
@@ -44,7 +46,8 @@ class Funcionarios(Resource):
               args['cpf'],
               dataNascimento, 
               args['email'], 
-              args['cargo']
+              args['cargo'],
+              args['endereco']
               )
 
             db.session.add(funcionario)

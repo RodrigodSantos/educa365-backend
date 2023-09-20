@@ -2,6 +2,8 @@ from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
 
+import uuid
+
 from model.endereco import Endereco, enderecoFields
 from model.mensagem import Message, msgFields
 
@@ -52,7 +54,7 @@ class Enderecos(Resource):
 
 class EnderecoId(Resource):
     def get(self, id):
-        endereco = Endereco.query.get(id)
+        endereco = Endereco.query.get(uuid.UUID(int=id))
 
         if endereco is None:
             logger.error(f"Endereco de id: {id} não encontrado")
@@ -67,7 +69,7 @@ class EnderecoId(Resource):
         try:
             args = parser.parse_args()
 
-            endereco = Endereco.query.get(id)
+            endereco = Endereco.query.get(uuid.UUID(int=id))
 
             if endereco is None:
                 logger.error(f"Endereco de id: {id} não encontrado")
@@ -97,7 +99,7 @@ class EnderecoId(Resource):
 
     def delete(self, id):
 
-        endereco = Endereco.query.get(id)
+        endereco = Endereco.query.get(uuid.UUID(int=id))
 
         if endereco is None:
             logger.error(f"Endereco de id: {id} não encontrado")

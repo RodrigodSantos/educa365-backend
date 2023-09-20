@@ -1,5 +1,7 @@
 from flask_restful import fields
 from helpers.database import db
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 enderecoFields = {
     "id": fields.Integer,
@@ -14,9 +16,9 @@ enderecoFields = {
 }
 
 class Endereco(db.Model):
-    __tablename__ = "tbEndereco"
+    __tablename__ = "tb_endereco"
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     rua = db.Column(db.String, nullable=False)
     bairro = db.Column(db.String, nullable=False)
     numero = db.Column(db.String, nullable=False)

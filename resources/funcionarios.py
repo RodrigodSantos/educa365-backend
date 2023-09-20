@@ -4,6 +4,7 @@ from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
 
 import datetime
+import uuid
 
 from model.funcionario import Funcionario, funcionarioFields
 from model.mensagem import Message, msgFields
@@ -13,7 +14,7 @@ from model.pessoa import Pessoa
 parser = reqparse.RequestParser()
 
 parser.add_argument("nome", type=str, help="Nome não informado", required=True)
-parser.add_argument("sexo", type=str, help="Sexo não informado", required=True)
+parser.add_argument("sexo", type=bool, help="Sexo não informado", required=True)
 parser.add_argument("rg", type=str, help="Rg não informado", required=True)
 parser.add_argument("cpf", type=str, help="Cpf não informado", required=True)
 parser.add_argument("dataNascimento", type=str, help="Data de nascimento não informada", required=True)
@@ -87,7 +88,7 @@ class Funcionarios(Resource):
 
 class FuncionarioId(Resource):
     def get(self, id):
-        funcionario = Funcionario.query.get(id)
+        funcionario = Funcionario.query.get(uuid.UUID(int=id))
 
         if funcionario is None:
             logger.error(f"Funcionario de id: {id} não encontrado")
@@ -101,8 +102,8 @@ class FuncionarioId(Resource):
     def put(self, id):
         try:
             args = parser.parse_args()
-            endereco = Endereco.query.get(args['endereco'])
-            funcionario = Funcionario.query.get(id)
+
+            funcionario = Funcionario.query.get(uuid.UUID(int=id))
 
             if funcionario is None:
                 logger.error(f"Funcionario de id: {id} não encontrado")
@@ -110,15 +111,29 @@ class FuncionarioId(Resource):
                 codigo = Message(1, f"Funcionario de id: {id} não encontrado")
                 return marshal(codigo, msgFields), 404
 
+            endereco = Endereco.query.get(funcionario.endereco.id)
+
+            endereco.rua = args['endereco']['rua']
+            endereco.bairro = args['endereco']['bairro']
+            endereco.numero = args['endereco']['numero']
+            endereco.uf = args['endereco']['uf']
+            endereco.cidade = args['endereco']['cidade']
+            endereco.cep = args['endereco']['cep']
+            endereco.telefone = args['endereco']['telefone']
+            endereco.referencia = args['endereco']['referencia']
+
+            db.session.add(endereco)
+            db.session.commit()
+
             funcionario.nome = args['nome']
             funcionario.sexo = args['sexo']
             funcionario.rg = args['rg']
             funcionario.cpf = args['cpf']
             funcionario.dataNascimento = args['dataNascimento']
+            funcionario.endereco = endereco
             funcionario.email = args['email']
             funcionario.cargo = args['cargo']
             funcionario.senha = args['senha']
-            funcionario.endereco = endereco
 
 
             db.session.add(funcionario)
@@ -141,7 +156,7 @@ class FuncionarioId(Resource):
 
     def delete(self, id):
 
-        funcionario = Funcionario.query.get(id)
+        funcionario = Funcionario.query.get(uuid.UUID(int=id))
 
         if funcionario is None:
             logger.error(f"Funcionario de id: {id} não encontrado")

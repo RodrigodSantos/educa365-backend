@@ -3,6 +3,8 @@ from helpers.database import db
 from model.pessoa import Pessoa
 from model.dateFormat import DateFormat
 from model.endereco import enderecoFields
+from sqlalchemy.dialects.postgresql import UUID
+import uuid
 
 funcionarioFields = {
     "id": fields.Integer,
@@ -17,9 +19,9 @@ funcionarioFields = {
 }
 
 class Funcionario(Pessoa):
-    __tablename__ = 'tbFuncionario'
+    __tablename__ = 'tb_funcionario'
 
-    pessoaId = db.Column(db.Integer, db.ForeignKey("tbPessoa.id"), primary_key=True)
+    pessoa_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_pessoa.id"), primary_key=True)
 
     email = db.Column(db.String, nullable=False, unique=True)
     cargo = db.Column(db.String, nullable=False)

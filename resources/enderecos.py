@@ -22,17 +22,17 @@ class Enderecos(Resource):
 
         logger.info("Enderecos listados com sucesso!")
         return marshal(enderecos, enderecoFields), 200
-    
+
     def post(self):
         args = parser.parse_args()
         try:
             endereco = Endereco(
-              args['rua'], 
-              args['bairro'], 
+              args['rua'],
+              args['bairro'],
               args['numero'],
               args['uf'],
-              args['cidade'], 
-              args['cep'], 
+              args['cidade'],
+              args['cep'],
               args['telefone'],
               args['referencia']
               )
@@ -42,13 +42,13 @@ class Enderecos(Resource):
 
             logger.info(f"Endereco de id: {endereco.id} criado com sucesso")
             return marshal(endereco, enderecoFields), 200
-        
+
         except:
             logger.error("Erro ao cadastrar o Endereco")
 
             codigo = Message(2, "Erro ao cadastrar o Endereco")
             return marshal(codigo, msgFields), 400
-        
+
 
 class EnderecoId(Resource):
     def get(self, id):
@@ -62,7 +62,7 @@ class EnderecoId(Resource):
 
         logger.info(f"Endereco de id: {id} listado com sucesso!")
         return marshal(endereco, enderecoFields), 200
-    
+
     def put(self, id):
         try:
             args = parser.parse_args()
@@ -88,15 +88,15 @@ class EnderecoId(Resource):
 
             logger.info(f"Endereco de id: {id} atualizado com sucesso!")
             return marshal(endereco, enderecoFields), 200
-        
+
         except:
             logger.error("Error ao atualizar o Endereco")
 
             codigo = Message(2, "Error ao atualizar o Endereco")
             return marshal(codigo, msgFields), 400
-        
+
     def delete(self, id):
-    
+
         endereco = Endereco.query.get(id)
 
         if endereco is None:

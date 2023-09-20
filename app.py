@@ -17,11 +17,11 @@ api = Api(app)
 
 # Funcionarios - Resource
 api.add_resource(Funcionarios, '/funcionarios')
-api.add_resource(FuncionarioId, '/funcionario/<int:id>')
+api.add_resource(FuncionarioId, '/funcionarios/<int:id>')
 
-# Endereço - Resource
+# Enderecos - Resource
 api.add_resource(Enderecos, '/enderecos')
-api.add_resource(EnderecoId, '/endereco/<int:id>')
+api.add_resource(EnderecoId, '/enderecos/<int:id>')
 
 if __name__ == '__main__':
   app.run(debug=True)

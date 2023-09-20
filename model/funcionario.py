@@ -20,21 +20,18 @@ class Funcionario(Pessoa):
     __tablename__ = 'tbFuncionario'
 
     pessoaId = db.Column(db.Integer, db.ForeignKey("tbPessoa.id"), primary_key=True)
-    enderecoId = db.Column(db.Integer, db.ForeignKey("tbEndereco.id"))
+
     email = db.Column(db.String, nullable=False, unique=True)
     cargo = db.Column(db.String, nullable=False)
-    senha = db.Column(db.String, nullable=False)
-
-    endereco = db.relationship("Endereco", uselist=False, backref= db.backref("tbEndereco", cascade="all, delete"))
+    senha = db.Column(db.String, nullable=True)
 
     __mapper_args__ = {"polymorphic_identity": "funcionario"}
 
-    def __init__(self, nome, sexo, rg, cpf, dataNascimento, email, cargo, senha, endereco):
-        super().__init__(nome, sexo, rg, cpf, dataNascimento)
+    def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco, email, cargo, senha):
+        super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)
         self.email = email
         self.cargo = cargo
         self.senha = senha
-        self.endereco = endereco
 
     def __repr__(self):
         return self

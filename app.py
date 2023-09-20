@@ -4,6 +4,7 @@ from helpers.database import db, migrate
 from helpers.confCors import cors
 
 from resources.funcionarios import Funcionarios, FuncionarioId
+from resources.enderecos import Enderecos, EnderecoId
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://postgres:senha@localhost:5432/Educa365"
@@ -14,8 +15,13 @@ cors.init_app(app)
 migrate.__init__(app, db)
 api = Api(app)
 
+# Funcionarios - Resource
 api.add_resource(Funcionarios, '/funcionarios')
 api.add_resource(FuncionarioId, '/funcionario/<int:id>')
+
+# Endereço - Resource
+api.add_resource(Enderecos, '/enderecos')
+api.add_resource(EnderecoId, '/endereco/<int:id>')
 
 if __name__ == '__main__':
   app.run(debug=True)

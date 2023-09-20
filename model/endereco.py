@@ -2,6 +2,7 @@ from flask_restful import fields
 from helpers.database import db
 
 enderecoFields = {
+    "id": fields.Integer,
     "rua": fields.String,
     "bairro": fields.String,
     "numero": fields.String,

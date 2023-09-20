@@ -4,8 +4,6 @@ from model.pessoa import Pessoa
 from model.dateFormat import DateFormat
 from model.endereco import enderecoFields
 
-from model.endereco import Endereco
-
 funcionarioFields = {
     "id": fields.Integer,
     "nome": fields.String,
@@ -25,15 +23,17 @@ class Funcionario(Pessoa):
     enderecoId = db.Column(db.Integer, db.ForeignKey("tbEndereco.id"))
     email = db.Column(db.String, nullable=False, unique=True)
     cargo = db.Column(db.String, nullable=False)
+    senha = db.Column(db.String, nullable=False)
 
     endereco = db.relationship("Endereco", uselist=False, backref= db.backref("tbEndereco", cascade="all, delete"))
 
     __mapper_args__ = {"polymorphic_identity": "funcionario"}
 
-    def __init__(self, nome, sexo, rg, cpf, dataNascimento, email, cargo, endereco):
+    def __init__(self, nome, sexo, rg, cpf, dataNascimento, email, cargo, senha, endereco):
         super().__init__(nome, sexo, rg, cpf, dataNascimento)
         self.email = email
         self.cargo = cargo
+        self.senha = senha
         self.endereco = endereco
 
     def __repr__(self):

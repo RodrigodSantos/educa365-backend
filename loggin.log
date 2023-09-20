@@ -1,12 +1,4 @@
-2023-09-19 22:33:16,590 WARNING _internal _log  * Debugger is active!
-2023-09-19 22:33:16,596 INFO _internal _log  * Debugger PIN: 113-706-223
-2023-09-19 22:33:52,486 INFO funcionarios get Funcionários listados com sucesso!
-2023-09-19 22:33:52,497 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 22:33:52] "GET /funcionarios HTTP/1.1" 200 -
-2023-09-19 22:33:58,230 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 22:33:58] "DELETE /funcionario/1 HTTP/1.1" 200 -
-2023-09-19 22:34:00,967 INFO funcionarios get Funcionários listados com sucesso!
-2023-09-19 22:34:00,970 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 22:34:00] "GET /funcionarios HTTP/1.1" 200 -
-2023-09-19 22:34:04,032 INFO enderecos get Enderecos listados com sucesso!
-2023-09-19 22:34:04,034 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 22:34:04] "GET /enderecos HTTP/1.1" 200 -
-2023-09-19 22:34:08,112 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 22:34:08] "DELETE /endereco/1 HTTP/1.1" 200 -
-2023-09-19 22:34:10,559 INFO enderecos get Enderecos listados com sucesso!
-2023-09-19 22:34:10,561 INFO _internal _log 127.0.0.1 - - [19/Sep/2023 22:34:10] "GET /enderecos HTTP/1.1" 200 -
+2023-09-20 08:26:21,650 WARNING _internal _log  * Debugger is active!
+2023-09-20 08:26:21,656 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-09-20 08:26:23,215 ERROR funcionarios post Endereco de id: 10 nao encontrado
+2023-09-20 08:26:23,216 INFO _internal _log 127.0.0.1 - - [20/Sep/2023 08:26:23] "POST /funcionarios HTTP/1.1" 200 -

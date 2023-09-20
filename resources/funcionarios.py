@@ -32,13 +32,19 @@ class Funcionarios(Resource):
     def post(self):
         args = parser.parse_args()
         try:
-            endereco = Endereco.query.get(args['endereco'])
             dataNascimento = args['dataNascimento'].split('-')
             dataNascimento = datetime.datetime(
                 year=int(dataNascimento[0]), 
                 month=int(dataNascimento[1]), 
                 day=int(dataNascimento[2])
                 )
+            
+            endereco = Endereco.query.get(args['endereco'])
+            if endereco is None:
+                logger.error(f"Endereco de id: {args['endereco']['id']} nao encontrado")
+
+                codigo = Message(1, f"Endereco de id: {args['endereco']['id']} nao encontrado")
+                return marshal(codigo, msgFields)
 
             funcionario = Funcionario(
                 args['nome'], 
@@ -65,11 +71,10 @@ class Funcionarios(Resource):
             return marshal(codigo, msgFields)
         
         except:
-          
-          logger.error("Erro ao cadastrar o Funcionario")
+            logger.error("Erro ao cadastrar o Funcionario")
 
-          codigo = Message(2, "Erro ao cadastrar o Funcionario")
-          return marshal(codigo, msgFields), 400
+            codigo = Message(2, "Erro ao cadastrar o Funcionario")
+            return marshal(codigo, msgFields), 400
         
 
 class FuncionarioId(Resource):

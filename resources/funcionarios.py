@@ -88,7 +88,7 @@ class Funcionarios(Resource):
 
 class FuncionarioId(Resource):
     def get(self, id):
-        funcionario = Funcionario.query.get(uuid.UUID(int=id))
+        funcionario = Funcionario.query.get(uuid.UUID(id))
 
         if funcionario is None:
             logger.error(f"Funcionario de id: {id} não encontrado")
@@ -103,7 +103,7 @@ class FuncionarioId(Resource):
         try:
             args = parser.parse_args()
 
-            funcionario = Funcionario.query.get(uuid.UUID(int=id))
+            funcionario = Funcionario.query.get(uuid.UUID(id))
 
             if funcionario is None:
                 logger.error(f"Funcionario de id: {id} não encontrado")
@@ -156,7 +156,7 @@ class FuncionarioId(Resource):
 
     def delete(self, id):
 
-        funcionario = Funcionario.query.get(uuid.UUID(int=id))
+        funcionario = Funcionario.query.get(uuid.UUID(id))
 
         if funcionario is None:
             logger.error(f"Funcionario de id: {id} não encontrado")

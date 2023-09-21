@@ -17,7 +17,7 @@ api = Api(app)
 
 # Funcionarios - Resource
 api.add_resource(Funcionarios, '/funcionarios')
-api.add_resource(FuncionarioId, '/funcionarios/<int:id>')
+api.add_resource(FuncionarioId, '/funcionarios/<string:id>')
 
 # Enderecos - Resource
 api.add_resource(Enderecos, '/enderecos')

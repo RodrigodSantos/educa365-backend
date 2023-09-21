@@ -4,7 +4,7 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 enderecoFields = {
-    "id": fields.Integer,
+    "id": fields.String,
     "rua": fields.String,
     "bairro": fields.String,
     "numero": fields.String,

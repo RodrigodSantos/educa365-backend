@@ -7,7 +7,7 @@ from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 funcionarioFields = {
-    "id": fields.Integer,
+    "id": fields.String,
     "nome": fields.String,
     "sexo": fields.String,
     "rg": fields.String,

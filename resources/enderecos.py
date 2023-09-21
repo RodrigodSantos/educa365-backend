@@ -54,7 +54,7 @@ class Enderecos(Resource):
 
 class EnderecoId(Resource):
     def get(self, id):
-        endereco = Endereco.query.get(uuid.UUID(int=id))
+        endereco = Endereco.query.get(uuid.UUID(id))
 
         if endereco is None:
             logger.error(f"Endereco de id: {id} não encontrado")
@@ -69,7 +69,7 @@ class EnderecoId(Resource):
         try:
             args = parser.parse_args()
 
-            endereco = Endereco.query.get(uuid.UUID(int=id))
+            endereco = Endereco.query.get(uuid.UUID(id))
 
             if endereco is None:
                 logger.error(f"Endereco de id: {id} não encontrado")
@@ -99,7 +99,7 @@ class EnderecoId(Resource):
 
     def delete(self, id):
 
-        endereco = Endereco.query.get(uuid.UUID(int=id))
+        endereco = Endereco.query.get(uuid.UUID(id))
 
         if endereco is None:
             logger.error(f"Endereco de id: {id} não encontrado")

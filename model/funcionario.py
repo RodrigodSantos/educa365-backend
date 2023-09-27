@@ -36,4 +36,4 @@ class Funcionario(Pessoa):
         self.senha = senha
 
     def __repr__(self):
-        return self
+        return f'<Funcionario {self.nome}>'

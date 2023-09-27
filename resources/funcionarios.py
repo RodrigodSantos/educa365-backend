@@ -88,16 +88,23 @@ class Funcionarios(Resource):
 
 class FuncionarioId(Resource):
     def get(self, id):
-        funcionario = Funcionario.query.get(uuid.UUID(id))
+        try:
+            funcionario = Funcionario.query.get(uuid.UUID(id))
 
-        if funcionario is None:
-            logger.error(f"Funcionario de id: {id} não encontrado")
+            if funcionario is None:
+                logger.error(f"Funcionario de id: {id} não encontrado")
 
-            codigo = Message(1, f"Funcionario de id: {id} não encontrado")
-            return marshal(codigo, msgFields), 404
+                codigo = Message(1, f"Funcionario de id: {id} não encontrado")
+                return marshal(codigo, msgFields), 404
 
-        logger.info(f"Funcionario de id: {id} listado com sucesso!")
-        return marshal(funcionario, funcionarioFields), 200
+            logger.info(f"Funcionario de id: {id} listado com sucesso!")
+            return marshal(funcionario, funcionarioFields), 200
+
+        except:
+            logger.error("Error ao encontrar o Funcionario")
+
+            codigo = Message(2, "Error ao encontrar o Funcionario")
+            return marshal(codigo, msgFields), 400
 
     def put(self, id):
         try:

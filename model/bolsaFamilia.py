@@ -9,7 +9,7 @@ bolsaFamiliaFields = {
 }
 
 class BolsaFamilia(db.Model):
-    __tablename__ = "tb_bolsaFamilia"
+    __tablename__ = "tb_bolsa_familia"
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     nis = db.Column(db.String, nullable=False)

@@ -33,7 +33,9 @@ class Responsavel(Pessoa):
     _tablename__ = 'tb_responsavel'
 
     pessoa_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_pessoa.id"), primary_key=True)
-    bolsaFamilia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_bolsaFamilia.id"), nullable=False)
+    bolsaFamilia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_bolsa_familia.id"), nullable=False)
+    condicaoMoradia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_condicao_moradia.id"), nullable=False)
+    familiaresCasa_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_familiares_casa.id"), nullable=False)
 
     nome = db.Column(db.String, nullable=False)
     sexo = db.Column(db.Boolean, nullable=False)
@@ -53,9 +55,11 @@ class Responsavel(Pessoa):
 
     __mapper_args__ = {"polymorphic_identity": "responsavel"}
 
-    bolsaFamilia = db.relationship("BolsaFamilia", uselist=False, backref= db.backref("tb_bolsaFamilia", cascade="all, delete"))
+    bolsaFamilia = db.relationship("BolsaFamilia", uselist=False, backref= db.backref("tb_bolsa_familia", cascade="all, delete"))
+    condicaoMoradia = db.relationship("CondicaoMoradia", uselist=False, backref= db.beckref("tb_condicao_moradia", cascade="all, delete"))
+    familiaresCasa = db.relationship("FamiliaresCasa", uselist=False, backref= db.backref("tb_familiares_casa", cascade="all, delete"))
 
-    def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco, parentesco, escolaridade, apelido, dataExpedicaoRg, ssp, dataExpedicaoCpf, profissao, nomeMae, ufRg, emissorRg, bolsaFamilia):
+    def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco, parentesco, escolaridade, apelido, dataExpedicaoRg, ssp, dataExpedicaoCpf, profissao, nomeMae, ufRg, emissorRg, bolsaFamilia, condicaoMoradia, familiaresCasa):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)
         self.parentesco = parentesco
         self.escolaridade = escolaridade
@@ -68,6 +72,8 @@ class Responsavel(Pessoa):
         self.ufRg = ufRg
         self.emissorRg = emissorRg
         self.bolsaFamilia = bolsaFamilia
+        self.condicaoMoradia = condicaoMoradia
+        self.familiaresCasa = familiaresCasa
 
     def __repr__(self):
         return f'<Responsavel {self.nome}>'

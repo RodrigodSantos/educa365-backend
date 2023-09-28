@@ -10,7 +10,7 @@ instituicaoEnsinoFields = {
 }
 
 class InstituicaoEnsino(db.Model):
-    __tablename__ = 'tb_instituicaoEnsino'
+    __tablename__ = 'tb_instituicao_ensino'
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     nome = db.Column(db.String, nullable="False")

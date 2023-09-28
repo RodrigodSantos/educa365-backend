@@ -16,7 +16,7 @@ observacoesEducandoFields = {
 }
 
 class ObservacoesEducando(db.Model):
-    __tablename__ = "tb_observacoesEducando"
+    __tablename__ = "tb_observacoes_educando"
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     deficiencia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_deficiencia.id"))

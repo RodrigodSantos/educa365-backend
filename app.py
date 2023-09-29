@@ -6,7 +6,12 @@ import os
 from dotenv import load_dotenv
 
 from resources.funcionarios import Funcionarios, FuncionarioId
+from resources.educandos import Educandos, EducandoId
 from resources.enderecos import Enderecos, EnderecoId
+from resources.instituicoes import Instituicoes, InstituicaoId
+from resources.observacoesEducandos import ObservacoesEducandos, ObservacoesEducandoId
+from resources.deficiencias import Deficiencias, DeficienciaId
+from resources.turmas import Turmas, TurmaId
 
 load_dotenv()
 
@@ -28,9 +33,29 @@ api = Api(app)
 api.add_resource(Funcionarios, '/funcionarios')
 api.add_resource(FuncionarioId, '/funcionarios/<string:id>')
 
+# Educandos - Resource
+api.add_resource(Educandos, '/educandos')
+api.add_resource(EducandoId, '/educandos/<string:id>')
+
 # Enderecos - Resource
 api.add_resource(Enderecos, '/enderecos')
-api.add_resource(EnderecoId, '/enderecos/<id>')
+api.add_resource(EnderecoId, '/enderecos/<string:id>')
+
+# Instituicoes - Resource
+api.add_resource(Instituicoes, '/instituicoes')
+api.add_resource(InstituicaoId, '/instituicoes/<string:id>')
+
+# Turmas - Resource
+api.add_resource(Turmas, '/turmas')
+api.add_resource(TurmaId, '/turmas/<string:id>')
+
+# Observacoes do educando - Resource
+api.add_resource(ObservacoesEducandos, '/observacoes')
+api.add_resource(ObservacoesEducandoId, '/observacoes/<string:id>')
+
+# Deficiencias do educando - Resource
+api.add_resource(Deficiencias, '/deficiencias')
+api.add_resource(DeficienciaId, '/deficiencias/<string:id>')
 
 if __name__ == '__main__':
   app.run(debug=True)

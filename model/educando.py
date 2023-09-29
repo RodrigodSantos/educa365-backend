@@ -3,6 +3,9 @@ from helpers.database import db
 from model.dateFormat import DateFormat
 from model.pessoa import Pessoa
 from model.endereco import enderecoFields
+from model.turma import turmaFields
+from model.instituicaoEnsino import instituicaoEnsinoFields
+from model.observacoesEducando import observacoesEducandoFields
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 import datetime
@@ -11,25 +14,25 @@ educandoFields = {
     "id": fields.String,
     'nome': fields.String,
     'sexo': fields.Boolean,
+    'dataNascimento': DateFormat,
     'rg': fields.String,
     'cpf': fields.String,
-    'dataNascimento': fields.DateTime,
-    'tipo': fields.String,
-    "endereco": fields.Nested(enderecoFields),
     "nis": fields.String,
     "cidadeCartorio": fields.String,
     "sus": fields.String,
     "nomeCartorio": fields.String,
     "numeroRegistroNascimento": fields.String,
-    "dataEmissaoCertidao": fields.String,
+    "dataEmissaoCertidao": DateFormat,
     "ufCartorio": fields.String,
     "etnia": fields.String,
     "nomeMae": fields.String,
     "nomePai": fields.String,
     "dataMatricula": DateFormat,
     "ano": fields.Integer,
-    "turma:": fields.String,
-    "instituicao": fields.String
+    "endereco": fields.Nested(enderecoFields),
+    "turma": fields.Nested(turmaFields),
+    "instituicao": fields.Nested(instituicaoEnsinoFields),
+    "observacoesEducando": fields.Nested(observacoesEducandoFields)
 }
 
 class Educando(Pessoa):
@@ -43,7 +46,7 @@ class Educando(Pessoa):
     nis = db.Column(db.String, nullable=False)
     cidadeCartorio = db.Column(db.String, nullable=False)
     sus = db.Column(db.String, nullable=False)
-    nomeCartorio = db.Column(db.DateTime, nullable=False)
+    nomeCartorio = db.Column(db.String, nullable=False)
     numeroRegistroNascimento = db.Column(db.String, nullable=False)
     dataEmissaoCertidao = db.Column(db.DateTime, nullable=False)
     ufCartorio = db.Column(db.String, nullable=False)
@@ -59,7 +62,7 @@ class Educando(Pessoa):
     instituicao = db.relationship("InstituicaoEnsino", uselist=False, backref= db.backref("tb_instituicao_ensino", cascade="all, delete"))
     observacoesEducando = db.relationship("ObservacoesEducando", uselist=False, backref= db.backref("tb_observacoes_educando", cascade="all, delete"))
 
-    def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco, turma, instituicao, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, ano, observacoesEducando):
+    def __init__(self, nome, sexo, dataNascimento, rg, cpf, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, ano, observacoesEducando, endereco, turma, instituicao):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)
         self.turma = turma
         self.instituicao = instituicao

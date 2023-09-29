@@ -1,0 +1,38 @@
+2023-09-29 16:34:35,524 WARNING _internal _log  * Debugger is active!
+2023-09-29 16:34:35,530 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-09-29 16:35:02,363 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:02] "[36mGET /educandos?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2023-09-29 16:35:02,364 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:02] "[36mGET /educandos?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2023-09-29 16:35:02,685 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:02] "[36mGET /educandos?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-09-29 16:35:02,915 INFO educandos post Deficiencia de id: fd26f74a-0891-4c5f-9951-d5f738728a6b criado com sucesso
+2023-09-29 16:35:02,928 INFO educandos post ObservacaoEducando de id: 0adc3793-6ec5-499f-a022-f302e846773f criado com sucesso
+2023-09-29 16:35:02,938 INFO educandos post Endereco de id: b764d233-e92e-4873-abdf-0da788021104 criado com sucesso
+2023-09-29 16:35:02,951 INFO educandos post Turma de id: d720df8d-879c-4727-b670-eeaca4a4ac67 criado com sucesso
+2023-09-29 16:35:02,963 INFO educandos post Instituicao de id: 069763d8-54b0-40d7-b4f8-1094906a5430 criado com sucesso
+2023-09-29 16:35:03,001 INFO educandos post Educando de id: a2a232b6-4ecd-4f11-b1e1-f6ae289c960d criado com sucesso
+2023-09-29 16:35:03,008 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:03] "POST /educandos HTTP/1.1" 200 -
+2023-09-29 16:35:13,808 INFO educandos delete Educando de id: a2a232b6-4ecd-4f11-b1e1-f6ae289c960d deletedo com sucesso
+2023-09-29 16:35:13,809 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:13] "DELETE /educandos/a2a232b6-4ecd-4f11-b1e1-f6ae289c960d HTTP/1.1" 200 -
+2023-09-29 16:35:17,201 INFO educandos get Educandos listados com sucesso!
+2023-09-29 16:35:17,212 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:17] "GET /educandos HTTP/1.1" 200 -
+2023-09-29 16:35:20,714 INFO enderecos get Enderecos listados com sucesso!
+2023-09-29 16:35:20,716 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:20] "GET /enderecos HTTP/1.1" 200 -
+2023-09-29 16:35:32,021 INFO enderecos delete Endereco de id: b764d233-e92e-4873-abdf-0da788021104 deletedo com sucesso
+2023-09-29 16:35:32,022 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:32] "DELETE /enderecos/b764d233-e92e-4873-abdf-0da788021104 HTTP/1.1" 200 -
+2023-09-29 16:35:36,055 INFO deficiencias get Deficiencias listadas com sucesso!
+2023-09-29 16:35:36,056 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:36] "GET /deficiencias HTTP/1.1" 200 -
+2023-09-29 16:35:41,582 INFO observacoesEducandos get Observacoes listadas com sucesso!
+2023-09-29 16:35:41,586 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:41] "GET /observacoes HTTP/1.1" 200 -
+2023-09-29 16:35:47,603 INFO observacoesEducandos delete Turma de id: 0adc3793-6ec5-499f-a022-f302e846773f deletedo com sucesso
+2023-09-29 16:35:47,604 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:47] "DELETE /observacoes/0adc3793-6ec5-499f-a022-f302e846773f HTTP/1.1" 200 -
+2023-09-29 16:35:51,970 INFO deficiencias get Deficiencias listadas com sucesso!
+2023-09-29 16:35:51,972 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:51] "GET /deficiencias HTTP/1.1" 200 -
+2023-09-29 16:35:59,002 INFO deficiencias delete Turma de id: fd26f74a-0891-4c5f-9951-d5f738728a6b deletedo com sucesso
+2023-09-29 16:35:59,003 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:59] "DELETE /deficiencias/fd26f74a-0891-4c5f-9951-d5f738728a6b HTTP/1.1" 200 -
+2023-09-29 16:36:01,587 INFO turmas get Turmas listadas com sucesso!
+2023-09-29 16:36:01,589 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:01] "GET /turmas HTTP/1.1" 200 -
+2023-09-29 16:36:14,528 INFO turmas delete Turma de id: d720df8d-879c-4727-b670-eeaca4a4ac67 deletedo com sucesso
+2023-09-29 16:36:14,529 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:14] "DELETE /turmas/d720df8d-879c-4727-b670-eeaca4a4ac67 HTTP/1.1" 200 -
+2023-09-29 16:36:18,649 INFO instituicoes get Instituicoes listados com sucesso!
+2023-09-29 16:36:18,651 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:18] "GET /instituicoes HTTP/1.1" 200 -
+2023-09-29 16:36:27,199 INFO instituicoes delete Instituicao de id: 069763d8-54b0-40d7-b4f8-1094906a5430 deletedo com sucesso
+2023-09-29 16:36:27,200 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:27] "DELETE /instituicoes/069763d8-54b0-40d7-b4f8-1094906a5430 HTTP/1.1" 200 -

@@ -15,7 +15,7 @@ problemasEnfrentadosFields = {
 }
 
 class ProblemaEnfrentados(db.Model):
-    __tablename__ = "tb_problema_enfrentados"
+    __tablename__ = "tb_problema_enfrentado"
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     alcool = db.Column(db.Boolean, nullable=False)

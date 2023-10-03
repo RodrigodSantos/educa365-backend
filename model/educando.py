@@ -33,6 +33,7 @@ educandoFields = {
     "turma": fields.Nested(turmaFields),
     "instituicao": fields.Nested(instituicaoEnsinoFields),
     "observacoesEducando": fields.Nested(observacoesEducandoFields)
+    # "responsavel": fields.List
 }
 
 class Educando(Pessoa):

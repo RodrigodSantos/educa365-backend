@@ -1,38 +1,18 @@
-2023-09-29 16:34:35,524 WARNING _internal _log  * Debugger is active!
-2023-09-29 16:34:35,530 INFO _internal _log  * Debugger PIN: 113-706-223
-2023-09-29 16:35:02,363 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:02] "[36mGET /educandos?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
-2023-09-29 16:35:02,364 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:02] "[36mGET /educandos?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
-2023-09-29 16:35:02,685 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:02] "[36mGET /educandos?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
-2023-09-29 16:35:02,915 INFO educandos post Deficiencia de id: fd26f74a-0891-4c5f-9951-d5f738728a6b criado com sucesso
-2023-09-29 16:35:02,928 INFO educandos post ObservacaoEducando de id: 0adc3793-6ec5-499f-a022-f302e846773f criado com sucesso
-2023-09-29 16:35:02,938 INFO educandos post Endereco de id: b764d233-e92e-4873-abdf-0da788021104 criado com sucesso
-2023-09-29 16:35:02,951 INFO educandos post Turma de id: d720df8d-879c-4727-b670-eeaca4a4ac67 criado com sucesso
-2023-09-29 16:35:02,963 INFO educandos post Instituicao de id: 069763d8-54b0-40d7-b4f8-1094906a5430 criado com sucesso
-2023-09-29 16:35:03,001 INFO educandos post Educando de id: a2a232b6-4ecd-4f11-b1e1-f6ae289c960d criado com sucesso
-2023-09-29 16:35:03,008 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:03] "POST /educandos HTTP/1.1" 200 -
-2023-09-29 16:35:13,808 INFO educandos delete Educando de id: a2a232b6-4ecd-4f11-b1e1-f6ae289c960d deletedo com sucesso
-2023-09-29 16:35:13,809 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:13] "DELETE /educandos/a2a232b6-4ecd-4f11-b1e1-f6ae289c960d HTTP/1.1" 200 -
-2023-09-29 16:35:17,201 INFO educandos get Educandos listados com sucesso!
-2023-09-29 16:35:17,212 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:17] "GET /educandos HTTP/1.1" 200 -
-2023-09-29 16:35:20,714 INFO enderecos get Enderecos listados com sucesso!
-2023-09-29 16:35:20,716 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:20] "GET /enderecos HTTP/1.1" 200 -
-2023-09-29 16:35:32,021 INFO enderecos delete Endereco de id: b764d233-e92e-4873-abdf-0da788021104 deletedo com sucesso
-2023-09-29 16:35:32,022 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:32] "DELETE /enderecos/b764d233-e92e-4873-abdf-0da788021104 HTTP/1.1" 200 -
-2023-09-29 16:35:36,055 INFO deficiencias get Deficiencias listadas com sucesso!
-2023-09-29 16:35:36,056 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:36] "GET /deficiencias HTTP/1.1" 200 -
-2023-09-29 16:35:41,582 INFO observacoesEducandos get Observacoes listadas com sucesso!
-2023-09-29 16:35:41,586 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:41] "GET /observacoes HTTP/1.1" 200 -
-2023-09-29 16:35:47,603 INFO observacoesEducandos delete Turma de id: 0adc3793-6ec5-499f-a022-f302e846773f deletedo com sucesso
-2023-09-29 16:35:47,604 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:47] "DELETE /observacoes/0adc3793-6ec5-499f-a022-f302e846773f HTTP/1.1" 200 -
-2023-09-29 16:35:51,970 INFO deficiencias get Deficiencias listadas com sucesso!
-2023-09-29 16:35:51,972 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:51] "GET /deficiencias HTTP/1.1" 200 -
-2023-09-29 16:35:59,002 INFO deficiencias delete Turma de id: fd26f74a-0891-4c5f-9951-d5f738728a6b deletedo com sucesso
-2023-09-29 16:35:59,003 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:35:59] "DELETE /deficiencias/fd26f74a-0891-4c5f-9951-d5f738728a6b HTTP/1.1" 200 -
-2023-09-29 16:36:01,587 INFO turmas get Turmas listadas com sucesso!
-2023-09-29 16:36:01,589 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:01] "GET /turmas HTTP/1.1" 200 -
-2023-09-29 16:36:14,528 INFO turmas delete Turma de id: d720df8d-879c-4727-b670-eeaca4a4ac67 deletedo com sucesso
-2023-09-29 16:36:14,529 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:14] "DELETE /turmas/d720df8d-879c-4727-b670-eeaca4a4ac67 HTTP/1.1" 200 -
-2023-09-29 16:36:18,649 INFO instituicoes get Instituicoes listados com sucesso!
-2023-09-29 16:36:18,651 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:18] "GET /instituicoes HTTP/1.1" 200 -
-2023-09-29 16:36:27,199 INFO instituicoes delete Instituicao de id: 069763d8-54b0-40d7-b4f8-1094906a5430 deletedo com sucesso
-2023-09-29 16:36:27,200 INFO _internal _log 127.0.0.1 - - [29/Sep/2023 16:36:27] "DELETE /instituicoes/069763d8-54b0-40d7-b4f8-1094906a5430 HTTP/1.1" 200 -
+2023-10-03 14:29:24,996 WARNING _internal _log  * Debugger is active!
+2023-10-03 14:29:25,002 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-03 14:29:25,249 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
+2023-10-03 14:29:25,263 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:25] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
+2023-10-03 14:29:32,672 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
+2023-10-03 14:29:32,682 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:32] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
+2023-10-03 14:29:38,280 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
+2023-10-03 14:29:38,288 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:38] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
+2023-10-03 14:29:41,415 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
+2023-10-03 14:29:41,422 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:41] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
+2023-10-03 14:30:00,168 INFO educandos post Instituicao de id: 4ec89952-ef2f-479f-a6f6-f288f17123aa criado com sucesso
+2023-10-03 14:30:00,171 INFO educandos post Educando de id: None criado com sucesso
+2023-10-03 14:30:00,202 ERROR educandos post Erro ao cadastrar o Educando
+2023-10-03 14:30:00,209 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:30:00] "[31m[1mPOST /educandos HTTP/1.1[0m" 400 -
+2023-10-03 14:30:06,170 INFO educandos get Educandos listados com sucesso!
+2023-10-03 14:30:06,189 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:30:06] "GET /educandos HTTP/1.1" 200 -
+2023-10-03 14:30:14,232 INFO educandos get Educando de id: 411d2af0-3cf9-4767-a7dd-eb4a771543fe listado com sucesso!
+2023-10-03 14:30:14,255 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:30:14] "GET /educandos/411d2af0-3cf9-4767-a7dd-eb4a771543fe HTTP/1.1" 200 -

@@ -12,6 +12,7 @@ from resources.instituicoes import Instituicoes, InstituicaoId
 from resources.observacoesEducandos import ObservacoesEducandos, ObservacoesEducandoId
 from resources.deficiencias import Deficiencias, DeficienciaId
 from resources.turmas import Turmas, TurmaId
+from resources.responsavel import Responsaveis, ResponsavelId
 
 load_dotenv()
 
@@ -56,6 +57,10 @@ api.add_resource(ObservacoesEducandoId, '/observacoes/<string:id>')
 # Deficiencias do educando - Resource
 api.add_resource(Deficiencias, '/deficiencias')
 api.add_resource(DeficienciaId, '/deficiencias/<string:id>')
+
+# Responsaveis
+api.add_resource(Responsaveis, '/responsaveis')
+api.add_resource(ResponsavelId, '/responsaveis/<string:id>')
 
 if __name__ == '__main__':
   app.run(debug=True)

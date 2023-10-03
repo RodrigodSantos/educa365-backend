@@ -5,12 +5,23 @@ from helpers.log import logger
 import uuid
 import datetime
 
+# Educando
 from model.educando import Educando, educandoFields
 from model.endereco import Endereco
 from model.instituicaoEnsino import InstituicaoEnsino
 from model.observacoesEducando import ObservacoesEducando
 from model.deficiencia import Deficiencia
 from model.turma import Turma
+
+# Responsavel
+from model.responsavel import Responsavel, responsavelFields
+from model.bolsaFamilia import BolsaFamilia
+from model.condicaoMoradia import CondicaoMoradia
+from model.condicaoVida import CondicaoVida
+from model.problemaEnfrentado import ProblemaEnfrentados
+
+from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields
+
 from model.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
@@ -31,10 +42,11 @@ parser.add_argument("etnia", type=str, help="Etnia não informada", required=Tru
 parser.add_argument("nomeMae", type=str, help="Nome da mae não informado", required=True)
 parser.add_argument("nomePai", type=str, help="Nome do pai não informado", required=True)
 parser.add_argument("ano", type=int, help="Ano não informado", required=True)
-parser.add_argument("observacoesEducando", type=dict, help="Observacao do educando não informado", required=True)
 parser.add_argument("endereco", type=dict, help="Telefone não informado", required=True)
 parser.add_argument("turma", type=dict, help="Turma não informada", required=True)
 parser.add_argument("instituicao", type=dict, help="Instituicao não informada", required=True)
+parser.add_argument("observacoesEducando", type=dict, help="Observacao do educando não informado", required=True)
+parser.add_argument("responsavel", type=list, help="Responsavel não informado", required=False)
 
 class Educandos(Resource):
     def get(self):
@@ -70,8 +82,6 @@ class Educandos(Resource):
             )
 
             db.session.add(deficiencia)
-            db.session.commit()
-            logger.info(f"Deficiencia de id: {deficiencia.id} criado com sucesso")
 
             # Criacao das Observacoes do Educando
             observacoes = ObservacoesEducando(
@@ -85,8 +95,6 @@ class Educandos(Resource):
             )
 
             db.session.add(observacoes)
-            db.session.commit()
-            logger.info(f"ObservacaoEducando de id: {observacoes.id} criado com sucesso")
 
             # Criacao do Endereco
             endereco = Endereco(
@@ -101,8 +109,6 @@ class Educandos(Resource):
             )
 
             db.session.add(endereco)
-            db.session.commit()
-            logger.info(f"Endereco de id: {endereco.id} criado com sucesso")
 
             # Criacao da Turma
             turma = Turma(
@@ -110,17 +116,16 @@ class Educandos(Resource):
             )
 
             db.session.add(turma)
-            db.session.commit()
-            logger.info(f"Turma de id: {turma.id} criado com sucesso")
 
-            # Criacao da instituicao
-            instituicao = InstituicaoEnsino(
-                args['instituicao']['nome'],
-                args['instituicao']['cnpj']
-            )
+            # Busca da instituicao
+            instituicao = InstituicaoEnsino.query.get(args['instituicao']['id'])
 
-            db.session.add(instituicao)
-            db.session.commit()
+            if instituicao is None:
+                logger.error(f"Instituicao de Ensino de id: {id} não encontrada")
+
+                codigo = Message(1, f"Instituicao de Ensino de id: {id} não encontrada")
+                return marshal(codigo, msgFields), 404
+
             logger.info(f"Instituicao de id: {instituicao.id} criado com sucesso")
 
             educando = Educando(
@@ -147,10 +152,98 @@ class Educandos(Resource):
             )
 
             db.session.add(educando)
-            db.session.commit()
-
             logger.info(f"Educando de id: {educando.id} criado com sucesso")
-            return marshal(educando, educandoFields), 200
+
+            for i, responsavel in enumerate(args['responsavel']):
+
+                # Criacao BolsaFamilia
+                bolsaFamilia = BolsaFamilia(
+                    args['responsavel'][i]['bolsaFamilia']['nis']
+                )
+
+                db.session.add(bolsaFamilia)
+
+                # Criacao da Condicao da Moradia
+                condicaoMoradia = CondicaoMoradia(
+                    args['responsavel'][i]['condicaoMoradia']['tipoCasa'],
+                    args['responsavel'][i]['condicaoMoradia']['banheiroComFossa'],
+                    args['responsavel'][i]['condicaoMoradia']['aguaCagepa'],
+                    args['responsavel'][i]['condicaoMoradia']['poco'],
+                    args['responsavel'][i]['condicaoMoradia']['energia']
+                )
+
+                db.session.add(condicaoMoradia)
+
+                #Criacao ProblemaEnfrentado
+                problemaEnfrentado = ProblemaEnfrentados(
+                    args['responsavel'][i]['condicaoVida']['problemaEnfrentado']['alcool'],
+                    args['responsavel'][i]['condicaoVida']['problemaEnfrentado']['lazer'],
+                    args['responsavel'][i]['condicaoVida']['problemaEnfrentado']['saude'],
+                    args['responsavel'][i]['condicaoVida']['problemaEnfrentado']['fome'],
+                    args['responsavel'][i]['condicaoVida']['problemaEnfrentado']['drogas'],
+                    args['responsavel'][i]['condicaoVida']['problemaEnfrentado']['violencia'],
+                    args['responsavel'][i]['condicaoVida']['problemaEnfrentado']['desemprego']
+                )
+
+                db.session.add(problemaEnfrentado)
+
+                # Criacao Condicao de Vida
+                condicaoVida = CondicaoVida(
+                    args['responsavel'][i]['condicaoVida']['trabalhoDaFamilia'],
+                    args['responsavel'][i]['condicaoVida']['quantasPessoasTrabalhamNaCasa'],
+                    args['responsavel'][i]['condicaoVida']['rendaMensalFamilia'],
+                    args['responsavel'][i]['condicaoVida']['programaGoverno'],
+                    problemaEnfrentado
+                )
+
+                db.session.add(condicaoVida)
+
+                # Criacao do Responsavel
+
+                responsavel = Responsavel(
+                    args['responsavel'][i]['nome'],
+                    args['responsavel'][i]['sexo'],
+                    args['responsavel'][i]['rg'],
+                    args['responsavel'][i]['cpf'],
+                    args['responsavel'][i]['dataNascimento'],
+                    endereco,
+                    args['responsavel'][i]['parentesco'],
+                    args['responsavel'][i]['escolaridade'],
+                    args['responsavel'][i]['apelido'],
+                    args['responsavel'][i]['dataExpedicaoRg'],
+                    args['responsavel'][i]['ssp'],
+                    args['responsavel'][i]['dataExpedicaoCpf'],
+                    args['responsavel'][i]['profissao'],
+                    args['responsavel'][i]['nomeMae'],
+                    args['responsavel'][i]['nufRgome'],
+                    args['responsavel'][i]['emissorRg'],
+                    args['responsavel'][i]['familiaresCasa'],
+                    bolsaFamilia,
+                    condicaoMoradia,
+                    condicaoVida
+                )
+
+                db.session.add(responsavel)
+
+                # Add realcionamento Educando - Responsavel
+
+                educandoResponsavel = EducandoResponsavel(
+                    educando,
+                    responsavel
+                )
+
+                db.session.add(educandoResponsavel)
+
+                db.session.commit()
+
+            responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
+
+            data = {
+                "educando": educando,
+                "responsaveis": responsaveis
+            }
+
+            return marshal(data, educandoResponsavelFields), 200
 
         except:
             logger.error("Erro ao cadastrar o Educando")
@@ -158,10 +251,16 @@ class Educandos(Resource):
             codigo = Message(2, "Erro ao cadastrar o Educando")
             return marshal(codigo, msgFields), 400
 
-
 class EducandoId(Resource):
     def get(self, id):
         educando = Educando.query.get(uuid.UUID(id))
+
+        responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
+
+        data = {
+            "educando": educando,
+            "responsaveis": responsaveis
+        }
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")
@@ -170,10 +269,10 @@ class EducandoId(Resource):
             return marshal(codigo, msgFields), 404
 
         logger.info(f"Educando de id: {id} listado com sucesso!")
-        return marshal(educando, educandoFields), 200
+        return marshal(data, educandoResponsavelFields), 200
 
     def put(self, id):
-        try:
+        # try:
             args = parser.parse_args()
 
             educando = Educando.query.get(uuid.UUID(id))
@@ -250,8 +349,8 @@ class EducandoId(Resource):
             logger.info(f"Turma de id: {turma.id} atualizado com sucesso")
 
             # Atualizacao da instituicao
-            instituicao.nome = args['instituicao']['nome']
-            instituicao.cnpj = args['instituicao']['cnpj']
+            instituicao_id = args['instituicao']['id']
+            instituicao = InstituicaoEnsino.query.get(uuid.UUID(instituicao_id))
 
             db.session.add(instituicao)
             db.session.commit()
@@ -285,15 +384,21 @@ class EducandoId(Resource):
             logger.info(f"Educando de id: {id} atalizado com sucesso!")
             return marshal(educando, educandoFields), 200
 
-        except:
-            logger.error("Error ao atualizar o Educando")
+        # except:
+        #     logger.error("Error ao atualizar o Educando")
 
-            codigo = Message(2, "Error ao atualizar o Educando")
-            return marshal(codigo, msgFields), 400
+        #     codigo = Message(2, "Error ao atualizar o Educando")
+        #     return marshal(codigo, msgFields), 400
 
     def delete(self, id):
 
         educando = Educando.query.get(uuid.UUID(id))
+        observacoes = ObservacoesEducando.query.get(educando.observacoesEducando.id)
+        deficiencia = Deficiencia.query.get(educando.observacoesEducando.deficiencia.id)
+        endereco = Endereco.query.get(educando.endereco.id)
+        turma = Turma.query.get(educando.turma.id)
+        # instituicao = InstituicaoEnsino.query.get(educando.instituicao.id)
+        responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")
@@ -302,6 +407,11 @@ class EducandoId(Resource):
             return marshal(codigo, msgFields), 404
 
         db.session.delete(educando)
+        db.session.delete(observacoes)
+        db.session.delete(deficiencia)
+        db.session.delete(endereco)
+        db.session.delete(turma)
+        # db.session.delete(instituicao)
         db.session.commit()
 
         logger.info(f"Educando de id: {id} deletedo com sucesso")

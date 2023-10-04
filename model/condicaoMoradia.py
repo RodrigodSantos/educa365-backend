@@ -6,6 +6,7 @@ import uuid
 condicaoMoradiaFields = {
     "id": fields.String,
     "tipoCasa": fields.String,
+    "posseCasa": fields.String,
     "banheiroComFossa": fields.Boolean,
     "aguaCagepa": fields.Boolean,
     "poco": fields.Boolean,
@@ -17,13 +18,15 @@ class CondicaoMoradia(db.Model):
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     tipoCasa = db.Column(db.String, nullable=False)
+    posseCasa = db.Column(db.String, nullable=False)
     banheiroComFossa = db.Column(db.Boolean, nullable=False)
     aguaCagepa = db.Column(db.Boolean, nullable=False)
     poco = db.Column(db.Boolean, nullable=False)
     energia = db.Column(db.Boolean, nullable=False)
 
-    def __init__(self, tipoCasa, banheiroComFossa, aguaCagepa, poco, energia):
+    def __init__(self, tipoCasa, posseCasa, banheiroComFossa, aguaCagepa, poco, energia):
         self.tipoCasa = tipoCasa
+        self.posseCasa = posseCasa
         self.banheiroComFossa = banheiroComFossa
         self.aguaCagepa = aguaCagepa
         self.poco = poco

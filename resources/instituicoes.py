@@ -10,7 +10,7 @@ from model.mensagem import Message, msgFields
 parser = reqparse.RequestParser()
 
 parser.add_argument("nome", type=str, help="Nome não informado", required=True)
-parser.add_argument("cnpj", type=str, help="Nome não informado", required=True)
+parser.add_argument("cnpj", type=str, help="Cnpj não informado", required=True)
 
 class Instituicoes(Resource):
     def get(self):

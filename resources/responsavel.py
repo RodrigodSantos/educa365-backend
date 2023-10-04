@@ -72,6 +72,7 @@ class ResponsavelId(Resource):
         condicaoMoradia = CondicaoMoradia.query.get(responsavel.condicaoMoradia.id)
 
         condicaoMoradia.tipoCasa = args['condicaoMoradia']['tipoCasa']
+        condicaoMoradia.posseCasa = args['condicaoMoradia']['posseCasa']
         condicaoMoradia.banheiroComFossa = args['condicaoMoradia']['banheiroComFossa']
         condicaoMoradia.aguaCagepa = args['condicaoMoradia']['aguaCagepa']
         condicaoMoradia.poco = args['condicaoMoradia']['poco']

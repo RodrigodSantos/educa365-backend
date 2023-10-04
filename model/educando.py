@@ -28,12 +28,10 @@ educandoFields = {
     "nomeMae": fields.String,
     "nomePai": fields.String,
     "dataMatricula": DateFormat,
-    "ano": fields.Integer,
     "endereco": fields.Nested(enderecoFields),
     "turma": fields.Nested(turmaFields),
     "instituicao": fields.Nested(instituicaoEnsinoFields),
     "observacoesEducando": fields.Nested(observacoesEducandoFields)
-    # "responsavel": fields.List
 }
 
 class Educando(Pessoa):
@@ -55,7 +53,6 @@ class Educando(Pessoa):
     nomeMae = db.Column(db.String, nullable=False)
     nomePai = db.Column(db.String, nullable=False)
     dataMatricula = db.Column(db.DateTime, default=datetime.datetime.now)
-    ano = db.Column(db.String, nullable=False)
 
     __mapper_args__ = {"polymorphic_identity": "educando"}
 
@@ -63,7 +60,7 @@ class Educando(Pessoa):
     instituicao = db.relationship("InstituicaoEnsino", uselist=False, backref= db.backref("tb_instituicao_ensino", cascade="all, delete"))
     observacoesEducando = db.relationship("ObservacoesEducando", uselist=False, backref= db.backref("tb_observacoes_educando", cascade="all, delete"))
 
-    def __init__(self, nome, sexo, dataNascimento, rg, cpf, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, ano, observacoesEducando, endereco, turma, instituicao):
+    def __init__(self, nome, sexo, dataNascimento, rg, cpf, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, observacoesEducando, endereco, turma, instituicao):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)
         self.turma = turma
         self.instituicao = instituicao
@@ -77,7 +74,6 @@ class Educando(Pessoa):
         self.etnia = etnia
         self.nomeMae = nomeMae
         self.nomePai = nomePai
-        self.ano = ano
         self.observacoesEducando = observacoesEducando
 
     def __repr__(self):

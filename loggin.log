@@ -1,18 +1,8 @@
-2023-10-03 14:29:24,996 WARNING _internal _log  * Debugger is active!
-2023-10-03 14:29:25,002 INFO _internal _log  * Debugger PIN: 113-706-223
-2023-10-03 14:29:25,249 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
-2023-10-03 14:29:25,263 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:25] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
-2023-10-03 14:29:32,672 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
-2023-10-03 14:29:32,682 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:32] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
-2023-10-03 14:29:38,280 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
-2023-10-03 14:29:38,288 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:38] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
-2023-10-03 14:29:41,415 INFO responsavel put Responsavel de id: 8460855b-3366-4545-969e-4f42f01d5447 atalizado com sucesso!
-2023-10-03 14:29:41,422 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:29:41] "PUT /responsaveis/8460855b-3366-4545-969e-4f42f01d5447 HTTP/1.1" 200 -
-2023-10-03 14:30:00,168 INFO educandos post Instituicao de id: 4ec89952-ef2f-479f-a6f6-f288f17123aa criado com sucesso
-2023-10-03 14:30:00,171 INFO educandos post Educando de id: None criado com sucesso
-2023-10-03 14:30:00,202 ERROR educandos post Erro ao cadastrar o Educando
-2023-10-03 14:30:00,209 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:30:00] "[31m[1mPOST /educandos HTTP/1.1[0m" 400 -
-2023-10-03 14:30:06,170 INFO educandos get Educandos listados com sucesso!
-2023-10-03 14:30:06,189 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:30:06] "GET /educandos HTTP/1.1" 200 -
-2023-10-03 14:30:14,232 INFO educandos get Educando de id: 411d2af0-3cf9-4767-a7dd-eb4a771543fe listado com sucesso!
-2023-10-03 14:30:14,255 INFO _internal _log 127.0.0.1 - - [03/Oct/2023 14:30:14] "GET /educandos/411d2af0-3cf9-4767-a7dd-eb4a771543fe HTTP/1.1" 200 -
+2023-10-04 20:14:37,017 WARNING _internal _log  * Debugger is active!
+2023-10-04 20:14:37,023 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-04 20:14:39,945 INFO responsavel get Responsaveis listados com sucesso!
+2023-10-04 20:14:39,978 INFO _internal _log 127.0.0.1 - - [04/Oct/2023 20:14:39] "GET /responsaveis HTTP/1.1" 200 -
+2023-10-04 20:15:13,419 INFO responsavel put Responsavel de id: cd0c8a12-c6de-4ad5-8846-cbaa33bba33f atalizado com sucesso!
+2023-10-04 20:15:13,430 INFO _internal _log 127.0.0.1 - - [04/Oct/2023 20:15:13] "PUT /responsaveis/cd0c8a12-c6de-4ad5-8846-cbaa33bba33f HTTP/1.1" 200 -
+2023-10-04 20:15:21,459 INFO responsavel put Responsavel de id: cd0c8a12-c6de-4ad5-8846-cbaa33bba33f atalizado com sucesso!
+2023-10-04 20:15:21,471 INFO _internal _log 127.0.0.1 - - [04/Oct/2023 20:15:21] "PUT /responsaveis/cd0c8a12-c6de-4ad5-8846-cbaa33bba33f HTTP/1.1" 200 -

@@ -150,7 +150,7 @@ class Educandos(Resource):
             db.session.add(endereco)
 
             # Busca da Turma
-            turma = Turma.query.get(args['turma']['id'])
+            turma = Turma.query.get(args['turma_id'])
 
             if turma is None:
                 logger.error(f"Turma de id: {id} não encontrada")
@@ -159,7 +159,7 @@ class Educandos(Resource):
                 return marshal(codigo, msgFields), 404
 
             # Busca da instituicao
-            instituicao = InstituicaoEnsino.query.get(args['instituicao']['id'])
+            instituicao = InstituicaoEnsino.query.get(args['instituicao_id'])
 
             if instituicao is None:
                 logger.error(f"Instituicao de Ensino de id: {id} não encontrada")
@@ -340,42 +340,12 @@ class Educandos(Resource):
             codigo = Message(1, "Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
             return marshal(codigo, msgFields)
 
-        except:
-            logger.error("Erro ao cadastrar o Educando")
+        # except:
+        #     logger.error("Erro ao cadastrar o Educando")
 
-            codigo = Message(2, "Erro ao cadastrar o Educando")
-            return marshal(codigo, msgFields), 400
+        #     codigo = Message(2, "Erro ao cadastrar o Educando")
+        #     return marshal(codigo, msgFields), 400
 
-class EducandoId(Resource):
-    def get(self, id):
-        educando = Educando.query.get(uuid.UUID(id))
-
-        responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
-
-        data = {
-                "id":educando.id,
-                'nome':educando.nome,
-                'sexo':educando.sexo,
-                'dataNascimento': educando.dataNascimento,
-                'rg':educando.rg,
-                'cpf':educando.cpf,
-                "nis":educando.nis,
-                "cidadeCartorio":educando.cidadeCartorio,
-                "sus":educando.sus,
-                "nomeCartorio":educando.nomeCartorio,
-                "numeroRegistroNascimento":educando.numeroRegistroNascimento,
-                "dataEmissaoCertidao": educando.dataEmissaoCertidao,
-                "ufCartorio":educando.ufCartorio,
-                "etnia":educando.etnia,
-                "nomeMae":educando.nomeMae,
-                "nomePai":educando.nomePai,
-                "dataMatricula": educando.dataMatricula,
-                "endereco":educando.endereco,
-                "turma":educando.turma,
-                "instituicao":educando.instituicao,
-                "observacoesEducando":educando.observacoesEducando,
-                "responsaveis": responsaveis
-            }
 class EducandoId(Resource):
     def get(self, id):
         responsaveisData = []

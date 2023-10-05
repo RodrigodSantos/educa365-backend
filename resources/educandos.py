@@ -15,7 +15,7 @@ from model.deficiencia import Deficiencia
 from model.turma import Turma
 
 # Responsavel
-from model.responsavel import Responsavel, responsavelFields
+from model.responsavel import Responsavel
 from model.bolsaFamilia import BolsaFamilia
 from model.condicaoMoradia import CondicaoMoradia
 from model.condicaoVida import CondicaoVida
@@ -43,8 +43,8 @@ parser.add_argument("etnia", type=str, help="Etnia não informada", required=Tru
 parser.add_argument("nomeMae", type=str, help="Nome da mae não informado", required=True)
 parser.add_argument("nomePai", type=str, help="Nome do pai não informado", required=True)
 parser.add_argument("endereco", type=dict, help="Telefone não informado", required=True)
-parser.add_argument("turma", type=dict, help="Turma não informada", required=False)
-parser.add_argument("instituicao", type=dict, help="Instituicao não informada", required=True)
+parser.add_argument("turma_id", type=str, help="Turma não informada", required=False)
+parser.add_argument("instituicao_id", type=str, help="Instituicao não informada", required=True)
 parser.add_argument("observacoesEducando", type=dict, help="Observacao do educando não informado", required=True)
 parser.add_argument("responsaveis", type=list, help="Responsavel não informado", required=False)
 
@@ -63,14 +63,14 @@ class Educandos(Resource):
                 year=int(dataNascimento[0]),
                 month=int(dataNascimento[1]),
                 day=int(dataNascimento[2])
-                )
+            )
 
             dataEmissaoCertidao = args['dataEmissaoCertidao'].split('-')
             dataEmissaoCertidao = datetime.datetime(
                 year=int(dataEmissaoCertidao[0]),
                 month=int(dataEmissaoCertidao[1]),
                 day=int(dataEmissaoCertidao[2])
-                )
+            )
 
             # Criacao de deficiencia
             deficiencia = Deficiencia(
@@ -82,6 +82,45 @@ class Educandos(Resource):
             )
 
             db.session.add(deficiencia)
+
+            # Criacao das Observacoes do Educando
+            observacoes = ObservacoesEducando(
+                args['observacoesEducando']['alimentacao'],
+                args['observacoesEducando']['medicacao'],
+                args['observacoesEducando']['produtoHigienePessoal'],
+                args['observacoesEducando']['tipoSangue'],
+                args['observacoesEducando']['medicacaoDeficiencia'],
+                args['observacoesEducando']['laudoMedico'],
+                deficiencia
+            )
+
+            db.session.add(observacoes)
+
+            # Criacao do Endereco
+            endereco = Endereco(
+                args['endereco']['rua'],
+                args['endereco']['bairro'],
+                args['endereco']['numero'],
+                args['endereco']['uf'],
+                args['endereco']['cidade'],
+                args['endereco']['cep'],
+                args['endereco']['telefone'],
+                args['endereco']['referencia']
+            )
+
+            db.session.add(endereco)
+
+            # Busca da Turma
+            turma = Turma.query.get(args['turma_id'])
+
+            if turma is None:
+                logger.error(f"Turma de id: {id} não encontrada")
+
+                codigo = Message(1, f"Turma de id: {id} não encontrada")
+                return marshal(codigo, msgFields), 404
+
+            # Busca da instituicao
+            instituicao = InstituicaoEnsino.query.get(args['instituicao_id'])
 
             # Criacao das Observacoes do Educando
             observacoes = ObservacoesEducando(
@@ -261,32 +300,37 @@ class Educandos(Resource):
 
                 db.session.commit()
 
-            responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
+                responsaveisData = []
+                educandosResponsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
+
+                for educandoResponsavel in educandosResponsaveis:
+                    responsavel = Responsavel.query.get(educandoResponsavel.responsavel_id)
+                    responsaveisData.append(responsavel)
 
             data = {
-                    "id":educando.id,
-                    'nome':educando.nome,
-                    'sexo':educando.sexo,
-                    'dataNascimento': educando.dataNascimento,
-                    'rg':educando.rg,
-                    'cpf':educando.cpf,
-                    "nis":educando.nis,
-                    "cidadeCartorio":educando.cidadeCartorio,
-                    "sus":educando.sus,
-                    "nomeCartorio":educando.nomeCartorio,
-                    "numeroRegistroNascimento":educando.numeroRegistroNascimento,
-                    "dataEmissaoCertidao": educando.dataEmissaoCertidao,
-                    "ufCartorio":educando.ufCartorio,
-                    "etnia":educando.etnia,
-                    "nomeMae":educando.nomeMae,
-                    "nomePai":educando.nomePai,
-                    "dataMatricula": educando.dataMatricula,
-                    "endereco":educando.endereco,
-                    "turma":educando.turma,
-                    "instituicao":educando.instituicao,
-                    "observacoesEducando":educando.observacoesEducando,
-                    "responsaveis": responsaveis
-                }
+                "id":educando.id,
+                'nome':educando.nome,
+                'sexo':educando.sexo,
+                'dataNascimento': educando.dataNascimento,
+                'rg':educando.rg,
+                'cpf':educando.cpf,
+                "nis":educando.nis,
+                "cidadeCartorio":educando.cidadeCartorio,
+                "sus":educando.sus,
+                "nomeCartorio":educando.nomeCartorio,
+                "numeroRegistroNascimento":educando.numeroRegistroNascimento,
+                "dataEmissaoCertidao": educando.dataEmissaoCertidao,
+                "ufCartorio":educando.ufCartorio,
+                "etnia":educando.etnia,
+                "nomeMae":educando.nomeMae,
+                "nomePai":educando.nomePai,
+                "dataMatricula": educando.dataMatricula,
+                "endereco":educando.endereco,
+                "turma":educando.turma,
+                "instituicao":educando.instituicao,
+                "observacoesEducando":educando.observacoesEducando,
+                "responsaveis": responsaveisData
+            }
 
             return marshal(data, educandoResponsavelFields), 200
 
@@ -332,6 +376,41 @@ class EducandoId(Resource):
                 "observacoesEducando":educando.observacoesEducando,
                 "responsaveis": responsaveis
             }
+class EducandoId(Resource):
+    def get(self, id):
+        responsaveisData = []
+        educando = Educando.query.get(uuid.UUID(id))
+
+        educandosResponsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
+
+        for educandoResponsavel in educandosResponsaveis:
+            responsavel = Responsavel.query.get(educandoResponsavel.responsavel_id)
+            responsaveisData.append(responsavel)
+
+        data = {
+            "id":educando.id,
+            'nome':educando.nome,
+            'sexo':educando.sexo,
+            'dataNascimento': educando.dataNascimento,
+            'rg':educando.rg,
+            'cpf':educando.cpf,
+            "nis":educando.nis,
+            "cidadeCartorio":educando.cidadeCartorio,
+            "sus":educando.sus,
+            "nomeCartorio":educando.nomeCartorio,
+            "numeroRegistroNascimento":educando.numeroRegistroNascimento,
+            "dataEmissaoCertidao": educando.dataEmissaoCertidao,
+            "ufCartorio":educando.ufCartorio,
+            "etnia":educando.etnia,
+            "nomeMae":educando.nomeMae,
+            "nomePai":educando.nomePai,
+            "dataMatricula": educando.dataMatricula,
+            "endereco":educando.endereco,
+            "turma":educando.turma,
+            "instituicao":educando.instituicao,
+            "observacoesEducando":educando.observacoesEducando,
+            "responsaveis": responsaveisData
+        }
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")
@@ -411,10 +490,16 @@ class EducandoId(Resource):
             logger.info(f"Endereco de id: {endereco.id} atualizado com sucesso")
 
             # Atualizacao da Turma
-            turma = Turma.query.get(uuid.UUID(args['turma']['id']))
+            turma_id = args['turma_id']
+            turma = Turma.query.get(uuid.UUID(turma_id))
 
-            # Buscar da instituicao
-            instituicao = InstituicaoEnsino.query.get(uuid.UUID(args['instituicao']['id']))
+            db.session.add(turma)
+            db.session.commit()
+            logger.info(f"Turma de id: {turma.id} atualizado com sucesso")
+
+            # Atualizacao da instituicao
+            instituicao_id = args['instituicao_id']
+            instituicao = InstituicaoEnsino.query.get(uuid.UUID(instituicao_id))
 
 
             # Atualizacao do Educando

@@ -11,9 +11,9 @@ from model.observacoesEducando import observacoesEducandoFields
 
 import uuid
 
-responsaveisFields = {
-  "responsavel": fields.Nested(responsavelFields)
-}
+# responsaveisFields = {
+#   "responsavel": fields.Nested(responsavelFields)
+# }
 
 educandoResponsavelFields = {
   "id": fields.String,
@@ -37,8 +37,12 @@ educandoResponsavelFields = {
   "turma": fields.Nested(turmaFields),
   "instituicao": fields.Nested(instituicaoEnsinoFields),
   "observacoesEducando": fields.Nested(observacoesEducandoFields),
-  "responsaveis": fields.Nested(responsaveisFields)
+  "responsaveis": fields.Nested(responsavelFields)
 }
+
+# educandoCompletoFields = {
+#     "educando": fields.Nested(educandoResponsavelFields)
+# }
 
 class EducandoResponsavel(db.Model):
     __tablename__ = "tb_educando_responsavel"

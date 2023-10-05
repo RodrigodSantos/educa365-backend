@@ -40,10 +40,6 @@ educandoResponsavelFields = {
   "responsaveis": fields.Nested(responsaveisFields)
 }
 
-educandoCompletoFields = {
-    "educando": fields.Nested(educandoResponsavelFields)
-}
-
 class EducandoResponsavel(db.Model):
     __tablename__ = "tb_educando_responsavel"
 
@@ -51,8 +47,8 @@ class EducandoResponsavel(db.Model):
     educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id"))
     responsavel_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_responsavel.pessoa_id"))
 
-    educando = db.relationship("Educando", uselist=False, backref= db.backref("tb_educando", cascade="all, delete"))
-    responsavel = db.relationship("Responsavel", uselist=False, backref= db.backref("tb_responsavel", cascade="all, delete"))
+    educando = db.relationship("Educando", uselist=False, backref= db.backref("tb_educando"))
+    responsavel = db.relationship("Responsavel", uselist=False, backref= db.backref("tb_responsavel"))
 
     def __init__(self, educando, responsavel):
         self.educando = educando

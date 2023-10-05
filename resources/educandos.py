@@ -20,7 +20,7 @@ from model.condicaoMoradia import CondicaoMoradia
 from model.condicaoVida import CondicaoVida
 from model.problemaEnfrentado import ProblemaEnfrentados
 
-from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields, educandoCompletoFields
+from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields
 
 from model.mensagem import Message, msgFields
 
@@ -240,9 +240,29 @@ class Educandos(Resource):
         responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
 
         data = {
-            "educando": educando,
-            "responsaveis": responsaveis
-        }
+                "id":educando.id,
+                'nome':educando.nome,
+                'sexo':educando.sexo,
+                'dataNascimento': educando.dataNascimento,
+                'rg':educando.rg,
+                'cpf':educando.cpf,
+                "nis":educando.nis,
+                "cidadeCartorio":educando.cidadeCartorio,
+                "sus":educando.sus,
+                "nomeCartorio":educando.nomeCartorio,
+                "numeroRegistroNascimento":educando.numeroRegistroNascimento,
+                "dataEmissaoCertidao": educando.dataEmissaoCertidao,
+                "ufCartorio":educando.ufCartorio,
+                "etnia":educando.etnia,
+                "nomeMae":educando.nomeMae,
+                "nomePai":educando.nomePai,
+                "dataMatricula": educando.dataMatricula,
+                "endereco":educando.endereco,
+                "turma":educando.turma,
+                "instituicao":educando.instituicao,
+                "observacoesEducando":educando.observacoesEducando,
+                "responsaveis": responsaveis
+            }
 
         return marshal(data, educandoResponsavelFields), 200
 
@@ -259,30 +279,28 @@ class EducandoId(Resource):
         responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
 
         data = {
-                "educando": {
-                    "id":educando.id,
-                    'nome':educando.nome,
-                    'sexo':educando.sexo,
-                    'dataNascimento': educando.dataNascimento,
-                    'rg':educando.rg,
-                    'cpf':educando.cpf,
-                    "nis":educando.nis,
-                    "cidadeCartorio":educando.cidadeCartorio,
-                    "sus":educando.sus,
-                    "nomeCartorio":educando.nomeCartorio,
-                    "numeroRegistroNascimento":educando.numeroRegistroNascimento,
-                    "dataEmissaoCertidao": educando.dataEmissaoCertidao,
-                    "ufCartorio":educando.ufCartorio,
-                    "etnia":educando.etnia,
-                    "nomeMae":educando.nomeMae,
-                    "nomePai":educando.nomePai,
-                    "dataMatricula": educando.dataMatricula,
-                    "endereco":educando.endereco,
-                    "turma":educando.turma,
-                    "instituicao":educando.instituicao,
-                    "observacoesEducando":educando.observacoesEducando,
-                    "responsaveis": responsaveis
-                }
+                "id":educando.id,
+                'nome':educando.nome,
+                'sexo':educando.sexo,
+                'dataNascimento': educando.dataNascimento,
+                'rg':educando.rg,
+                'cpf':educando.cpf,
+                "nis":educando.nis,
+                "cidadeCartorio":educando.cidadeCartorio,
+                "sus":educando.sus,
+                "nomeCartorio":educando.nomeCartorio,
+                "numeroRegistroNascimento":educando.numeroRegistroNascimento,
+                "dataEmissaoCertidao": educando.dataEmissaoCertidao,
+                "ufCartorio":educando.ufCartorio,
+                "etnia":educando.etnia,
+                "nomeMae":educando.nomeMae,
+                "nomePai":educando.nomePai,
+                "dataMatricula": educando.dataMatricula,
+                "endereco":educando.endereco,
+                "turma":educando.turma,
+                "instituicao":educando.instituicao,
+                "observacoesEducando":educando.observacoesEducando,
+                "responsaveis": responsaveis
             }
 
         if educando is None:
@@ -292,7 +310,7 @@ class EducandoId(Resource):
             return marshal(codigo, msgFields), 404
 
         logger.info(f"Educando de id: {id} listado com sucesso!")
-        return marshal(data, educandoCompletoFields), 200
+        return marshal(data, educandoResponsavelFields), 200
 
     def put(self, id):
         # try:
@@ -309,8 +327,6 @@ class EducandoId(Resource):
             observacoes = ObservacoesEducando.query.get(educando.observacoesEducando.id)
             deficiencia = Deficiencia.query.get(educando.observacoesEducando.deficiencia.id)
             endereco = Endereco.query.get(educando.endereco.id)
-            turma = Turma.query.get(educando.turma.id)
-            instituicao = InstituicaoEnsino.query.get(educando.instituicao.id)
 
             dataNascimento = args['dataNascimento'].split('-')
             dataNascimento = datetime.datetime(
@@ -365,19 +381,11 @@ class EducandoId(Resource):
             logger.info(f"Endereco de id: {endereco.id} atualizado com sucesso")
 
             # Atualizacao da Turma
-            turma.nome = args['turma']['nome']
+            turma = Turma.query.get(uuid.UUID(args['turma']['id']))
 
-            db.session.add(turma)
-            db.session.commit()
-            logger.info(f"Turma de id: {turma.id} atualizado com sucesso")
+            # Buscar da instituicao
+            instituicao = InstituicaoEnsino.query.get(uuid.UUID(args['instituicao']['id']))
 
-            # Atualizacao da instituicao
-            instituicao_id = args['instituicao']['id']
-            instituicao = InstituicaoEnsino.query.get(uuid.UUID(instituicao_id))
-
-            db.session.add(instituicao)
-            db.session.commit()
-            logger.info(f"Instituicao de id: {instituicao.id} atualizado com sucesso")
 
             # Atualizacao do Educando
             educando.nome = args['nome']
@@ -418,9 +426,6 @@ class EducandoId(Resource):
         observacoes = ObservacoesEducando.query.get(educando.observacoesEducando.id)
         deficiencia = Deficiencia.query.get(educando.observacoesEducando.deficiencia.id)
         endereco = Endereco.query.get(educando.endereco.id)
-        turma = Turma.query.get(educando.turma.id)
-        # instituicao = InstituicaoEnsino.query.get(educando.instituicao.id)
-        responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")
@@ -432,8 +437,6 @@ class EducandoId(Resource):
         db.session.delete(observacoes)
         db.session.delete(deficiencia)
         db.session.delete(endereco)
-        db.session.delete(turma)
-        # db.session.delete(instituicao)
         db.session.commit()
 
         logger.info(f"Educando de id: {id} deletedo com sucesso")

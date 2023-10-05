@@ -1,8 +1,13 @@
 from flask_restful import fields
 from helpers.database import db
+from model.dateFormat import DateFormat
 
 from model.educando import educandoFields
 from model.responsavel import responsavelFields
+from model.endereco import enderecoFields
+from model.turma import turmaFields
+from model.instituicaoEnsino import instituicaoEnsinoFields
+from model.observacoesEducando import observacoesEducandoFields
 
 import uuid
 
@@ -11,7 +16,27 @@ responsaveisFields = {
 }
 
 educandoResponsavelFields = {
-  "educando": fields.Nested(educandoFields),
+  "id": fields.String,
+  'nome': fields.String,
+  'sexo': fields.Boolean,
+  'dataNascimento': DateFormat,
+  'rg': fields.String,
+  'cpf': fields.String,
+  "nis": fields.String,
+  "cidadeCartorio": fields.String,
+  "sus": fields.String,
+  "nomeCartorio": fields.String,
+  "numeroRegistroNascimento": fields.String,
+  "dataEmissaoCertidao": DateFormat,
+  "ufCartorio": fields.String,
+  "etnia": fields.String,
+  "nomeMae": fields.String,
+  "nomePai": fields.String,
+  "dataMatricula": DateFormat,
+  "endereco": fields.Nested(enderecoFields),
+  "turma": fields.Nested(turmaFields),
+  "instituicao": fields.Nested(instituicaoEnsinoFields),
+  "observacoesEducando": fields.Nested(observacoesEducandoFields),
   "responsaveis": fields.Nested(responsaveisFields)
 }
 

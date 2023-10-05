@@ -259,7 +259,27 @@ class EducandoId(Resource):
         responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
 
         data = {
-            "educando": educando,
+            "id":educando.id,
+            'nome':educando.nome,
+            'sexo':educando.sexo,
+            'dataNascimento': educando.dataNascimento,
+            'rg':educando.rg,
+            'cpf':educando.cpf,
+            "nis":educando.nis,
+            "cidadeCartorio":educando.cidadeCartorio,
+            "sus":educando.sus,
+            "nomeCartorio":educando.nomeCartorio,
+            "numeroRegistroNascimento":educando.numeroRegistroNascimento,
+            "dataEmissaoCertidao": educando.dataEmissaoCertidao,
+            "ufCartorio":educando.ufCartorio,
+            "etnia":educando.etnia,
+            "nomeMae":educando.nomeMae,
+            "nomePai":educando.nomePai,
+            "dataMatricula": educando.dataMatricula,
+            "endereco":educando.endereco,
+            "turma":educando.turma,
+            "instituicao":educando.instituicao,
+            "observacoesEducando":educando.observacoesEducando,
             "responsaveis": responsaveis
         }
 

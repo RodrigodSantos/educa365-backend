@@ -20,7 +20,7 @@ from model.condicaoMoradia import CondicaoMoradia
 from model.condicaoVida import CondicaoVida
 from model.problemaEnfrentado import ProblemaEnfrentados
 
-from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields
+from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields, educandoCompletoFields
 
 from model.mensagem import Message, msgFields
 
@@ -259,29 +259,31 @@ class EducandoId(Resource):
         responsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
 
         data = {
-            "id":educando.id,
-            'nome':educando.nome,
-            'sexo':educando.sexo,
-            'dataNascimento': educando.dataNascimento,
-            'rg':educando.rg,
-            'cpf':educando.cpf,
-            "nis":educando.nis,
-            "cidadeCartorio":educando.cidadeCartorio,
-            "sus":educando.sus,
-            "nomeCartorio":educando.nomeCartorio,
-            "numeroRegistroNascimento":educando.numeroRegistroNascimento,
-            "dataEmissaoCertidao": educando.dataEmissaoCertidao,
-            "ufCartorio":educando.ufCartorio,
-            "etnia":educando.etnia,
-            "nomeMae":educando.nomeMae,
-            "nomePai":educando.nomePai,
-            "dataMatricula": educando.dataMatricula,
-            "endereco":educando.endereco,
-            "turma":educando.turma,
-            "instituicao":educando.instituicao,
-            "observacoesEducando":educando.observacoesEducando,
-            "responsaveis": responsaveis
-        }
+                "educando": {
+                    "id":educando.id,
+                    'nome':educando.nome,
+                    'sexo':educando.sexo,
+                    'dataNascimento': educando.dataNascimento,
+                    'rg':educando.rg,
+                    'cpf':educando.cpf,
+                    "nis":educando.nis,
+                    "cidadeCartorio":educando.cidadeCartorio,
+                    "sus":educando.sus,
+                    "nomeCartorio":educando.nomeCartorio,
+                    "numeroRegistroNascimento":educando.numeroRegistroNascimento,
+                    "dataEmissaoCertidao": educando.dataEmissaoCertidao,
+                    "ufCartorio":educando.ufCartorio,
+                    "etnia":educando.etnia,
+                    "nomeMae":educando.nomeMae,
+                    "nomePai":educando.nomePai,
+                    "dataMatricula": educando.dataMatricula,
+                    "endereco":educando.endereco,
+                    "turma":educando.turma,
+                    "instituicao":educando.instituicao,
+                    "observacoesEducando":educando.observacoesEducando,
+                    "responsaveis": responsaveis
+                }
+            }
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")
@@ -290,7 +292,7 @@ class EducandoId(Resource):
             return marshal(codigo, msgFields), 404
 
         logger.info(f"Educando de id: {id} listado com sucesso!")
-        return marshal(data, educandoResponsavelFields), 200
+        return marshal(data, educandoCompletoFields), 200
 
     def put(self, id):
         # try:

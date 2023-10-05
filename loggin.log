@@ -1,4 +1,4 @@
-2023-10-04 21:40:30,136 WARNING _internal _log  * Debugger is active!
-2023-10-04 21:40:30,142 INFO _internal _log  * Debugger PIN: 113-706-223
-2023-10-04 21:40:33,529 INFO educandos get Educando de id: bf8caa3d-0721-4dff-ad7e-92cb7b941657 listado com sucesso!
-2023-10-04 21:40:33,571 INFO _internal _log 127.0.0.1 - - [04/Oct/2023 21:40:33] "GET /educandos/bf8caa3d-0721-4dff-ad7e-92cb7b941657 HTTP/1.1" 200 -
+2023-10-04 21:49:17,009 WARNING _internal _log  * Debugger is active!
+2023-10-04 21:49:17,015 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-04 21:49:17,266 INFO educandos get Educando de id: bf8caa3d-0721-4dff-ad7e-92cb7b941657 listado com sucesso!
+2023-10-04 21:49:17,302 INFO _internal _log 127.0.0.1 - - [04/Oct/2023 21:49:17] "GET /educandos/bf8caa3d-0721-4dff-ad7e-92cb7b941657 HTTP/1.1" 200 -

@@ -40,6 +40,10 @@ educandoResponsavelFields = {
   "responsaveis": fields.Nested(responsaveisFields)
 }
 
+educandoCompletoFields = {
+    "educando": fields.Nested(educandoResponsavelFields)
+}
+
 class EducandoResponsavel(db.Model):
     __tablename__ = "tb_educando_responsavel"
 

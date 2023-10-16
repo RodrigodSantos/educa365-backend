@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
+from flask import request
 
 import uuid
 import datetime
@@ -42,11 +43,12 @@ parser.add_argument("ufCartorio", type=str, help="Uf do Cartorio não informado"
 parser.add_argument("etnia", type=str, help="Etnia não informada", required=True)
 parser.add_argument("nomeMae", type=str, help="Nome da mae não informado", required=True)
 parser.add_argument("nomePai", type=str, help="Nome do pai não informado", required=True)
-parser.add_argument("endereco", type=dict, help="Telefone não informado", required=True)
 parser.add_argument("turma_id", type=str, help="Turma não informada", required=False)
 parser.add_argument("instituicao_id", type=str, help="Instituicao não informada", required=True)
-parser.add_argument("observacoesEducando", type=dict, help="Observacao do educando não informado", required=True)
+parser.add_argument("endereco", type=dict, help="endereco não informado", required=False)
 parser.add_argument("responsaveis", type=list, help="Responsavel não informado", required=False)
+parser.add_argument("observacoesEducando", type=dict, help="observacoesEducando não informado", required=False)
+
 
 class Educandos(Resource):
     def get(self):
@@ -56,8 +58,9 @@ class Educandos(Resource):
         return marshal(educandos, educandoFields), 200
 
     def post(self):
-        args = parser.parse_args()
         try:
+            args = parser.parse_args()
+
             dataNascimento = args['dataNascimento'].split('-')
             dataNascimento = datetime.datetime(
                 year=int(dataNascimento[0]),
@@ -212,76 +215,78 @@ class Educandos(Resource):
             db.session.add(educando)
             logger.info(f"Educando de id: {educando.id} criado com sucesso")
 
-            for i, responsavel in enumerate(args['responsaveis']):
+            data = request.get_json()
+            for i, responsavel in enumerate(data.get('responsaveis')):
 
                 # Criacao BolsaFamilia
-                bolsaFamilia = BolsaFamilia(
-                    args['responsaveis'][i]['bolsaFamilia']['nis']
-                )
-
-                db.session.add(bolsaFamilia)
+                if data.get('responsaveis')[i]['bolsaFamilia'] != None:
+                    bolsaFamilia = BolsaFamilia(
+                            data.get('responsaveis')[i]['bolsaFamilia']['nis']
+                        )
+                    db.session.add(bolsaFamilia)
+                else:
+                    bolsaFamilia = None
 
                 # Criacao da Condicao da Moradia
                 condicaoMoradia = CondicaoMoradia(
-                    args['responsaveis'][i]['condicaoMoradia']['tipoCasa'],
-                    args['responsaveis'][i]['condicaoMoradia']['posseCasa'],
-                    args['responsaveis'][i]['condicaoMoradia']['banheiroComFossa'],
-                    args['responsaveis'][i]['condicaoMoradia']['aguaCagepa'],
-                    args['responsaveis'][i]['condicaoMoradia']['poco'],
-                    args['responsaveis'][i]['condicaoMoradia']['energia']
+                    data.get('responsaveis')[i]['condicaoMoradia']['tipoCasa'],
+                    data.get('responsaveis')[i]['condicaoMoradia']['posseCasa'],
+                    data.get('responsaveis')[i]['condicaoMoradia']['banheiroComFossa'],
+                    data.get('responsaveis')[i]['condicaoMoradia']['aguaCagepa'],
+                    data.get('responsaveis')[i]['condicaoMoradia']['poco'],
+                    data.get('responsaveis')[i]['condicaoMoradia']['energia']
                 )
 
                 db.session.add(condicaoMoradia)
 
                 #Criacao ProblemaEnfrentado
                 problemaEnfrentado = ProblemaEnfrentados(
-                    args['responsaveis'][i]['condicaoVida']['problemaEnfrentado']['alcool'],
-                    args['responsaveis'][i]['condicaoVida']['problemaEnfrentado']['lazer'],
-                    args['responsaveis'][i]['condicaoVida']['problemaEnfrentado']['saude'],
-                    args['responsaveis'][i]['condicaoVida']['problemaEnfrentado']['fome'],
-                    args['responsaveis'][i]['condicaoVida']['problemaEnfrentado']['drogas'],
-                    args['responsaveis'][i]['condicaoVida']['problemaEnfrentado']['violencia'],
-                    args['responsaveis'][i]['condicaoVida']['problemaEnfrentado']['desemprego']
+                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['alcool'],
+                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['lazer'],
+                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['saude'],
+                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['fome'],
+                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['drogas'],
+                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['violencia'],
+                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['desemprego']
                 )
 
                 db.session.add(problemaEnfrentado)
 
                 # Criacao Condicao de Vida
                 condicaoVida = CondicaoVida(
-                    args['responsaveis'][i]['condicaoVida']['trabalhoDaFamilia'],
-                    args['responsaveis'][i]['condicaoVida']['quantasPessoasTrabalhamNaCasa'],
-                    args['responsaveis'][i]['condicaoVida']['rendaMensalFamilia'],
-                    args['responsaveis'][i]['condicaoVida']['programaGoverno'],
+                    data.get('responsaveis')[i]['condicaoVida']['trabalhoDaFamilia'],
+                    data.get('responsaveis')[i]['condicaoVida']['quantasPessoasTrabalhamNaCasa'],
+                    data.get('responsaveis')[i]['condicaoVida']['rendaMensalFamilia'],
+                    data.get('responsaveis')[i]['condicaoVida']['programaGoverno'],
                     problemaEnfrentado
                 )
 
                 db.session.add(condicaoVida)
 
                 # Criacao do Responsavel
-                if len(args['responsaveis'][i]['nomeMae']) <= 2:
+                if len(data.get('responsaveis')[i]['nomeMae']) <= 2:
                     logger.error("Nome da mãe do responsavel muito curto")
 
                     codigo = Message(2, "Nome da mãe do responsavel muito curto")
                     return marshal(codigo, msgFields), 400
 
                 responsavel = Responsavel(
-                    args['responsaveis'][i]['nome'],
-                    args['responsaveis'][i]['sexo'],
-                    args['responsaveis'][i]['rg'],
-                    args['responsaveis'][i]['cpf'],
-                    args['responsaveis'][i]['dataNascimento'],
+                    data.get('responsaveis')[i]['nome'],
+                    data.get('responsaveis')[i]['sexo'],
+                    data.get('responsaveis')[i]['rg'],
+                    data.get('responsaveis')[i]['cpf'],
+                    data.get('responsaveis')[i]['dataNascimento'],
                     endereco,
-                    args['responsaveis'][i]['parentesco'],
-                    args['responsaveis'][i]['escolaridade'],
-                    args['responsaveis'][i]['apelido'],
-                    args['responsaveis'][i]['dataExpedicaoRg'],
-                    args['responsaveis'][i]['ssp'],
-                    args['responsaveis'][i]['dataExpedicaoCpf'],
-                    args['responsaveis'][i]['profissao'],
-                    args['responsaveis'][i]['nomeMae'],
-                    args['responsaveis'][i]['ufRg'],
-                    args['responsaveis'][i]['emissorRg'],
-                    args['responsaveis'][i]['familiaresCasa'],
+                    data.get('responsaveis')[i]['parentesco'],
+                    data.get('responsaveis')[i]['escolaridade'],
+                    data.get('responsaveis')[i]['apelido'],
+                    data.get('responsaveis')[i]['dataExpedicaoRg'],
+                    data.get('responsaveis')[i]['dataExpedicaoCpf'],
+                    data.get('responsaveis')[i]['profissao'],
+                    data.get('responsaveis')[i]['nomeMae'],
+                    data.get('responsaveis')[i]['ufRg'],
+                    data.get('responsaveis')[i]['emissorRg'],
+                    data.get('responsaveis')[i]['familiaresCasa'],
                     bolsaFamilia,
                     condicaoMoradia,
                     condicaoVida
@@ -340,11 +345,11 @@ class Educandos(Resource):
             codigo = Message(1, "Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
             return marshal(codigo, msgFields)
 
-        # except:
-        #     logger.error("Erro ao cadastrar o Educando")
+        except:
+            logger.error("Erro ao cadastrar o Educando")
 
-        #     codigo = Message(2, "Erro ao cadastrar o Educando")
-        #     return marshal(codigo, msgFields), 400
+            codigo = Message(2, "Erro ao cadastrar o Educando")
+            return marshal(codigo, msgFields), 400
 
 class EducandoId(Resource):
     def get(self, id):
@@ -392,7 +397,7 @@ class EducandoId(Resource):
         return marshal(data, educandoResponsavelFields), 200
 
     def put(self, id):
-        # try:
+        try:
             args = parser.parse_args()
 
             educando = Educando.query.get(uuid.UUID(id))
@@ -403,9 +408,6 @@ class EducandoId(Resource):
                 codigo = Message(1, f"Educando de id: {id} não encontrado")
                 return marshal(codigo, msgFields), 404
 
-            observacoes = ObservacoesEducando.query.get(educando.observacoesEducando.id)
-            deficiencia = Deficiencia.query.get(educando.observacoesEducando.deficiencia.id)
-            endereco = Endereco.query.get(educando.endereco.id)
 
             dataNascimento = args['dataNascimento'].split('-')
             dataNascimento = datetime.datetime(
@@ -421,55 +423,15 @@ class EducandoId(Resource):
                 day=int(dataEmissaoCertidao[2])
                 )
 
-            # Atualizacao de deficiencia
-            deficiencia.intelectual = args['observacoesEducando']['deficiencia']['intelectual']
-            deficiencia.auditiva = args['observacoesEducando']['deficiencia']['auditiva']
-            deficiencia.visual = args['observacoesEducando']['deficiencia']['visual']
-            deficiencia.fisica = args['observacoesEducando']['deficiencia']['fisica']
-            deficiencia.multipla = args['observacoesEducando']['deficiencia']['multipla']
-
-            db.session.add(deficiencia)
-            db.session.commit()
-            logger.info(f"Deficiencia de id: {deficiencia.id} atualizado com sucesso")
-
-            # Atualizacao das Observacoes do Educando
-            observacoes.alimentacao = args['observacoesEducando']['alimentacao']
-            observacoes.medicacao = args['observacoesEducando']['medicacao']
-            observacoes.produtoHigienePessoal = args['observacoesEducando']['produtoHigienePessoal']
-            observacoes.tipoSangue = args['observacoesEducando']['tipoSangue']
-            observacoes.medicacaoDeficiencia = args['observacoesEducando']['medicacaoDeficiencia']
-            observacoes.laudoMedico = args['observacoesEducando']['laudoMedico']
-            observacoes.deficiencia = deficiencia
-
-            db.session.add(observacoes)
-            db.session.commit()
-            logger.info(f"ObservacaoEducando de id: {observacoes.id} atualizado com sucesso")
-
-            # Atualizacao do Endereco
-            endereco.rua = args['endereco']['rua']
-            endereco.bairro = args['endereco']['bairro']
-            endereco.numero = args['endereco']['numero']
-            endereco.uf = args['endereco']['uf']
-            endereco.cidade = args['endereco']['cidade']
-            endereco.cep = args['endereco']['cep']
-            endereco.telefone = args['endereco']['telefone']
-            endereco.referencia = args['endereco']['referencia']
-
-            db.session.add(endereco)
-            db.session.commit()
-            logger.info(f"Endereco de id: {endereco.id} atualizado com sucesso")
-
             # Atualizacao da Turma
             turma_id = args['turma_id']
             turma = Turma.query.get(uuid.UUID(turma_id))
-
             db.session.add(turma)
-            db.session.commit()
-            logger.info(f"Turma de id: {turma.id} atualizado com sucesso")
 
             # Atualizacao da instituicao
             instituicao_id = args['instituicao_id']
             instituicao = InstituicaoEnsino.query.get(uuid.UUID(instituicao_id))
+            db.session.add(instituicao)
 
 
             # Atualizacao do Educando
@@ -488,8 +450,6 @@ class EducandoId(Resource):
             educando.etnia = args['etnia']
             educando.nomeMae = args['nomeMae']
             educando.nomePai = args['nomePai']
-            educando.observacoes = observacoes
-            educando.endereco = endereco
             educando.turma = turma
             educando.instituicao = instituicao
 
@@ -499,11 +459,11 @@ class EducandoId(Resource):
             logger.info(f"Educando de id: {id} atalizado com sucesso!")
             return marshal(educando, educandoFields), 200
 
-        # except:
-        #     logger.error("Error ao atualizar o Educando")
+        except:
+            logger.error("Error ao atualizar o Educando")
 
-        #     codigo = Message(2, "Error ao atualizar o Educando")
-        #     return marshal(codigo, msgFields), 400
+            codigo = Message(2, "Error ao atualizar o Educando")
+            return marshal(codigo, msgFields), 400
 
     def delete(self, id):
 

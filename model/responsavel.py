@@ -23,7 +23,6 @@ responsavelFields = {
     "escolaridade": fields.String,
     "apelido": fields.String,
     "dataExpedicaoRg": DateFormat,
-    "ssp": fields.String,
     "dataExpedicaoCpf": DateFormat,
     "profissao": fields.String,
     "nomeMae": fields.String,
@@ -39,7 +38,7 @@ class Responsavel(Pessoa):
     __tablename__ = "tb_responsavel"
 
     pessoa_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_pessoa.id"), primary_key=True)
-    bolsaFamilia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_bolsa_familia.id"), nullable=False)
+    bolsaFamilia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_bolsa_familia.id"), nullable=True)
     condicaoMoradia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_condicao_moradia.id"), nullable=False)
     condicaoVida_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_condicao_vida.id"), nullable=False)
 
@@ -47,7 +46,6 @@ class Responsavel(Pessoa):
     escolaridade = db.Column(db.String, nullable=False)
     apelido = db.Column(db.String, nullable=False)
     dataExpedicaoRg = db.Column(db.DateTime, nullable=False)
-    ssp = db.Column(db.String, nullable=False)
     dataExpedicaoCpf = db.Column(db.DateTime, nullable=False)
     profissao = db.Column(db.String, nullable=False)
     nomeMae = db.Column(db.String, nullable=False)
@@ -57,17 +55,16 @@ class Responsavel(Pessoa):
 
     __mapper_args__ = {"polymorphic_identity": "responsavel"}
 
-    bolsaFamilia = db.relationship("BolsaFamilia", uselist=False, backref= db.backref("tb_bolsa_familia", cascade="all, delete"))
-    condicaoMoradia = db.relationship("CondicaoMoradia", uselist=False, backref= db.backref("tb_condicao_moradia", cascade="all, delete"))
-    condicaoVida = db.relationship("CondicaoVida", uselist=False, backref= db.backref("tb_condicao_vida", cascade="all, delete"))
+    bolsaFamilia = db.relationship("BolsaFamilia", uselist=False, backref=db.backref("tb_bolsa_familia", cascade="all, delete"))
+    condicaoMoradia = db.relationship("CondicaoMoradia", uselist=False, backref=db.backref("tb_condicao_moradia", cascade="all, delete"))
+    condicaoVida = db.relationship("CondicaoVida", uselist=False, backref=db.backref("tb_condicao_vida", cascade="all, delete"))
 
-    def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco, parentesco, escolaridade, apelido, dataExpedicaoRg, ssp, dataExpedicaoCpf, profissao, nomeMae, ufRg, emissorRg, familiaresCasa, bolsaFamilia, condicaoMoradia, condicaoVida):
+    def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco, parentesco, escolaridade, apelido, dataExpedicaoRg, dataExpedicaoCpf, profissao, nomeMae, ufRg, emissorRg, familiaresCasa, bolsaFamilia, condicaoMoradia, condicaoVida):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)
         self.parentesco = parentesco
         self.escolaridade = escolaridade
         self.apelido = apelido
         self.dataExpedicaoRg = dataExpedicaoRg
-        self.ssp = ssp
         self.dataExpedicaoCpf = dataExpedicaoCpf
         self.profissao = profissao
         self.nomeMae = nomeMae

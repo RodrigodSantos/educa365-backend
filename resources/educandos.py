@@ -3,6 +3,7 @@ from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
 from flask import request
+from helpers.func.validations import *
 
 import uuid
 import datetime
@@ -99,6 +100,18 @@ class Educandos(Resource):
 
             db.session.add(observacoes)
 
+            if validateCep(args['endereco']['cep']) == None:
+                logger.error("Formato de cep não aceito")
+
+                codigo = Message(2, "Formato de cep não aceito")
+                return marshal(codigo, msgFields), 400
+
+            elif validateTelefone(args['endereco']['telefone']) == None:
+                logger.error("Formato de telefone não aceito")
+
+                codigo = Message(2, "Formato de telefone não aceito")
+                return marshal(codigo, msgFields), 400
+
             # Criacao do Endereco
             endereco = Endereco(
                 args['endereco']['rua'],
@@ -190,6 +203,18 @@ class Educandos(Resource):
                 codigo = Message(2, "Nome da pai do educando muito curto")
                 return marshal(codigo, msgFields), 400
 
+            if validateCpf(args['cpf']) == None:
+                logger.error("Formato de cpf não aceito")
+
+                codigo = Message(2, "Formato de cpf não aceito")
+                return marshal(codigo, msgFields), 400
+
+            elif validateRg(args['rg']) == None:
+                logger.error("Formato de rg não aceito")
+
+                codigo = Message(2, "Formato de rg não aceito")
+                return marshal(codigo, msgFields), 400
+
             educando = Educando(
                 args['nome'],
                 args['sexo'],
@@ -269,6 +294,19 @@ class Educandos(Resource):
 
                     codigo = Message(2, "Nome da mãe do responsavel muito curto")
                     return marshal(codigo, msgFields), 400
+
+                if validateCpf(data.get('responsaveis')[i]['cpf']) == None:
+                    logger.error("Formato de cpf não aceito")
+
+                    codigo = Message(2, "Formato de cpf não aceito")
+                    return marshal(codigo, msgFields), 400
+
+                if validateRg(data.get('responsaveis')[i]['rg']) == None:
+                    logger.error("Formato de rg não aceito")
+
+                    codigo = Message(2, "Formato de rg não aceito")
+                    return marshal(codigo, msgFields), 400
+
 
                 responsavel = Responsavel(
                     data.get('responsaveis')[i]['nome'],

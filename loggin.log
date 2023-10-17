@@ -1,0 +1,9 @@
+2023-10-16 22:26:49,455 WARNING _internal _log  * Debugger is active!
+2023-10-16 22:26:49,461 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-16 22:26:53,368 INFO educandos get Educandos listados com sucesso!
+2023-10-16 22:26:53,401 INFO _internal _log 127.0.0.1 - - [16/Oct/2023 22:26:53] "GET /educandos HTTP/1.1" 200 -
+2023-10-16 22:27:00,291 INFO educandos delete Educando de id: db24e85e-218f-4499-a998-27de7ae2a9ad deletedo com sucesso
+2023-10-16 22:27:00,292 INFO _internal _log 127.0.0.1 - - [16/Oct/2023 22:27:00] "DELETE /educandos/db24e85e-218f-4499-a998-27de7ae2a9ad HTTP/1.1" 200 -
+2023-10-16 22:27:03,659 INFO educandos post Instituicao de id: e9906abf-a55b-49e0-a466-1297e4d4e819 criado com sucesso
+2023-10-16 22:27:03,660 INFO educandos post Educando de id: None criado com sucesso
+2023-10-16 22:27:03,760 INFO _internal _log 127.0.0.1 - - [16/Oct/2023 22:27:03] "POST /educandos HTTP/1.1" 200 -

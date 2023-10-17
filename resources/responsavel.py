@@ -72,3 +72,18 @@ class ResponsavelId(Resource):
 
         logger.info(f"Responsavel de id: {id} atalizado com sucesso!")
         return marshal(responsavel, responsavelFields), 200
+
+    def delete(self, id):
+        responsavel = Responsavel.query.get(uuid.UUID(id))
+
+        if responsavel is None:
+            logger.error(f"Responsavel de id: {id} não encontrado")
+
+            codigo = Message(1, f"Responsavel de id: {id} não encontrado")
+            return marshal(codigo, msgFields), 404
+
+        db.session.delete(responsavel)
+        db.session.commit()
+
+        logger.info(f"Responsavel de id: {id} deletedo com sucesso")
+        return []

@@ -2,6 +2,7 @@ from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
+from helpers.func.validations import *
 
 import datetime
 import uuid
@@ -40,6 +41,18 @@ class Funcionarios(Resource):
                 day=int(dataNascimento[2])
                 )
 
+            if validateCep(args['endereco']['cep']) == None:
+                logger.error("Formato de cep não aceito")
+
+                codigo = Message(2, "Formato de cep não aceito")
+                return marshal(codigo, msgFields), 400
+
+            elif validateTelefone(args['endereco']['telefone']) == None:
+                logger.error("Formato de telefone não aceito")
+
+                codigo = Message(2, "Formato de telefone não aceito")
+                return marshal(codigo, msgFields), 400
+
             endereco = Endereco(
                 args['endereco']['rua'],
                 args['endereco']['bairro'],
@@ -54,6 +67,24 @@ class Funcionarios(Resource):
             db.session.add(endereco)
             db.session.commit()
             logger.info(f"Endereco de id: {endereco.id} criado com sucesso")
+
+            if validateEmail(args['email']) == None:
+                logger.error("Formato de email não aceito")
+
+                codigo = Message(2, "Formato de email não aceito")
+                return marshal(codigo, msgFields), 400
+
+            elif validateCpf(args['cpf']) == None:
+                logger.error("Formato de cpf não aceito")
+
+                codigo = Message(2, "Formato de cpf não aceito")
+                return marshal(codigo, msgFields), 400
+
+            elif validateRg(args['rg']) == None:
+                logger.error("Formato de rg não aceito")
+
+                codigo = Message(2, "Formato de rg não aceito")
+                return marshal(codigo, msgFields), 400
 
             funcionario = Funcionario(
                 args['nome'],

@@ -38,9 +38,9 @@ class Responsavel(Pessoa):
     __tablename__ = "tb_responsavel"
 
     pessoa_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_pessoa.id"), primary_key=True)
-    bolsaFamilia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_bolsa_familia.id"), nullable=True)
-    condicaoMoradia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_condicao_moradia.id"), nullable=False)
-    condicaoVida_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_condicao_vida.id"), nullable=False)
+    bolsaFamilia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_bolsa_familia.id", ondelete='CASCADE'), nullable=True)
+    condicaoMoradia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_condicao_moradia.id", ondelete='CASCADE'), nullable=False)
+    condicaoVida_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_condicao_vida.id", ondelete='CASCADE'), nullable=False)
 
     parentesco = db.Column(db.String, nullable=False)
     escolaridade = db.Column(db.String, nullable=False)
@@ -55,9 +55,9 @@ class Responsavel(Pessoa):
 
     __mapper_args__ = {"polymorphic_identity": "responsavel"}
 
-    bolsaFamilia = db.relationship("BolsaFamilia", uselist=False, backref=db.backref("tb_bolsa_familia", cascade="all, delete"))
-    condicaoMoradia = db.relationship("CondicaoMoradia", uselist=False, backref=db.backref("tb_condicao_moradia", cascade="all, delete"))
-    condicaoVida = db.relationship("CondicaoVida", uselist=False, backref=db.backref("tb_condicao_vida", cascade="all, delete"))
+    bolsaFamilia = db.relationship("BolsaFamilia", cascade='all,delete', uselist=False, backref=db.backref("tb_bolsa_familia"))
+    condicaoMoradia = db.relationship("CondicaoMoradia", cascade='all,delete', uselist=False, backref=db.backref("tb_condicao_moradia"))
+    condicaoVida = db.relationship("CondicaoVida", cascade='all,delete', uselist=False, backref=db.backref("tb_condicao_vida"))
 
     def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco, parentesco, escolaridade, apelido, dataExpedicaoRg, dataExpedicaoCpf, profissao, nomeMae, ufRg, emissorRg, familiaresCasa, bolsaFamilia, condicaoMoradia, condicaoVida):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)

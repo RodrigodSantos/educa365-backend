@@ -87,19 +87,6 @@ class Educandos(Resource):
 
             db.session.add(deficiencia)
 
-            # Criacao das Observacoes do Educando
-            observacoes = ObservacoesEducando(
-                args['observacoesEducando']['alimentacao'],
-                args['observacoesEducando']['medicacao'],
-                args['observacoesEducando']['produtoHigienePessoal'],
-                args['observacoesEducando']['tipoSangue'],
-                args['observacoesEducando']['medicacaoDeficiencia'],
-                args['observacoesEducando']['laudoMedico'],
-                deficiencia
-            )
-
-            db.session.add(observacoes)
-
             if validateCep(args['endereco']['cep']) == None:
                 logger.error("Formato de cep não aceito")
 
@@ -238,6 +225,7 @@ class Educandos(Resource):
             )
 
             db.session.add(educando)
+            db.session.commit()
             logger.info(f"Educando de id: {educando.id} criado com sucesso")
 
             data = request.get_json()
@@ -496,6 +484,12 @@ class EducandoId(Resource):
             logger.info(f"Educando de id: {id} atalizado com sucesso!")
             return marshal(educando, educandoFields), 200
 
+        except IntegrityError:
+            logger.error("Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
+
+            codigo = Message(1, "Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
+            return marshal(codigo, msgFields)
+
         except:
             logger.error("Error ao atualizar o Educando")
 
@@ -505,9 +499,6 @@ class EducandoId(Resource):
     def delete(self, id):
 
         educando = Educando.query.get(uuid.UUID(id))
-        observacoes = ObservacoesEducando.query.get(educando.observacoesEducando.id)
-        deficiencia = Deficiencia.query.get(educando.observacoesEducando.deficiencia.id)
-        endereco = Endereco.query.get(educando.endereco.id)
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")
@@ -516,9 +507,6 @@ class EducandoId(Resource):
             return marshal(codigo, msgFields), 404
 
         db.session.delete(educando)
-        db.session.delete(observacoes)
-        db.session.delete(deficiencia)
-        db.session.delete(endereco)
         db.session.commit()
 
         logger.info(f"Educando de id: {id} deletedo com sucesso")

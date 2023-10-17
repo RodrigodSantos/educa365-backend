@@ -40,19 +40,21 @@ educandoResponsavelFields = {
   "responsaveis": fields.Nested(responsavelFields)
 }
 
-# educandoCompletoFields = {
-#     "educando": fields.Nested(educandoResponsavelFields)
-# }
+educandoResponsaveisFields = {
+    "id": fields.String,
+    "educando": fields.Nested(educandoFields),
+    "responsavel": fields.Nested(responsavelFields)
+}
 
 class EducandoResponsavel(db.Model):
     __tablename__ = "tb_educando_responsavel"
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id"))
-    responsavel_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_responsavel.pessoa_id"))
+    educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id", ondelete='CASCADE'))
+    responsavel_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_responsavel.pessoa_id", ondelete='CASCADE'))
 
-    educando = db.relationship("Educando", uselist=False, backref= db.backref("tb_educando"))
-    responsavel = db.relationship("Responsavel", uselist=False, backref= db.backref("tb_responsavel"))
+    educando = db.relationship("Educando", cascade='all,delete', uselist=False, backref= db.backref("tb_educando"))
+    responsavel = db.relationship("Responsavel", cascade='all,delete', uselist=False, backref= db.backref("tb_responsavel"))
 
     def __init__(self, educando, responsavel):
         self.educando = educando

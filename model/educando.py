@@ -40,7 +40,7 @@ class Educando(Pessoa):
     pessoa_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_pessoa.id"), primary_key=True)
     turma_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_turma.id"))
     instituicao_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_instituicao_ensino.id"))
-    observacoesEducando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_observacoes_educando.id"))
+    observacoesEducando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_observacoes_educando.id", ondelete='CASCADE'), nullable=False)
 
     nis = db.Column(db.String, nullable=False)
     cidadeCartorio = db.Column(db.String, nullable=False)
@@ -56,9 +56,9 @@ class Educando(Pessoa):
 
     __mapper_args__ = {"polymorphic_identity": "educando"}
 
-    turma = db.relationship("Turma", uselist=False, backref= db.backref("tb_turma", cascade="all, delete"))
-    instituicao = db.relationship("InstituicaoEnsino", uselist=False, backref= db.backref("tb_instituicao_ensino", cascade="all, delete"))
-    observacoesEducando = db.relationship("ObservacoesEducando", uselist=False, backref= db.backref("tb_observacoes_educando", cascade="all, delete"))
+    turma = db.relationship("Turma", uselist=False, backref= db.backref("tb_turma"))
+    instituicao = db.relationship("InstituicaoEnsino", uselist=False, backref= db.backref("tb_instituicao_ensino"))
+    observacoesEducando = db.relationship("ObservacoesEducando", cascade='all,delete', uselist=False, backref= db.backref("tb_observacoes_educando"))
 
     def __init__(self, nome, sexo, dataNascimento, rg, cpf, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, observacoesEducando, endereco, turma, instituicao):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)

@@ -4,9 +4,19 @@ from helpers.log import logger
 
 import uuid
 
-from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields
+from model.educandoResponsavel import EducandoResponsavel, educandoResponsaveisFields
 
-class EducandoResponsavelId():
+class EducandoResponsaveis(Resource):
+    def get(self):
+        educandoResponsavel = EducandoResponsavel.query.all()
+        return marshal(educandoResponsavel, educandoResponsaveisFields), 200
+    def delete(self):
+
+        db.session.query(EducandoResponsavel).delete()
+        db.session.commit()
+        return []
+
+class EducandoResponsavelId(Resource):
     def get(self, id):
         pass
 

@@ -16,7 +16,7 @@ condicaoVidaFields = {
 class CondicaoVida(db.Model):
     __tablename__ = "tb_condicao_vida"
 
-    problemaEnfrentado_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_problema_enfrentado.id"))
+    problemaEnfrentado_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_problema_enfrentado.id", ondelete='CASCADE'), nullable=False)
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     trabalhoDaFamilia = db.Column(db.String, nullable=False)
@@ -24,7 +24,7 @@ class CondicaoVida(db.Model):
     rendaMensalFamilia = db.Column(db.String, nullable=False)
     programaGoverno = db.Column(db.String, nullable=False)
 
-    problemaEnfrentado = db.relationship("ProblemaEnfrentados", uselist=False, backref= db.backref("tb_problema_enfrentado", cascade="all, delete"))
+    problemaEnfrentado = db.relationship("ProblemaEnfrentados", cascade="all, delete", uselist=False, backref= db.backref("tb_problema_enfrentado"))
 
     def __init__(self, trabalhoDaFamilia, quantasPessoasTrabalhamNaCasa, rendaMensalFamilia, programaGoverno, problemaEnfrentado):
         self.trabalhoDaFamilia = trabalhoDaFamilia

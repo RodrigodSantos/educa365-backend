@@ -15,6 +15,7 @@ from resources.turmas import Turmas, TurmaId
 from resources.responsavel import Responsaveis, ResponsavelId
 from resources.condicaoMoradia import CondicaoMoradias, CondicaoMoradiaId
 from resources.condicaoVida import CondicaoVidas, CondicaoVidaId
+from resources.EducandoResponsavel import EducandoResponsaveis, EducandoResponsavelId
 
 load_dotenv()
 
@@ -71,6 +72,10 @@ api.add_resource(CondicaoMoradiaId, '/condicaoMoradia/<string:id>')
 # CondicaoVida
 api.add_resource(CondicaoVidas, '/condicaoVida')
 api.add_resource(CondicaoVidaId, '/condicaoVida/<string:id>')
+
+# EducandoResponsavel
+api.add_resource(EducandoResponsaveis, '/educandoResponsaveis')
+api.add_resource(EducandoResponsavelId, '/educandoResponsaveis/<string:id>')
 
 if __name__ == '__main__':
   app.run(debug=True)

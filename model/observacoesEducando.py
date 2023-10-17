@@ -19,7 +19,7 @@ class ObservacoesEducando(db.Model):
     __tablename__ = "tb_observacoes_educando"
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    deficiencia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_deficiencia.id"))
+    deficiencia_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_deficiencia.id", ondelete='CASCADE'))
 
     alimentacao = db.Column(db.String, nullable=False)
     medicacao = db.Column(db.String, nullable=False)
@@ -28,7 +28,7 @@ class ObservacoesEducando(db.Model):
     medicacaoDeficiencia = db.Column(db.String, nullable=False)
     laudoMedico = db.Column(db.Boolean, nullable=False)
 
-    deficiencia = db.relationship("Deficiencia", uselist=False, backref= db.backref("tb_deficiencia", cascade="all, delete"))
+    deficiencia = db.relationship("Deficiencia", cascade="all, delete", uselist=False, backref= db.backref("tb_deficiencia"))
 
     def __init__(self, alimentacao, medicacao, produtoHigienePessoal, tipoSangue, medicacaoDeficiencia, laudoMedico, deficiencia):
         self.alimentacao = alimentacao

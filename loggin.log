@@ -1,2 +1,3 @@
-2023-10-17 09:50:06,376 WARNING _internal _log  * Debugger is active!
-2023-10-17 09:50:06,382 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-17 20:29:55,933 WARNING _internal _log  * Debugger is active!
+2023-10-17 20:29:55,940 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-17 20:29:56,252 INFO _internal _log 127.0.0.1 - - [17/Oct/2023 20:29:56] "GET /educandoResponsaveis HTTP/1.1" 200 -

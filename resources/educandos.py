@@ -333,7 +333,6 @@ class Educandos(Resource):
                 db.session.add(responsavel)
 
                 # Add realcionamento Educando - Responsavel
-
                 educandoResponsavel = EducandoResponsavel(
                     educando,
                     responsavel

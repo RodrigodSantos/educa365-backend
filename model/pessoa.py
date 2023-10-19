@@ -35,7 +35,7 @@ class Pessoa(db.Model):
         'polymorphic_on': tipo
     }
 
-    endereco = db.relationship("Endereco", uselist=False, backref= db.backref("tb_endereco", cascade="all, delete"))
+    endereco = db.relationship("Endereco", uselist=False, backref= db.backref("tb_endereco"))
 
     def __init__(self, nome, sexo, rg, cpf, dataNascimento, endereco):
         self.nome = nome

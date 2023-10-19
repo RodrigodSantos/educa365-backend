@@ -11,10 +11,6 @@ from model.observacoesEducando import observacoesEducandoFields
 
 import uuid
 
-# responsaveisFields = {
-#   "responsavel": fields.Nested(responsavelFields)
-# }
-
 educandoResponsavelFields = {
   "id": fields.String,
   'nome': fields.String,
@@ -50,11 +46,11 @@ class EducandoResponsavel(db.Model):
     __tablename__ = "tb_educando_responsavel"
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id", ondelete='CASCADE'))
-    responsavel_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_responsavel.pessoa_id", ondelete='CASCADE'))
+    educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id"))
+    responsavel_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_responsavel.pessoa_id"))
 
-    educando = db.relationship("Educando", cascade='all,delete', uselist=False, backref= db.backref("tb_educando"))
-    responsavel = db.relationship("Responsavel", cascade='all,delete', uselist=False, backref= db.backref("tb_responsavel"))
+    educando = db.relationship("Educando", uselist=False, backref= db.backref("tb_educando"))
+    responsavel = db.relationship("Responsavel", uselist=False, backref= db.backref("tb_responsavel"))
 
     def __init__(self, educando, responsavel):
         self.educando = educando

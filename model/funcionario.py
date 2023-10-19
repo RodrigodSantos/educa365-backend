@@ -4,7 +4,6 @@ from model.pessoa import Pessoa
 from model.dateFormat import DateFormat
 from model.endereco import enderecoFields
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
 
 funcionarioFields = {
     "id": fields.String,

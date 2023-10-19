@@ -16,7 +16,6 @@ class Deficiencias(Resource):
 
 class DeficienciaId(Resource):
     def delete(self, id):
-
         deficiencia = Deficiencia.query.get(uuid.UUID(id))
 
         if deficiencia is None:

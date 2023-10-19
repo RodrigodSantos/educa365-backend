@@ -138,20 +138,6 @@ class Educandos(Resource):
 
             db.session.add(observacoes)
 
-            # Criacao do Endereco
-            endereco = Endereco(
-                args['endereco']['rua'],
-                args['endereco']['bairro'],
-                args['endereco']['numero'],
-                args['endereco']['uf'],
-                args['endereco']['cidade'],
-                args['endereco']['cep'],
-                args['endereco']['telefone'],
-                args['endereco']['referencia']
-            )
-
-            db.session.add(endereco)
-
             # Busca da Turma
             turma = Turma.query.get(args['turma_id'])
 
@@ -499,6 +485,9 @@ class EducandoId(Resource):
     def delete(self, id):
 
         educando = Educando.query.get(uuid.UUID(id))
+        educandoResponsaveis = EducandoResponsavel.query.filter_by(educando_id=id).all()
+        for educandoResponsavel in educandoResponsaveis:
+            db.session.delete(educandoResponsavel)
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")

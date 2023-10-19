@@ -25,7 +25,6 @@ class CondicaoMoradias(Resource):
 
 class CondicaoMoradiaId(Resource):
     def put(self, id):
-
         args = parser.parse_args()
         condicaoMoradia = CondicaoMoradia.query.get(uuid.UUID(id))
 
@@ -48,7 +47,6 @@ class CondicaoMoradiaId(Resource):
         return marshal(condicaoMoradia, condicaoMoradiaFields), 200
 
     def delete(self, id):
-
         condicaoMoradia = CondicaoMoradia.query.get(uuid.UUID(id))
 
         if condicaoMoradia is None:

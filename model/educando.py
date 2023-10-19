@@ -7,7 +7,6 @@ from model.turma import turmaFields
 from model.instituicaoEnsino import instituicaoEnsinoFields
 from model.observacoesEducando import observacoesEducandoFields
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
 import datetime
 
 educandoFields = {

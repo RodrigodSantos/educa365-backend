@@ -9,7 +9,6 @@ from model.problemaEnfrentado import ProblemaEnfrentados
 
 from model.dateFormat import DateFormat
 from sqlalchemy.dialects.postgresql import UUID
-import uuid
 
 responsavelFields = {
     'id': fields.String,

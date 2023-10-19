@@ -58,7 +58,6 @@ class CondicaoVidaId(Resource):
         return marshal(condicaoVida, condicaoVidaFields), 200
 
     def delete(self, id):
-
         condicaoVida = CondicaoVida.query.get(uuid.UUID(id))
 
         if condicaoVida is None:

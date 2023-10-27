@@ -3,7 +3,7 @@ from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
 from flask import request
-from helpers.func.validations import *
+from utils.validations import *
 
 import uuid
 import datetime
@@ -416,29 +416,6 @@ class EducandoId(Resource):
             if educando is None:
                 logger.error(f"Educando de id: {id} não encontrado")
 
-                codigo = Message(1, f"Educando de id: {id} não encontrado")o,
-            "observacoesEducando":educando.observacoesEducando,
-            "responsaveis": responsaveisData
-        }
-
-        if educando is None:
-            logger.error(f"Educando de id: {id} não encontrado")
-
-            codigo = Message(1, f"Educando de id: {id} não encontrado")
-            return marshal(codigo, msgFields), 404
-
-        logger.info(f"Educando de id: {id} listado com sucesso!")
-        return marshal(data, educandoResponsavelFields), 200
-
-    def put(self, id):
-        try:
-            args = parser.parse_args()
-
-            educando = Educando.query.get(uuid.UUID(id))
-
-            if educando is None:
-                logger.error(f"Educando de id: {id} não encontrado")
-
                 codigo = Message(1, f"Educando de id: {id} não encontrado")
                 return marshal(codigo, msgFields), 404
 
@@ -460,94 +437,25 @@ class EducandoId(Resource):
             # Atualizacao da Turma
             turma_id = args['turma_id']
             turma = Turma.query.get(uuid.UUID(turma_id))
-            db.session.add(turma)
 
-            # Atualizacao da instituicao
-            instituicao_id = args['instituicao_id']
-            instituicao = InstituicaoEnsino.query.get(uuid.UUID(instituicao_id))
-            db.session.add(instituicao)
+            if turma is None:
+                logger.error(f"Turma de id: {id} não encontrado")
 
-
-            # Atualizacao do Educando
-            educando.nome = args['nome']
-            educando.sexo = args['sexo']
-            educando.dataNascimento = dataNascimento
-            educando.rg = args['rg']
-            educando.cpf = args['cpf']
-            educando.nis = args['nis']
-            educando.cidadeCartorio = args['cidadeCartorio']
-            educando.sus = args['sus']
-            educando.nomeCartorio = args['nomeCartorio']
-            educando.numeroRegistroNascimento = args['numeroRegistroNascimento']
-            educando.dataEmissaoCertidao = dataEmissaoCertidao
-            educando.ufCartorio = args['ufCartorio']
-            educando.etnia = args['etnia']
-            educando.nomeMae = args['nomeMae']
-            educando.nomePai = args['nomePai']
-            educando.turma = turma
-            educando.instituicao = instituicao
-
-            db.session.add(educando)
-            db.session.commit()
-
-            logger.info(f"Educando de id: {id} atalizado com sucesso!")
-            return marshal(educando, educandoFields), 200
-
-        except IntegrityError:
-            logger.error("Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
-
-            codigo = Message(1, "Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
-            return marshal(codigo, msgFields)
-
-        except:
-            logger.error("Error ao atualizar o Educando")
-
-            codigo = Message(2, "Error ao atualizar o Educando")
-            return marshal(codigo, msgFields), 400
-
-    def delete(self, id):
-
-        educando = Educando.query.get(uuid.UUID(id))
-        educandoResponsaveis = EducandoResponsavel.query.filter_by(educando_id=id).all()
-        for educandoResponsavel in educandoResponsaveis:
-            db.session.delete(educandoResponsavel)
-
-        if educando is None:
-            logger.error(f"Educando de id: {id} não encontrado")
-
-            codigo = Message(1, f"Educando de id: {id} não encontrado")
-            return marshal(codigo, msgFields), 404
-
-        db.session.delete(educando)
-        db.session.commit()
-
-        logger.info(f"Educando de id: {id} deletedo com sucesso")
-        return []
+                codigo = Message(1, f"Turma de id: {id} não encontrado")
                 return marshal(codigo, msgFields), 404
 
-
-            dataNascimento = args['dataNascimento'].split('-')
-            dataNascimento = datetime.datetime(
-                year=int(dataNascimento[0]),
-                month=int(dataNascimento[1]),
-                day=int(dataNascimento[2])
-                )
-
-            dataEmissaoCertidao = args['dataEmissaoCertidao'].split('-')
-            dataEmissaoCertidao = datetime.datetime(
-                year=int(dataEmissaoCertidao[0]),
-                month=int(dataEmissaoCertidao[1]),
-                day=int(dataEmissaoCertidao[2])
-                )
-
-            # Atualizacao da Turma
-            turma_id = args['turma_id']
-            turma = Turma.query.get(uuid.UUID(turma_id))
             db.session.add(turma)
 
             # Atualizacao da instituicao
             instituicao_id = args['instituicao_id']
             instituicao = InstituicaoEnsino.query.get(uuid.UUID(instituicao_id))
+
+            if instituicao is None:
+                logger.error(f"Instituicao de id: {id} não encontrado")
+
+                codigo = Message(1, f"Instituicao de id: {id} não encontrado")
+                return marshal(codigo, msgFields), 404
+
             db.session.add(instituicao)
 
 

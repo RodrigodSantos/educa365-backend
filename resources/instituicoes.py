@@ -1,6 +1,7 @@
 from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
+from utils.validations import *
 
 import uuid
 
@@ -22,6 +23,12 @@ class Instituicoes(Resource):
     def post(self):
         try:
             args = parser.parse_args()
+
+            if validateCnpj(args['cnpj']) == None:
+                logger.error("Formato de cnpj não aceito")
+
+                codigo = Message(2, "Formato de cnpj não aceito")
+                return marshal(codigo, msgFields), 400
 
             instituicao = InstituicaoEnsino(
                 args['nome'],
@@ -65,8 +72,14 @@ class InstituicaoId(Resource):
                 codigo = Message(1, f"Instituicao de Ensino de id: {id} não encontrada")
                 return marshal(codigo, msgFields), 404
 
+            if validateCnpj(args['cnpj']) == None:
+                logger.error("Formato de cnpj não aceito")
+
+                codigo = Message(2, "Formato de cnpj não aceito")
+                return marshal(codigo, msgFields), 400
+
             instituicao.nome = args['nome']
-            instituicao.nome = args['cnpj']
+            instituicao.cnpj = args['cnpj']
 
             db.session.add(instituicao)
             db.session.commit()

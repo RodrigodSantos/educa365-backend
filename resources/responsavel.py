@@ -1,7 +1,7 @@
 from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
-from helpers.func.validations import *
+from utils.validations import *
 
 import uuid
 

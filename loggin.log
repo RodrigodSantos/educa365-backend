@@ -1,2 +1,4 @@
-2023-10-19 09:41:41,982 WARNING _internal _log  * Debugger is active!
-2023-10-19 09:41:41,993 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-27 09:22:39,872 WARNING _internal _log  * Debugger is active!
+2023-10-27 09:22:39,878 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-27 09:22:50,273 ERROR educandos put Turma de id: b89606b1-059e-41e3-ac74-57f8062c8d44 não encontrado
+2023-10-27 09:22:50,277 INFO _internal _log 127.0.0.1 - - [27/Oct/2023 09:22:50] "[33mPUT /educandos/b89606b1-059e-41e3-ac74-57f8062c8d44 HTTP/1.1[0m" 404 -

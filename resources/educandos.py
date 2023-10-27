@@ -3,7 +3,7 @@ from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
 from flask import request
-from helpers.func.validations import *
+from utils.validations import *
 
 import uuid
 import datetime

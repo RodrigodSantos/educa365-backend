@@ -2,7 +2,7 @@ from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
-from helpers.func.validations import *
+from utils.validations import *
 
 import datetime
 import uuid

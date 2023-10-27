@@ -14,3 +14,6 @@ def validateCep(cep):
 
 def validateTelefone(telefone):
   return re.match(r'[0-9]{11}', telefone)
+
+def validateCnpj(cnpj):
+  return re.match(r'\d{2}\.\d{3}\.\d{3}/0001-\d{2}', cnpj)

@@ -1,4 +1,13 @@
-2023-10-27 09:22:39,872 WARNING _internal _log  * Debugger is active!
-2023-10-27 09:22:39,878 INFO _internal _log  * Debugger PIN: 113-706-223
-2023-10-27 09:22:50,273 ERROR educandos put Turma de id: b89606b1-059e-41e3-ac74-57f8062c8d44 não encontrado
-2023-10-27 09:22:50,277 INFO _internal _log 127.0.0.1 - - [27/Oct/2023 09:22:50] "[33mPUT /educandos/b89606b1-059e-41e3-ac74-57f8062c8d44 HTTP/1.1[0m" 404 -
+2023-10-31 13:54:17,152 WARNING _internal _log  * Debugger is active!
+2023-10-31 13:54:17,158 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-10-31 13:54:19,022 INFO _internal _log 127.0.0.1 - - [31/Oct/2023 13:54:19] "[36mGET /relatorioAcademico/d9134dc6-765c-451f-9f38-a5569e309da9?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
+2023-10-31 13:54:19,026 INFO _internal _log 127.0.0.1 - - [31/Oct/2023 13:54:19] "[36mGET /relatorioAcademico/d9134dc6-765c-451f-9f38-a5569e309da9?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
+2023-10-31 13:54:19,529 INFO _internal _log 127.0.0.1 - - [31/Oct/2023 13:54:19] "[36mGET /relatorioAcademico/d9134dc6-765c-451f-9f38-a5569e309da9?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
+2023-10-31 13:54:19,973 ERROR relatorioAcademico put Relatorio de id: d9134dc6-765c-451f-9f38-a5569e309da9 não encontrado
+2023-10-31 13:54:19,975 INFO _internal _log 127.0.0.1 - - [31/Oct/2023 13:54:19] "[33mPUT /relatorioAcademico/d9134dc6-765c-451f-9f38-a5569e309da9 HTTP/1.1[0m" 404 -
+2023-10-31 13:54:33,318 INFO relatorioAcademico put Relatorio de id: 9f176f4d-4842-45be-81e4-26bacd02a108 atualizado com sucesso!
+2023-10-31 13:54:33,319 INFO _internal _log 127.0.0.1 - - [31/Oct/2023 13:54:33] "PUT /relatorioAcademico/9f176f4d-4842-45be-81e4-26bacd02a108 HTTP/1.1" 200 -
+2023-10-31 13:54:37,126 INFO relatorioAcademico get Relatorio de id: 9f176f4d-4842-45be-81e4-26bacd02a108 listado com sucesso!
+2023-10-31 13:54:37,128 INFO _internal _log 127.0.0.1 - - [31/Oct/2023 13:54:37] "GET /relatorioAcademico/9f176f4d-4842-45be-81e4-26bacd02a108 HTTP/1.1" 200 -
+2023-10-31 13:54:58,130 INFO relatorioAcademico get Dados do Relatorio de id: 9f176f4d-4842-45be-81e4-26bacd02a108 listados com sucesso!
+2023-10-31 13:54:58,170 INFO _internal _log 127.0.0.1 - - [31/Oct/2023 13:54:58] "GET /relatorioAcademicoDados/9f176f4d-4842-45be-81e4-26bacd02a108 HTTP/1.1" 200 -

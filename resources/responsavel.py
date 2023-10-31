@@ -13,7 +13,7 @@ from model.educandoResponsavel import EducandoResponsavel
 from model.endereco import Endereco
 from model.problemaEnfrentado import ProblemaEnfrentados
 from model.responsavel import Responsavel, responsavelFields
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 

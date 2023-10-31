@@ -1,7 +1,7 @@
 from flask_restful import fields
 from helpers.database import db
 from model.pessoa import Pessoa
-from model.dateFormat import DateFormat
+from utils.dateFormat import DateFormat
 from model.endereco import enderecoFields
 from sqlalchemy.dialects.postgresql import UUID
 

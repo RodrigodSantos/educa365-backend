@@ -6,7 +6,7 @@ from utils.validations import *
 import uuid
 
 from model.instituicaoEnsino import InstituicaoEnsino, instituicaoEnsinoFields
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 

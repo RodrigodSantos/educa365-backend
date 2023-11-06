@@ -5,11 +5,14 @@ from helpers.log import logger
 import uuid
 
 from model.turma import Turma, turmaFields
+from model.instituicaoEnsino import InstituicaoEnsino
 from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 
 parser.add_argument("nome", type=str, help="Nome não informado", required=True)
+parser.add_argument("turno", type=str, help="Turno não informado", required=True)
+parser.add_argument("instituicao_id", type=str, help="Instituição não informada", required=True)
 
 class Turmas(Resource):
     def get(self):
@@ -22,8 +25,18 @@ class Turmas(Resource):
         try:
             args = parser.parse_args()
 
+            instituicao = InstituicaoEnsino.query.get(args['instituicao_id'])
+
+            if instituicao is None:
+                logger.error(f"Instituição de id: {args['instituicao_id']} não encontrado")
+
+                codigo = Message(1, f"Instituição de id: {args['instituicao_id']} não encontrado")
+                return marshal(codigo, msgFields), 404
+
             turma = Turma(
-                args['nome']
+                args['nome'],
+                args['turno'],
+                instituicao
             )
 
             db.session.add(turma)
@@ -56,6 +69,8 @@ class TurmaId(Resource):
             args = parser.parse_args()
 
             turma = Turma.query.get(uuid.UUID(id))
+            instituicao = InstituicaoEnsino.query.get(args['instituicao_id'])
+
 
             if turma is None:
                 logger.error(f"Turma de id: {id} não encontrada")
@@ -63,7 +78,15 @@ class TurmaId(Resource):
                 codigo = Message(1, f"Turma de id: {id} não encontrada")
                 return marshal(codigo, msgFields), 404
 
+            if instituicao is None:
+                logger.error(f"Instituição de id: {args['instituicao_id']} não encontrado")
+
+                codigo = Message(1, f"Instituição de id: {args['instituicao_id']} não encontrado")
+                return marshal(codigo, msgFields), 404
+
             turma.nome = args['nome']
+            turma.turno = args['turno']
+            turma.instituicao = instituicao
 
             db.session.add(turma)
             db.session.commit()
@@ -78,7 +101,6 @@ class TurmaId(Resource):
           return marshal(codigo, msgFields), 400
 
     def delete(self, id):
-
         turma = Turma.query.get(uuid.UUID(id))
 
         if turma is None:

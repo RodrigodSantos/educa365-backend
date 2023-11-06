@@ -6,7 +6,7 @@ import uuid
 
 from model.condicaoVida import CondicaoVida, condicaoVidaFields
 from model.problemaEnfrentado import ProblemaEnfrentados, problemasEnfrentadosFields
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 

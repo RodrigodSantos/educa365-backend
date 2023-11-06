@@ -5,7 +5,7 @@ from helpers.log import logger
 import uuid
 
 from model.deficiencia import Deficiencia, deficienciaFields
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 class Deficiencias(Resource):
     def get(self):

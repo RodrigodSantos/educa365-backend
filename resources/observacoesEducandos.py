@@ -6,7 +6,7 @@ import uuid
 
 from model.observacoesEducando import ObservacoesEducando, observacoesEducandoFields
 from model.deficiencia import Deficiencia
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 

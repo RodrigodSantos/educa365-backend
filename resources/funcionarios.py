@@ -8,7 +8,7 @@ import datetime
 import uuid
 
 from model.funcionario import Funcionario, funcionarioFields
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 from model.endereco import Endereco
 from model.pessoa import Pessoa
 

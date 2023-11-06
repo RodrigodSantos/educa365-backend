@@ -1,6 +1,6 @@
 from flask_restful import fields
 from helpers.database import db
-from model.dateFormat import DateFormat
+from utils.dateFormat import DateFormat
 from model.pessoa import Pessoa
 from model.endereco import enderecoFields
 from model.turma import turmaFields

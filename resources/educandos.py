@@ -25,7 +25,7 @@ from model.problemaEnfrentado import ProblemaEnfrentados
 
 from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields
 
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 

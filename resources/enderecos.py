@@ -5,7 +5,7 @@ from helpers.log import logger
 import uuid
 
 from model.endereco import Endereco, enderecoFields
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 

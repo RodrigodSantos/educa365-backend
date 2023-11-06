@@ -5,7 +5,7 @@ from helpers.log import logger
 import uuid
 
 from model.turma import Turma, turmaFields
-from model.mensagem import Message, msgFields
+from utils.mensagem import Message, msgFields
 
 parser = reqparse.RequestParser()
 
@@ -39,6 +39,44 @@ class Turmas(Resource):
             return marshal(codigo, msgFields), 400
 
 class TurmaId(Resource):
+    def get(self, id):
+            turma = Turma.query.get(uuid.UUID(id))
+
+            if turma is None:
+                logger.error(f"Turma de id: {id} não encontrada")
+
+                codigo = Message(1, f"Turma de id: {id} não encontrada")
+                return marshal(codigo, msgFields), 404
+
+            logger.info(f"Turma de id: {id} listada com sucesso!")
+            return marshal(turma, turmaFields), 200
+
+    def put(self, id):
+        try:
+            args = parser.parse_args()
+
+            turma = Turma.query.get(uuid.UUID(id))
+
+            if turma is None:
+                logger.error(f"Turma de id: {id} não encontrada")
+
+                codigo = Message(1, f"Turma de id: {id} não encontrada")
+                return marshal(codigo, msgFields), 404
+
+            turma.nome = args['nome']
+
+            db.session.add(turma)
+            db.session.commit()
+
+            logger.info(f"Turma de id: {id} atualizada com sucesso!")
+            return marshal(turma, turmaFields), 200
+
+        except:
+          logger.error("Error ao atualizar a Turma")
+
+          codigo = Message(2, "Error ao atualizar a Turma")
+          return marshal(codigo, msgFields), 400
+
     def delete(self, id):
 
         turma = Turma.query.get(uuid.UUID(id))

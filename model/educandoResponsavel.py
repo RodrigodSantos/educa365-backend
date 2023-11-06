@@ -1,6 +1,6 @@
 from flask_restful import fields
 from helpers.database import db
-from model.dateFormat import DateFormat
+from utils.dateFormat import DateFormat
 
 from model.educando import educandoFields
 from model.responsavel import responsavelFields

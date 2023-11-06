@@ -7,7 +7,7 @@ from model.condicaoMoradia import condicaoMoradiaFields
 from model.condicaoVida import condicaoVidaFields
 from model.problemaEnfrentado import ProblemaEnfrentados
 
-from model.dateFormat import DateFormat
+from utils.dateFormat import DateFormat
 from sqlalchemy.dialects.postgresql import UUID
 
 responsavelFields = {

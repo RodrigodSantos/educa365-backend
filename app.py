@@ -5,18 +5,20 @@ from helpers.confCors import cors
 import os
 from dotenv import load_dotenv
 
-from resources.funcionarios import Funcionarios, FuncionarioId
-from resources.educandos import Educandos, EducandoId
-from resources.enderecos import Enderecos, EnderecoId
-from resources.instituicoes import Instituicoes, InstituicaoId
-from resources.observacoesEducandos import ObservacoesEducandos, ObservacoesEducandoId
-from resources.deficiencias import Deficiencias, DeficienciaId
-from resources.turmas import Turmas, TurmaId
+from resources.funcionario import Funcionarios, FuncionarioId
+from resources.educando import Educandos, EducandoId
+from resources.endereco import Enderecos, EnderecoId
+from resources.instituicao import Instituicoes, InstituicaoId
+from resources.observacoesEducando import ObservacoesEducandos, ObservacoesEducandoId
+from resources.deficiencia import Deficiencias, DeficienciaId
+from resources.turma import Turmas, TurmaId
 from resources.responsavel import Responsaveis, ResponsavelId
 from resources.condicaoMoradia import CondicaoMoradias, CondicaoMoradiaId
 from resources.condicaoVida import CondicaoVidas, CondicaoVidaId
 from resources.EducandoResponsavel import EducandoResponsaveis
 from resources.relatorio import Relatorios, RelatorioId, RelatorioDadosId
+
+from resources.gerarTurmas import GerarTurmas
 
 load_dotenv()
 
@@ -81,6 +83,9 @@ api.add_resource(EducandoResponsaveis, '/educandoResponsaveis')
 api.add_resource(Relatorios, '/relatorio')
 api.add_resource(RelatorioId, '/relatorio/<string:id>')
 api.add_resource(RelatorioDadosId, '/relatorioDados/<string:id>')
+
+# Gerar Turmas
+api.add_resource(GerarTurmas, '/gerarTurmas')
 
 if __name__ == '__main__':
   app.run(debug=True)

@@ -10,3 +10,5 @@
 2023-11-06 10:29:54,895 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:29:54] "GET /turmas HTTP/1.1" 200 -
 2023-11-06 10:30:07,649 INFO instituicao get Instituicoes listados com sucesso!
 2023-11-06 10:30:07,651 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:30:07] "GET /instituicoes HTTP/1.1" 200 -
+2023-11-06 10:33:15,750 INFO turma get Turmas listadas com sucesso!
+2023-11-06 10:33:15,753 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:33:15] "GET /turmas HTTP/1.1" 200 -

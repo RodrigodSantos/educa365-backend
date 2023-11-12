@@ -16,11 +16,11 @@ class Turma(db.Model):
     __tablename__= 'tb_turma'
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    instituicao_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_instituicao_ensino.id", ondelete='CASCADE'), nullable=False)
+    instituicao_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_instituicao_ensino.id"), nullable=False)
     nome = db.Column(db.String, nullable=False)
     turno = db.Column(db.String, nullable=False)
 
-    instituicao = db.relationship("InstituicaoEnsino", cascade='all,delete', uselist=False)
+    instituicao = db.relationship("InstituicaoEnsino", uselist=False)
 
     def __init__(self, nome, turno, instituicao):
         self.nome = nome

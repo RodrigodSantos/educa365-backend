@@ -114,3 +114,4 @@ class TurmaId(Resource):
 
         logger.info(f"Turma de id: {id} deletedo com sucesso")
         return []
+        # return marshal(turma, turmaFields), 200

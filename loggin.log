@@ -1,14 +1,10 @@
-2023-11-06 10:29:47,704 WARNING _internal _log  * Debugger is active!
-2023-11-06 10:29:47,710 INFO _internal _log  * Debugger PIN: 113-706-223
-2023-11-06 10:29:48,841 ERROR turma post Instituição de id: 6b140735-0956-43f7-9f76-38cad463a3a4 não encontrado
-2023-11-06 10:29:48,842 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:29:48] "[33mPOST /turmas HTTP/1.1[0m" 404 -
-2023-11-06 10:29:51,855 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:29:51] "[36mGET /gerarTurmas?__debugger__=yes&cmd=resource&f=style.css HTTP/1.1[0m" 304 -
-2023-11-06 10:29:51,863 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:29:51] "[36mGET /gerarTurmas?__debugger__=yes&cmd=resource&f=debugger.js HTTP/1.1[0m" 304 -
-2023-11-06 10:29:52,082 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:29:52] "[36mGET /gerarTurmas?__debugger__=yes&cmd=resource&f=console.png HTTP/1.1[0m" 304 -
-2023-11-06 10:29:52,230 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:29:52] "POST /gerarTurmas HTTP/1.1" 200 -
-2023-11-06 10:29:54,891 INFO turma get Turmas listadas com sucesso!
-2023-11-06 10:29:54,895 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:29:54] "GET /turmas HTTP/1.1" 200 -
-2023-11-06 10:30:07,649 INFO instituicao get Instituicoes listados com sucesso!
-2023-11-06 10:30:07,651 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:30:07] "GET /instituicoes HTTP/1.1" 200 -
-2023-11-06 10:33:15,750 INFO turma get Turmas listadas com sucesso!
-2023-11-06 10:33:15,753 INFO _internal _log 127.0.0.1 - - [06/Nov/2023 10:33:15] "GET /turmas HTTP/1.1" 200 -
+2023-11-12 20:49:10,622 WARNING _internal _log  * Debugger is active!
+2023-11-12 20:49:10,636 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-11-12 20:49:12,537 INFO turma get Turmas listadas com sucesso!
+2023-11-12 20:49:12,550 INFO _internal _log 127.0.0.1 - - [12/Nov/2023 20:49:12] "GET /turmas HTTP/1.1" 200 -
+2023-11-12 20:49:21,384 INFO turma delete Turma de id: 6a39c5aa-e667-4930-9afd-bdcf259a25a8 deletedo com sucesso
+2023-11-12 20:49:21,389 INFO _internal _log 127.0.0.1 - - [12/Nov/2023 20:49:21] "DELETE /turmas/6a39c5aa-e667-4930-9afd-bdcf259a25a8 HTTP/1.1" 200 -
+2023-11-12 20:49:26,000 INFO turma get Turmas listadas com sucesso!
+2023-11-12 20:49:26,005 INFO _internal _log 127.0.0.1 - - [12/Nov/2023 20:49:26] "GET /turmas HTTP/1.1" 200 -
+2023-11-12 20:49:26,375 INFO turma get Turmas listadas com sucesso!
+2023-11-12 20:49:26,380 INFO _internal _log 127.0.0.1 - - [12/Nov/2023 20:49:26] "GET /turmas HTTP/1.1" 200 -

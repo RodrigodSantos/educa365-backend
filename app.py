@@ -55,6 +55,8 @@ api.add_resource(InstituicaoId, '/instituicoes/<string:id>')
 # Turmas - Resource
 api.add_resource(Turmas, '/turmas')
 api.add_resource(TurmaId, '/turmas/<string:id>')
+# Gerar Turmas
+api.add_resource(GerarTurmas, '/turmas/gerarTurmas')
 
 # Observacoes do educando - Resource
 api.add_resource(ObservacoesEducandos, '/observacoes')
@@ -84,8 +86,6 @@ api.add_resource(Relatorios, '/relatorio')
 api.add_resource(RelatorioId, '/relatorio/<string:id>')
 api.add_resource(RelatorioDadosId, '/relatorioDados/<string:id>')
 
-# Gerar Turmas
-api.add_resource(GerarTurmas, '/gerarTurmas')
 
 if __name__ == '__main__':
   app.run(debug=True)

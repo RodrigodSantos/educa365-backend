@@ -121,11 +121,11 @@ class TurmaId(Resource):
                 codigo = Message(1, f"Professor de id: {id} não encontrada")
                 return marshal(codigo, msgFields), 404
 
-            if professor.cargo is not "professor":
-                logger.error(f"Este funcionario não é um professor")
+            # if professor.cargo != "Professor":
+            #     logger.error(f"Este funcionario não é um professor")
 
-                codigo = Message(1, f"Este funcionario não é um professor")
-                return marshal(codigo, msgFields), 404
+            #     codigo = Message(1, f"Este funcionario não é um professor")
+            #     return marshal(codigo, msgFields), 404
 
 
             turma.professor = professor

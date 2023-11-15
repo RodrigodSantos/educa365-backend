@@ -37,7 +37,8 @@ migrate.__init__(app, db)
 api = Api(app)
 
 # Funcionarios - Resource
-api.add_resource(Funcionarios, '/funcionarios')
+api.add_resource(Funcionarios, '/funcionarios', endpoint='funcionarios_sem_cargo')
+api.add_resource(Funcionarios, '/funcionarios/<string:cargo>', endpoint='funcionarios_com_cargo')
 api.add_resource(FuncionarioId, '/funcionarios/<string:id>')
 
 # Educandos - Resource

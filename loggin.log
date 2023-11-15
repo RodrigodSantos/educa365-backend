@@ -1,0 +1,8 @@
+2023-11-15 11:16:35,659 WARNING _internal _log  * Debugger is active!
+2023-11-15 11:16:35,673 INFO _internal _log  * Debugger PIN: 113-706-223
+2023-11-15 11:16:43,684 INFO funcionario get Todos funcionarios com cargo de Assistente_social listados com sucesso!
+2023-11-15 11:16:43,686 INFO _internal _log 127.0.0.1 - - [15/Nov/2023 11:16:43] "GET /funcionarios/Assistente_social HTTP/1.1" 200 -
+2023-11-15 11:16:50,664 INFO funcionario get Todos funcionarios com cargo de Assistente_social listados com sucesso!
+2023-11-15 11:16:50,666 INFO _internal _log 127.0.0.1 - - [15/Nov/2023 11:16:50] "GET /funcionarios/assistente_social HTTP/1.1" 200 -
+2023-11-15 11:16:58,108 INFO funcionario get Todos funcionarios com cargo de Professor(a) listados com sucesso!
+2023-11-15 11:16:58,119 INFO _internal _log 127.0.0.1 - - [15/Nov/2023 11:16:58] "GET /funcionarios/professor(a) HTTP/1.1" 200 -

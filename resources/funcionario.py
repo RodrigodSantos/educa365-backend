@@ -25,10 +25,19 @@ parser.add_argument("senha", type=str, help="Senha não informada", required=Fal
 parser.add_argument("endereco", type=dict, help="Endereço não informado", required=True)
 
 class Funcionarios(Resource):
-    def get(self):
-        funcionarios = Funcionario.query.all()
+    def get(self, cargo=None):
+        if cargo and cargo.lower() not in ["assistente_social", "professor(a)", "educador(a)"]:
+            logger.error("Esse cargo não existe!")
 
-        logger.info("Funcionarios listados com sucesso!")
+            codigo = Message(2, "Esse cargo não existe!")
+            return marshal(codigo, msgFields), 400
+        if cargo:
+            funcionarios = Funcionario.query.filter_by(cargo=cargo.capitalize()).all()
+            logger.info(f"Todos funcionarios com cargo de {cargo.capitalize()} listados com sucesso!")
+        else:
+            funcionarios = Funcionario.query.all()
+            logger.info("Todos funcionarios listados com sucesso!")
+
         return marshal(funcionarios, funcionarioFields), 200
 
     def post(self):

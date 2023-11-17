@@ -21,7 +21,7 @@ class Relatorio(db.Model):
     __tablename__= 'tb_relatorio'
 
     id = db.Column(db.UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id"), nullable=False)
+    educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id"), nullable=True)
     funcionario_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_funcionario.pessoa_id"), nullable=False)
 
     relatorio = db.Column(db.LargeBinary, nullable=False)

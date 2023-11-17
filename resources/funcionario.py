@@ -26,14 +26,14 @@ parser.add_argument("endereco", type=dict, help="Endereço não informado", requ
 
 class Funcionarios(Resource):
     def get(self, cargo=None):
-        if cargo and cargo.lower() not in ["assistente_social", "professor(a)", "educador(a)"]:
+        if cargo and cargo not in ["ASSISTENTE_SOCIAL", "COORDENADOR(A)", "EDUCADOR(A)"]:
             logger.error("Esse cargo não existe!")
 
             codigo = Message(2, "Esse cargo não existe!")
             return marshal(codigo, msgFields), 400
         if cargo:
-            funcionarios = Funcionario.query.filter_by(cargo=cargo.capitalize()).all()
-            logger.info(f"Todos funcionarios com cargo de {cargo.capitalize()} listados com sucesso!")
+            funcionarios = Funcionario.query.filter_by(cargo=cargo).all()
+            logger.info(f"Todos funcionarios com cargo de {cargo} listados com sucesso!")
         else:
             funcionarios = Funcionario.query.all()
             logger.info("Todos funcionarios listados com sucesso!")

@@ -21,17 +21,14 @@ class Relatorios(Resource):
     arquivo = request.files["relatorio"].read()
     tipo = request.form.get("tipo")
     titulo = request.form.get("titulo")
-    educando_id = request.form.get("educando_id")
+    educando_id = request.form.get("educando_id", None)
     funcionario_id = request.form.get("funcionario_id")
 
-    educando = Educando.query.get(educando_id)
+    educando = None
+    if educando_id:
+      educando = Educando.query.get(educando_id)
+
     funcionario = Funcionario.query.get(funcionario_id)
-
-    if educando is None:
-      logger.error(f"Educando de id: {id} não encontrado")
-
-      codigo = Message(1, f"Educando de id: {id} não encontrado")
-      return marshal(codigo, msgFields), 404
 
     if funcionario is None:
       logger.error(f"Funcionario de id: {id} não encontrado")
@@ -74,11 +71,20 @@ class RelatorioId(Resource):
     relatorio = request.files["relatorio"].read()
     tipo = request.form.get("tipo")
     titulo = request.form.get("titulo")
-    educando_id = request.form.get("educando_id")
+    educando_id = request.form.get("educando_id", None)
     funcionario_id = request.form.get("funcionario_id")
 
-    educando = Educando.query.get(educando_id)
+    educando = None
+    if educando_id:
+      educando = Educando.query.get(educando_id)
+
     funcionario = Funcionario.query.get(funcionario_id)
+
+    if funcionario is None:
+      logger.error(f"Funcionario de id: {id} não encontrado")
+
+      codigo = Message(1, f"Funcionario de id: {id} não encontrado")
+      return marshal(codigo, msgFields), 404
 
     relatorioBd = Relatorio.query.get(uuid.UUID(id))
 
@@ -91,8 +97,10 @@ class RelatorioId(Resource):
     relatorioBd.relatorio = relatorio
     relatorioBd.tipo = tipo
     relatorioBd.titulo = titulo
-    relatorioBd.educando = educando
     relatorioBd.funcionario = funcionario
+
+    if educando != None:
+      relatorioBd.educando = educando
 
     db.session.add(relatorioBd)
     db.session.commit()

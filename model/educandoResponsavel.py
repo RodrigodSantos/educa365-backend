@@ -31,7 +31,6 @@ educandoResponsavelFields = {
   "dataMatricula": DateFormat,
   "endereco": fields.Nested(enderecoFields),
   "turma": fields.Nested(turmaFields),
-  "instituicao": fields.Nested(instituicaoEnsinoFields),
   "observacoesEducando": fields.Nested(observacoesEducandoFields),
   "responsaveis": fields.Nested(responsavelFields)
 }

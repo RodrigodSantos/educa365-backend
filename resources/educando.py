@@ -45,7 +45,6 @@ parser.add_argument("etnia", type=str, help="Etnia não informada", required=Tru
 parser.add_argument("nomeMae", type=str, help="Nome da mae não informado", required=True)
 parser.add_argument("nomePai", type=str, help="Nome do pai não informado", required=True)
 parser.add_argument("turma_id", type=str, help="Turma não informada", required=False)
-parser.add_argument("instituicao_id", type=str, help="Instituicao não informada", required=True)
 parser.add_argument("endereco", type=dict, help="endereco não informado", required=False)
 parser.add_argument("responsaveis", type=list, help="Responsavel não informado", required=False)
 parser.add_argument("observacoesEducando", type=dict, help="observacoesEducando não informado", required=False)
@@ -113,18 +112,6 @@ class Educandos(Resource):
 
             db.session.add(endereco)
 
-            # Busca da Turma
-            turma = Turma.query.get(args['turma_id'])
-
-            if turma is None:
-                logger.error(f"Turma de id: {id} não encontrada")
-
-                codigo = Message(1, f"Turma de id: {id} não encontrada")
-                return marshal(codigo, msgFields), 404
-
-            # Busca da instituicao
-            instituicao = InstituicaoEnsino.query.get(args['instituicao_id'])
-
             # Criacao das Observacoes do Educando
             observacoes = ObservacoesEducando(
                 args['observacoesEducando']['alimentacao'],
@@ -137,26 +124,6 @@ class Educandos(Resource):
             )
 
             db.session.add(observacoes)
-
-            # Busca da Turma
-            turma = Turma.query.get(args['turma_id'])
-
-            if turma is None:
-                logger.error(f"Turma de id: {id} não encontrada")
-
-                codigo = Message(1, f"Turma de id: {id} não encontrada")
-                return marshal(codigo, msgFields), 404
-
-            # Busca da instituicao
-            instituicao = InstituicaoEnsino.query.get(args['instituicao_id'])
-
-            if instituicao is None:
-                logger.error(f"Instituicao de Ensino de id: {id} não encontrada")
-
-                codigo = Message(1, f"Instituicao de Ensino de id: {id} não encontrada")
-                return marshal(codigo, msgFields), 404
-
-            logger.info(f"Instituicao de id: {instituicao.id} criado com sucesso")
 
             if len(args['nome']) <= 2:
                 logger.error("Nome do educando muito curto")
@@ -205,9 +172,7 @@ class Educandos(Resource):
                 args['nomeMae'],
                 args['nomePai'],
                 observacoes,
-                endereco,
-                turma,
-                instituicao
+                endereco
             )
 
             db.session.add(educando)
@@ -343,7 +308,6 @@ class Educandos(Resource):
                 "dataMatricula": educando.dataMatricula,
                 "endereco":educando.endereco,
                 "turma":educando.turma,
-                "instituicao":educando.instituicao,
                 "observacoesEducando":educando.observacoesEducando,
                 "responsaveis": responsaveisData
             }
@@ -393,7 +357,6 @@ class EducandoId(Resource):
             "dataMatricula": educando.dataMatricula,
             "endereco":educando.endereco,
             "turma":educando.turma,
-            "instituicao":educando.instituicao,
             "observacoesEducando":educando.observacoesEducando,
             "responsaveis": responsaveisData
         }
@@ -446,19 +409,6 @@ class EducandoId(Resource):
 
             db.session.add(turma)
 
-            # Atualizacao da instituicao
-            instituicao_id = args['instituicao_id']
-            instituicao = InstituicaoEnsino.query.get(uuid.UUID(instituicao_id))
-
-            if instituicao is None:
-                logger.error(f"Instituicao de id: {id} não encontrado")
-
-                codigo = Message(1, f"Instituicao de id: {id} não encontrado")
-                return marshal(codigo, msgFields), 404
-
-            db.session.add(instituicao)
-
-
             # Atualizacao do Educando
             educando.nome = args['nome']
             educando.sexo = args['sexo']
@@ -476,7 +426,6 @@ class EducandoId(Resource):
             educando.nomeMae = args['nomeMae']
             educando.nomePai = args['nomePai']
             educando.turma = turma
-            educando.instituicao = instituicao
 
             db.session.add(educando)
             db.session.commit()

@@ -15,7 +15,7 @@ from resources.turma import Turmas, TurmaId
 from resources.responsavel import Responsaveis, ResponsavelId
 from resources.condicaoMoradia import CondicaoMoradias, CondicaoMoradiaId
 from resources.condicaoVida import CondicaoVidas, CondicaoVidaId
-from resources.EducandoResponsavel import EducandoResponsaveis
+from resources.educandoResponsavel import EducandoResponsaveis
 from resources.relatorio import Relatorios, RelatorioId, RelatorioDadosId
 
 from resources.gerarTurmas import GerarTurmas
@@ -37,8 +37,7 @@ migrate.__init__(app, db)
 api = Api(app)
 
 # Funcionarios - Resource
-api.add_resource(Funcionarios, '/funcionarios', endpoint='funcionarios_sem_cargo')
-api.add_resource(Funcionarios, '/funcionarios/<string:cargo>', endpoint='funcionarios_com_cargo')
+api.add_resource(Funcionarios, '/funcionarios')
 api.add_resource(FuncionarioId, '/funcionarios/<string:id>')
 
 # Educandos - Resource
@@ -86,7 +85,6 @@ api.add_resource(EducandoResponsaveis, '/educandoResponsaveis')
 api.add_resource(Relatorios, '/relatorio')
 api.add_resource(RelatorioId, '/relatorio/<string:id>')
 api.add_resource(RelatorioDadosId, '/relatorioDados/<string:id>')
-
 
 if __name__ == '__main__':
   app.run(debug=True)

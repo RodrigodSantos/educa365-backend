@@ -19,7 +19,6 @@ class Relatorios(Resource):
 
   def post(self):
     arquivo = request.files["relatorio"].read()
-    tipo = request.form.get("tipo")
     titulo = request.form.get("titulo")
     educando_id = request.form.get("educando_id", None)
     funcionario_id = request.form.get("funcionario_id")
@@ -31,14 +30,13 @@ class Relatorios(Resource):
     funcionario = Funcionario.query.get(funcionario_id)
 
     if funcionario is None:
-      logger.error(f"Funcionario de id: {id} não encontrado")
+      logger.error(f"Funcionario de id: {funcionario_id} não encontrado")
 
-      codigo = Message(1, f"Funcionario de id: {id} não encontrado")
+      codigo = Message(1, f"Funcionario de id: {funcionario_id} não encontrado")
       return marshal(codigo, msgFields), 404
 
     relatorio = Relatorio(
       arquivo,
-      tipo,
       titulo,
       educando,
       funcionario
@@ -69,7 +67,6 @@ class RelatorioId(Resource):
 
   def put(self, id):
     relatorio = request.files["relatorio"].read()
-    tipo = request.form.get("tipo")
     titulo = request.form.get("titulo")
     educando_id = request.form.get("educando_id", None)
     funcionario_id = request.form.get("funcionario_id")
@@ -95,7 +92,6 @@ class RelatorioId(Resource):
       return marshal(codigo, msgFields), 404
 
     relatorioBd.relatorio = relatorio
-    relatorioBd.tipo = tipo
     relatorioBd.titulo = titulo
     relatorioBd.funcionario = funcionario
 

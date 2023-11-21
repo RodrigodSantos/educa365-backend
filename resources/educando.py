@@ -11,7 +11,6 @@ import datetime
 # Educando
 from model.educando import Educando, educandoFields
 from model.endereco import Endereco
-from model.instituicaoEnsino import InstituicaoEnsino
 from model.observacoesEducando import ObservacoesEducando
 from model.deficiencia import Deficiencia
 from model.turma import Turma

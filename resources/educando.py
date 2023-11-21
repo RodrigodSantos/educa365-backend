@@ -68,7 +68,7 @@ class Educandos(Resource):
 
     @token_verify
     def post(self, cargo, next_token):
-        if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        if cargo not in ["COORDENADOR(A)"]:
             logger.error(f"Funcionario não autorizado!")
 
             codigo = Message(1, f"Funcionario não autorizado!")
@@ -402,7 +402,7 @@ class EducandoId(Resource):
 
     @token_verify
     def put(self,cargo, next_token, id):
-        if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        if cargo not in ["COORDENADOR(A)"]:
             logger.error(f"Funcionario não autorizado!")
 
             codigo = Message(1, f"Funcionario não autorizado!")

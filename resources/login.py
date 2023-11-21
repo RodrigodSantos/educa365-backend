@@ -26,6 +26,6 @@ class Login(Resource):
       codigo = Message(1, "Senha Incorreta ou inexistente")
       return marshal(codigo, msgFields), 404
 
-    token = token_creator.create(user.cargo)
+    token = token_creator.create(user.cargo, user.id)
 
     return {"token": token}, 200

@@ -52,6 +52,6 @@ def token_verify(function: callable) -> callable:
       return marshal(token, tokenFields), 401
 
     next_token = token_creator.refresh(token)
-    return function(*args, cargo, next_token, token_id **kwargs)
+    return function(*args, cargo, next_token, token_id, **kwargs)
 
   return decorated

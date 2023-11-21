@@ -52,7 +52,7 @@ parser.add_argument("observacoesEducando", type=dict, help="observacoesEducando 
 
 class Educandos(Resource):
     @token_verify
-    def get(self, cargo, next_token):
+    def get(self, cargo, next_token, token_id):
         if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
             logger.error(f"Funcionario não autorizado!")
 
@@ -67,7 +67,7 @@ class Educandos(Resource):
         return marshal(data, educandoTokenFields), 200
 
     @token_verify
-    def post(self, cargo, next_token):
+    def post(self, cargo, next_token, token_id):
         if cargo not in ["COORDENADOR(A)"]:
             logger.error(f"Funcionario não autorizado!")
 
@@ -348,7 +348,7 @@ class Educandos(Resource):
 
 class EducandoId(Resource):
     @token_verify
-    def get(self,cargo, next_token, id):
+    def get(self,cargo, next_token, token_id, id):
         if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
             logger.error(f"Funcionario não autorizado!")
 
@@ -401,7 +401,7 @@ class EducandoId(Resource):
         return marshal(data, educandoResponsavelTokenFields), 200
 
     @token_verify
-    def put(self,cargo, next_token, id):
+    def put(self,cargo, next_token, token_id, id):
         if cargo not in ["COORDENADOR(A)"]:
             logger.error(f"Funcionario não autorizado!")
 
@@ -485,7 +485,7 @@ class EducandoId(Resource):
             return marshal(codigo, msgFields), 400
 
     @token_verify
-    def delete(self, cargo, next_token, id):
+    def delete(self, cargo, next_token, token_id, id):
         if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
             logger.error(f"Funcionario não autorizado!")
 

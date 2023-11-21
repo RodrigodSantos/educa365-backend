@@ -5,7 +5,7 @@ from helpers.confCors import cors
 import os
 from dotenv import load_dotenv
 
-from resources.funcionario import Funcionarios, FuncionarioId
+from resources.funcionario import Funcionarios, FuncionarioId, FuncionarioMe
 from resources.educando import Educandos, EducandoId
 from resources.endereco import Enderecos, EnderecoId
 from resources.instituicao import Instituicoes, InstituicaoId
@@ -48,6 +48,7 @@ api.add_resource(Logout, '/logout')
 # Funcionarios - Resource
 api.add_resource(Funcionarios, '/funcionarios')
 api.add_resource(FuncionarioId, '/funcionarios/<string:id>')
+api.add_resource(FuncionarioMe, '/funcionarios/me')
 
 # Educandos - Resource
 api.add_resource(Educandos, '/educandos')

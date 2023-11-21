@@ -3,7 +3,7 @@ from helpers.database import db
 from model.pessoa import Pessoa
 from utils.dateFormat import DateFormat
 from model.endereco import enderecoFields
-from sqlalchemy.dialects.postgresql import UUID
+from werkzeug.security import generate_password_hash, check_password_hash
 
 funcionarioFields = {
     "id": fields.String,
@@ -32,7 +32,10 @@ class Funcionario(Pessoa):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)
         self.email = email
         self.cargo = cargo
-        self.senha = senha
+        self.senha = generate_password_hash(senha)
+
+    def verify_password(self, senha):
+        return check_password_hash(self.senha, senha)
 
     def __repr__(self):
         return f'<Funcionario {self.nome}>'

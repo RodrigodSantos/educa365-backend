@@ -1,4 +1,5 @@
 from flask_restful import Resource, reqparse, marshal
+from helpers.auth.token_verifier import token_verify
 from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
@@ -9,9 +10,8 @@ import uuid
 import datetime
 
 # Educando
-from model.educando import Educando, educandoFields
+from model.educando import Educando, educandoTokenFields
 from model.endereco import Endereco
-from model.instituicaoEnsino import InstituicaoEnsino
 from model.observacoesEducando import ObservacoesEducando
 from model.deficiencia import Deficiencia
 from model.turma import Turma
@@ -23,7 +23,7 @@ from model.condicaoMoradia import CondicaoMoradia
 from model.condicaoVida import CondicaoVida
 from model.problemaEnfrentado import ProblemaEnfrentados
 
-from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields
+from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelTokenFields
 
 from utils.mensagem import Message, msgFields
 
@@ -51,13 +51,29 @@ parser.add_argument("observacoesEducando", type=dict, help="observacoesEducando 
 
 
 class Educandos(Resource):
-    def get(self):
+    @token_verify
+    def get(self, cargo, next_token):
+        if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+            logger.error(f"Funcionario não autorizado!")
+
+            codigo = Message(1, f"Funcionario não autorizado!")
+            return marshal(codigo, msgFields), 404
+
         educandos = Educando.query.all()
 
-        logger.info("Educandos listados com sucesso!")
-        return marshal(educandos, educandoFields), 200
+        data = {"educando": educandos, "token": next_token}
 
-    def post(self):
+        logger.info("Educandos listados com sucesso!")
+        return marshal(data, educandoTokenFields), 200
+
+    @token_verify
+    def post(self, cargo, next_token):
+        if cargo not in ["COORDENADOR(A)"]:
+            logger.error(f"Funcionario não autorizado!")
+
+            codigo = Message(1, f"Funcionario não autorizado!")
+            return marshal(codigo, msgFields), 404
+
         try:
             args = parser.parse_args()
 
@@ -312,7 +328,11 @@ class Educandos(Resource):
                 "responsaveis": responsaveisData
             }
 
-            return marshal(data, educandoResponsavelFields), 200
+            data = {"educando": data, "token": next_token}
+
+            logger.info("Educandos listados com sucesso!")
+
+            return marshal(data, educandoResponsavelTokenFields), 200
 
         except IntegrityError:
             logger.error("Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
@@ -327,12 +347,25 @@ class Educandos(Resource):
             return marshal(codigo, msgFields), 400
 
 class EducandoId(Resource):
-    def get(self, id):
-        responsaveisData = []
+    @token_verify
+    def get(self,cargo, next_token, id):
+        if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+            logger.error(f"Funcionario não autorizado!")
+
+            codigo = Message(1, f"Funcionario não autorizado!")
+            return marshal(codigo, msgFields), 404
+
         educando = Educando.query.get(uuid.UUID(id))
+
+        if educando is None:
+            logger.error(f"Educando de id: {id} não encontrado")
+
+            codigo = Message(1, f"Educando de id: {id} não encontrado")
+            return marshal(codigo, msgFields), 404
 
         educandosResponsaveis = EducandoResponsavel.query.filter_by(educando_id=educando.id).all()
 
+        responsaveisData = []
         for educandoResponsavel in educandosResponsaveis:
             responsavel = Responsavel.query.get(educandoResponsavel.responsavel_id)
             responsaveisData.append(responsavel)
@@ -361,16 +394,20 @@ class EducandoId(Resource):
             "responsaveis": responsaveisData
         }
 
-        if educando is None:
-            logger.error(f"Educando de id: {id} não encontrado")
+        data = {"educando": data, "token": next_token}
 
-            codigo = Message(1, f"Educando de id: {id} não encontrado")
+        logger.info(f"Educando de id {id} listado com sucesso!")
+
+        return marshal(data, educandoResponsavelTokenFields), 200
+
+    @token_verify
+    def put(self,cargo, next_token, id):
+        if cargo not in ["COORDENADOR(A)"]:
+            logger.error(f"Funcionario não autorizado!")
+
+            codigo = Message(1, f"Funcionario não autorizado!")
             return marshal(codigo, msgFields), 404
 
-        logger.info(f"Educando de id: {id} listado com sucesso!")
-        return marshal(data, educandoResponsavelFields), 200
-
-    def put(self, id):
         try:
             args = parser.parse_args()
 
@@ -430,8 +467,10 @@ class EducandoId(Resource):
             db.session.add(educando)
             db.session.commit()
 
+            data = {"educando": educando, "token": next_token}
+
             logger.info(f"Educando de id: {id} atalizado com sucesso!")
-            return marshal(educando, educandoFields), 200
+            return marshal(data, educandoTokenFields), 200
 
         except IntegrityError:
             logger.error("Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
@@ -445,7 +484,13 @@ class EducandoId(Resource):
             codigo = Message(2, "Error ao atualizar o Educando")
             return marshal(codigo, msgFields), 400
 
-    def delete(self, id):
+    @token_verify
+    def delete(self, cargo, next_token, id):
+        if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+            logger.error(f"Funcionario não autorizado!")
+
+            codigo = Message(1, f"Funcionario não autorizado!")
+            return marshal(codigo, msgFields), 404
 
         educando = Educando.query.get(uuid.UUID(id))
         educandoResponsaveis = EducandoResponsavel.query.filter_by(educando_id=id).all()
@@ -461,5 +506,7 @@ class EducandoId(Resource):
         db.session.delete(educando)
         db.session.commit()
 
+        data = {"token": next_token}
+
         logger.info(f"Educando de id: {id} deletedo com sucesso")
-        return []
+        return data

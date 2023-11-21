@@ -10,11 +10,15 @@ from utils.dateFormat import DateFormat
 
 relatorioFields = {
     'id': fields.String,
-    'tipo': fields.String,
     'titulo': fields.String,
     'dataCriacao': DateFormat,
     'educando': fields.Nested(educandoFields),
     'funcionario': fields.Nested(funcionarioFields)
+}
+
+relatorioTokenFields = {
+    "relatorio": fields.Nested(relatorioFields),
+    "token": fields.String
 }
 
 class Relatorio(db.Model):
@@ -25,16 +29,14 @@ class Relatorio(db.Model):
     funcionario_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_funcionario.pessoa_id"), nullable=False)
 
     relatorio = db.Column(db.LargeBinary, nullable=False)
-    tipo = db.Column(db.String, nullable=False)
     titulo = db.Column(db.String, nullable=False)
     dataCriacao = db.Column(db.DateTime, default=datetime.datetime.now)
 
     educando = db.relationship("Educando", uselist=False)
     funcionario = db.relationship("Funcionario", uselist=False)
 
-    def __init__(self, relatorio, tipo, titulo, educando, funcionario):
+    def __init__(self, relatorio, titulo, educando, funcionario):
         self.relatorio = relatorio
-        self.tipo = tipo
         self.titulo = titulo
         self.educando = educando
         self.funcionario = funcionario

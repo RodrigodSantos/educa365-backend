@@ -10,7 +10,6 @@ import uuid
 from model.funcionario import Funcionario, funcionarioFields
 from utils.mensagem import Message, msgFields
 from model.endereco import Endereco
-from model.pessoa import Pessoa
 
 parser = reqparse.RequestParser()
 
@@ -25,15 +24,13 @@ parser.add_argument("senha", type=str, help="Senha não informada", required=Fal
 parser.add_argument("endereco", type=dict, help="Endereço não informado", required=True)
 
 class Funcionarios(Resource):
-    def get(self, cargo=None):
-        if cargo and cargo not in ["ASSISTENTE_SOCIAL", "COORDENADOR(A)", "EDUCADOR(A)"]:
-            logger.error("Esse cargo não existe!")
+    def get(self):
+        args = parser.parse_args()
+        cargo = args["cargo"]
 
-            codigo = Message(2, "Esse cargo não existe!")
-            return marshal(codigo, msgFields), 400
         if cargo:
             funcionarios = Funcionario.query.filter_by(cargo=cargo).all()
-            logger.info(f"Todos funcionarios com cargo de {cargo} listados com sucesso!")
+            logger.info(f"Todos os funcionarios com cargo de {cargo} listados com sucesso!")
         else:
             funcionarios = Funcionario.query.all()
             logger.info("Todos funcionarios listados com sucesso!")
@@ -95,6 +92,11 @@ class Funcionarios(Resource):
                 codigo = Message(2, "Formato de rg não aceito")
                 return marshal(codigo, msgFields), 400
 
+            if args['cargo'] not in ["ASSISTENTE_SOCIAL", "COORDENADOR(A)", "PROFESSOR(A)"]:
+                logger.error("Cargo invalido!")
+                codigo = Message(2, "Cargo invalido!")
+                return marshal(codigo, msgFields), 400
+
             funcionario = Funcionario(
                 args['nome'],
                 args['sexo'],
@@ -130,14 +132,13 @@ class FuncionarioId(Resource):
     def get(self, id):
         try:
             funcionario = Funcionario.query.get(uuid.UUID(id))
-
             if funcionario is None:
                 logger.error(f"Funcionario de id: {id} não encontrado")
 
                 codigo = Message(1, f"Funcionario de id: {id} não encontrado")
                 return marshal(codigo, msgFields), 404
 
-            logger.info(f"Funcionario de id: {id} listado com sucesso!")
+            logger.info(f"Funcionario listado com sucesso!")
             return marshal(funcionario, funcionarioFields), 200
 
         except:
@@ -193,7 +194,7 @@ class FuncionarioId(Resource):
             logger.error("Erro ao atualizar o email do Funcionario - Email pertence a outro usuário")
 
             codigo = Message(1, "Erro ao atualizar o email do Funcionario - Email pertence a outro usuário")
-            return marshal(codigo, msgFields)
+            return marshal(codigo, msgFields), 400
 
         except:
           logger.error("Error ao atualizar o Funcionario")

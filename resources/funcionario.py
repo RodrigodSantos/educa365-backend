@@ -3,7 +3,6 @@ from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
 from utils.validations import *
-from utils.valid_uuid import is_valid_uuid
 
 import datetime
 import uuid
@@ -195,7 +194,7 @@ class FuncionarioId(Resource):
             logger.error("Erro ao atualizar o email do Funcionario - Email pertence a outro usuário")
 
             codigo = Message(1, "Erro ao atualizar o email do Funcionario - Email pertence a outro usuário")
-            return marshal(codigo, msgFields)
+            return marshal(codigo, msgFields), 400
 
         except:
           logger.error("Error ao atualizar o Funcionario")

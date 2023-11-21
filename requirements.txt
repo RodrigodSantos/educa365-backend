@@ -6,4 +6,4 @@ Flask-Migrate==4.0.4
 psycopg2===2.9.6
 Werkzeug===2.3.4
 python-dotenv==1.0.0
-PyJWT==2.8.0
+PyJWT===2.8.0

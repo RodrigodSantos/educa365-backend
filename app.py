@@ -20,6 +20,11 @@ from resources.relatorio import Relatorios, RelatorioId, RelatorioDadosId
 
 from resources.gerarTurmas import GerarTurmas
 
+from resources.login import Login
+from resources.logout import Logout
+
+# from utils.auth import Route
+
 load_dotenv()
 
 postgresUser = os.getenv("POSTGRES_USER")
@@ -35,6 +40,10 @@ db.init_app(app)
 cors.init_app(app)
 migrate.__init__(app, db)
 api = Api(app)
+
+
+api.add_resource(Login, '/login')
+api.add_resource(Logout, '/logout')
 
 # Funcionarios - Resource
 api.add_resource(Funcionarios, '/funcionarios')

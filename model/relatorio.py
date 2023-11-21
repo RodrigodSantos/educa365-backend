@@ -16,6 +16,11 @@ relatorioFields = {
     'funcionario': fields.Nested(funcionarioFields)
 }
 
+relatorioTokenFields = {
+    "relatorio": fields.Nested(relatorioFields),
+    "token": fields.String
+}
+
 class Relatorio(db.Model):
     __tablename__= 'tb_relatorio'
 

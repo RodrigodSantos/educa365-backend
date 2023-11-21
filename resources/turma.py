@@ -2,6 +2,8 @@ from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
 
+from helpers.auth import token_verify
+
 import uuid
 from model.funcionario import Funcionario
 
@@ -18,7 +20,15 @@ parser.add_argument("instituicao_id", type=str, help="Instituição não informa
 patch_parser.add_argument("professor_id", type=str, required=True)
 
 class Turmas(Resource):
-    def get(self):
+
+    @token_verify
+    def get(self, cargo, next_token):
+        if cargo != "COORDENADOR(A)":
+            logger.error(f"Funcionario não autorizado!")
+
+            codigo = Message(1, f"Funcionario não autorizado!")
+            return marshal(codigo, msgFields), 404
+
         turma = Turma.query.all()
 
         logger.info("Turmas listadas com sucesso!")

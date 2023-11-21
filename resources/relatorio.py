@@ -2,22 +2,40 @@ from flask import request, send_file
 from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
+from helpers.auth.token_verifier import token_verify
+
 import io
 import uuid
-from model.funcionario import Funcionario
 
-from model.relatorio import Relatorio, relatorioFields
+from model.funcionario import Funcionario
+from model.relatorio import Relatorio, relatorioFields, relatorioTokenFields
 from model.educando import Educando
 from utils.mensagem import Message, msgFields
 
 class Relatorios(Resource):
-  def get(self):
+  @token_verify
+  def get(self, cargo, next_token):
+    if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        logger.error(f"Funcionario não autorizado!")
+
+        codigo = Message(1, f"Funcionario não autorizado!")
+        return marshal(codigo, msgFields), 404
+
     relatorios = Relatorio.query.all()
 
-    logger.info("Relatorios listados com sucesso!")
-    return marshal(relatorios, relatorioFields), 200
+    data = {"relatorio": relatorios, "token": next_token}
 
-  def post(self):
+    logger.info("Relatorios listados com sucesso!")
+    return marshal(data, relatorioTokenFields), 200
+
+  @token_verify
+  def post(self, cargo, next_token):
+    if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        logger.error(f"Funcionario não autorizado!")
+
+        codigo = Message(1, f"Funcionario não autorizado!")
+        return marshal(codigo, msgFields), 404
+
     arquivo = request.files["relatorio"].read()
     titulo = request.form.get("titulo")
     educando_id = request.form.get("educando_id", None)
@@ -45,11 +63,21 @@ class Relatorios(Resource):
     db.session.add(relatorio)
     db.session.commit()
 
+    data = {"relatorio": relatorio, "token": next_token}
+
     logger.info(f"Relatorio de id: {relatorio.id} criado com sucesso")
-    return marshal(relatorio, relatorioFields), 200
+    return marshal(data, relatorioTokenFields), 200
 
 class RelatorioId(Resource):
-  def get(self, id):
+
+  @token_verify
+  def get(self, cargo, next_token, id):
+    if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        logger.error(f"Funcionario não autorizado!")
+
+        codigo = Message(1, f"Funcionario não autorizado!")
+        return marshal(codigo, msgFields), 404
+
     relatorio = Relatorio.query.get(uuid.UUID(id))
 
     if relatorio is None:
@@ -65,7 +93,14 @@ class RelatorioId(Resource):
     logger.info(f"Relatorio de id: {id} listado com sucesso!")
     return response
 
-  def put(self, id):
+  @token_verify
+  def put(self, cargo, next_token, id):
+    if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        logger.error(f"Funcionario não autorizado!")
+
+        codigo = Message(1, f"Funcionario não autorizado!")
+        return marshal(codigo, msgFields), 404
+
     relatorio = request.files["relatorio"].read()
     titulo = request.form.get("titulo")
     educando_id = request.form.get("educando_id", None)
@@ -101,10 +136,18 @@ class RelatorioId(Resource):
     db.session.add(relatorioBd)
     db.session.commit()
 
-    logger.info(f"Relatorio de id: {id} atualizado com sucesso!")
-    return f"Relatorio de id: {id} atualizado com sucesso!"
+    data = {"relatorio": relatorioBd, "token": next_token}
 
-  def delete(self, id):
+    logger.info(f"Relatorio de id: {id} atualizado com sucesso!")
+    return marshal(data, relatorioTokenFields), 200
+
+  @token_verify
+  def delete(self, cargo, next_token, id):
+    if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        logger.error(f"Funcionario não autorizado!")
+
+        codigo = Message(1, f"Funcionario não autorizado!")
+        return marshal(codigo, msgFields), 404
     relatorio = Relatorio.query.get(uuid.UUID(id))
 
     if relatorio is None:
@@ -116,17 +159,28 @@ class RelatorioId(Resource):
     db.session.delete(relatorio)
     db.session.commit()
 
-    return []
+    data = {"token": next_token}
+
+    return data
 
 class RelatorioDadosId(Resource):
-  def get(self, id):
-    relatorioAcademico = Relatorio.query.get(uuid.UUID(id))
 
-    if relatorioAcademico is None:
+  @token_verify
+  def get(self, cargo, next_token, id):
+    if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
+        logger.error(f"Funcionario não autorizado!")
+
+        codigo = Message(1, f"Funcionario não autorizado!")
+        return marshal(codigo, msgFields), 404
+    relatorio = Relatorio.query.get(uuid.UUID(id))
+
+    if relatorio is None:
       logger.error(f"Relatorio de id: {id} não encontrado")
 
       codigo = Message(1, f"Relatorio de id: {id} não encontrado")
       return marshal(codigo, msgFields), 404
 
+    data = {"relatorio": relatorio, "token": next_token}
+
     logger.info(f"Dados do Relatorio de id: {id} listados com sucesso!")
-    return marshal(relatorioAcademico, relatorioFields), 200
+    return marshal(data, relatorioTokenFields), 200

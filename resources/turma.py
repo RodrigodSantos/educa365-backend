@@ -22,7 +22,7 @@ patch_parser.add_argument("professor_id", type=str, required=True)
 class Turmas(Resource):
 
     @token_verify
-    def get(self, cargo, next_token):
+    def get(self, cargo, next_token, token_id):
         if cargo != "COORDENADOR(A)":
             logger.error(f"Funcionario não autorizado!")
 

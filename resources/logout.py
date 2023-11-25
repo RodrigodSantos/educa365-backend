@@ -9,7 +9,7 @@ from helpers.auth.token_verifier import token_verify
 class Logout(Resource):
 
   @token_verify
-  def post(self, cargo, token):
+  def post(self, cargo, token, token_id):
     try:
       rawToken = request.headers["Authorization"]
       token = rawToken.split()[1]

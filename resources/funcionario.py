@@ -3,6 +3,7 @@ from helpers.database import db
 from helpers.log import logger
 from sqlalchemy.exc import IntegrityError
 from utils.validations import *
+from helpers.auth.token_verifier import token_verify
 
 import datetime
 import uuid
@@ -24,7 +25,8 @@ parser.add_argument("senha", type=str, help="Senha não informada", required=Fal
 parser.add_argument("endereco", type=dict, help="Endereço não informado", required=True)
 
 class Funcionarios(Resource):
-    def get(self):
+    @token_verify
+    def get(self, cargo, next_token, token_id):
         args = parser.parse_args()
         cargo = args["cargo"]
 
@@ -126,10 +128,9 @@ class Funcionarios(Resource):
 
             codigo = Message(2, "Erro ao cadastrar o Funcionario")
             return marshal(codigo, msgFields), 400
-
-
 class FuncionarioId(Resource):
-    def get(self, id):
+    @token_verify
+    def get(self, cargo, next_token, id):
         try:
             funcionario = Funcionario.query.get(uuid.UUID(id))
             if funcionario is None:
@@ -147,7 +148,8 @@ class FuncionarioId(Resource):
             codigo = Message(2, "Error ao encontrar o Funcionario")
             return marshal(codigo, msgFields), 400
 
-    def put(self, id):
+    @token_verify
+    def put(self, cargo, next_token, id):
         try:
             args = parser.parse_args()
 
@@ -202,7 +204,8 @@ class FuncionarioId(Resource):
           codigo = Message(2, "Error ao atualizar o Funcionario")
           return marshal(codigo, msgFields), 400
 
-    def delete(self, id):
+    @token_verify
+    def delete(self, cargo, next_token, id):
 
         funcionario = Funcionario.query.get(uuid.UUID(id))
 
@@ -217,3 +220,17 @@ class FuncionarioId(Resource):
         db.session.commit()
 
         return []
+
+class FuncionarioMe(Resource):
+    @token_verify
+    def get(self, cargo, next_token, token_id):
+        funcionario = Funcionario.query.get(token_id)
+
+        if funcionario is None:
+            logger.error(f"Funcionário {id} não encontrado")
+
+            message = Message(f"Funcionário {id} não encontrado", 1)
+            return marshal(message), 404
+
+        logger.info(f"Funcionário {id} encontrado com sucesso!")
+        return marshal(funcionario, funcionarioFields), 200

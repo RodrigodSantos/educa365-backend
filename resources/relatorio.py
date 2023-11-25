@@ -14,7 +14,7 @@ from utils.mensagem import Message, msgFields
 
 class Relatorios(Resource):
   @token_verify
-  def get(self, cargo, next_token):
+  def get(self, cargo, next_token, token_id):
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
 
@@ -29,7 +29,7 @@ class Relatorios(Resource):
     return marshal(data, relatorioTokenFields), 200
 
   @token_verify
-  def post(self, cargo, next_token):
+  def post(self, cargo, next_token, token_id):
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
 
@@ -71,7 +71,7 @@ class Relatorios(Resource):
 class RelatorioId(Resource):
 
   @token_verify
-  def get(self, cargo, next_token, id):
+  def get(self, cargo, next_token, token_id, id):
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
 
@@ -94,7 +94,7 @@ class RelatorioId(Resource):
     return response
 
   @token_verify
-  def put(self, cargo, next_token, id):
+  def put(self, cargo, next_token, token_id, id):
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
 
@@ -142,7 +142,7 @@ class RelatorioId(Resource):
     return marshal(data, relatorioTokenFields), 200
 
   @token_verify
-  def delete(self, cargo, next_token, id):
+  def delete(self, cargo, next_token, token_id, id):
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
 
@@ -166,7 +166,7 @@ class RelatorioId(Resource):
 class RelatorioDadosId(Resource):
 
   @token_verify
-  def get(self, cargo, next_token, id):
+  def get(self, cargo, next_token, token_id, id):
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
 

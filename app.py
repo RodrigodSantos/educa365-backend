@@ -5,7 +5,7 @@ from helpers.confCors import cors
 import os
 from dotenv import load_dotenv
 
-from resources.funcionario import Funcionarios, FuncionarioId
+from resources.funcionario import Funcionarios, FuncionarioId, FuncionarioMe
 from resources.educando import Educandos, EducandoId
 from resources.endereco import Enderecos, EnderecoId
 from resources.instituicao import Instituicoes, InstituicaoId
@@ -15,7 +15,7 @@ from resources.turma import Turmas, TurmaId
 from resources.responsavel import Responsaveis, ResponsavelId
 from resources.condicaoMoradia import CondicaoMoradias, CondicaoMoradiaId
 from resources.condicaoVida import CondicaoVidas, CondicaoVidaId
-from resources.educandoResponsavel import EducandoResponsaveis
+from resources.EducandoResponsavel import EducandoResponsaveis
 from resources.relatorio import Relatorios, RelatorioId, RelatorioDadosId
 
 from resources.gerarTurmas import GerarTurmas
@@ -48,6 +48,7 @@ api.add_resource(Logout, '/logout')
 # Funcionarios - Resource
 api.add_resource(Funcionarios, '/funcionarios')
 api.add_resource(FuncionarioId, '/funcionarios/<string:id>')
+api.add_resource(FuncionarioMe, '/funcionarios/me')
 
 # Educandos - Resource
 api.add_resource(Educandos, '/educandos')

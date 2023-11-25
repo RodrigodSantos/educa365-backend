@@ -32,11 +32,6 @@ educandoFields = {
     "observacoesEducando": fields.Nested(observacoesEducandoFields)
 }
 
-educandoTokenFields = {
-    "educando": fields.Nested(educandoFields),
-    "token": fields.String
-}
-
 class Educando(Pessoa):
     __tablename__ = "tb_educando"
 

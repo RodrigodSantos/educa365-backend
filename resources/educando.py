@@ -10,7 +10,7 @@ import uuid
 import datetime
 
 # Educando
-from model.educando import Educando, educandoTokenFields
+from model.educando import Educando, educandoFields
 from model.endereco import Endereco
 from model.observacoesEducando import ObservacoesEducando
 from model.deficiencia import Deficiencia
@@ -23,7 +23,7 @@ from model.condicaoMoradia import CondicaoMoradia
 from model.condicaoVida import CondicaoVida
 from model.problemaEnfrentado import ProblemaEnfrentados
 
-from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelTokenFields
+from model.educandoResponsavel import EducandoResponsavel, educandoResponsavelFields
 
 from utils.mensagem import Message, msgFields
 
@@ -61,10 +61,8 @@ class Educandos(Resource):
 
         educandos = Educando.query.all()
 
-        data = {"educando": educandos, "token": next_token}
-
         logger.info("Educandos listados com sucesso!")
-        return marshal(data, educandoTokenFields), 200
+        return marshal(educandos, educandoFields), 200
 
     @token_verify
     def post(self, cargo, next_token, token_id):
@@ -394,11 +392,9 @@ class EducandoId(Resource):
             "responsaveis": responsaveisData
         }
 
-        data = {"educando": data, "token": next_token}
-
         logger.info(f"Educando de id {id} listado com sucesso!")
 
-        return marshal(data, educandoResponsavelTokenFields), 200
+        return marshal(data, educandoResponsavelFields), 200
 
     @token_verify
     def put(self,cargo, next_token, token_id, id):
@@ -470,7 +466,7 @@ class EducandoId(Resource):
             data = {"educando": educando, "token": next_token}
 
             logger.info(f"Educando de id: {id} atalizado com sucesso!")
-            return marshal(data, educandoTokenFields), 200
+            return marshal(data, educandoFields), 200
 
         except IntegrityError:
             logger.error("Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")

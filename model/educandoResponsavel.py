@@ -35,11 +35,6 @@ educandoResponsavelFields = {
   "responsaveis": fields.Nested(responsavelFields)
 }
 
-educandoResponsavelTokenFields = {
-    "educando": fields.Nested(educandoResponsavelFields),
-    "token": fields.String
-}
-
 educandoResponsaveisFields = {
     "id": fields.String,
     "educando": fields.Nested(educandoFields),

@@ -326,11 +326,9 @@ class Educandos(Resource):
                 "responsaveis": responsaveisData
             }
 
-            data = {"educando": data, "token": next_token}
-
             logger.info("Educandos listados com sucesso!")
 
-            return marshal(data, educandoResponsavelTokenFields), 200
+            return marshal(data, educandoResponsavelFields), 200
 
         except IntegrityError:
             logger.error("Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
@@ -463,10 +461,9 @@ class EducandoId(Resource):
             db.session.add(educando)
             db.session.commit()
 
-            data = {"educando": educando, "token": next_token}
 
             logger.info(f"Educando de id: {id} atalizado com sucesso!")
-            return marshal(data, educandoFields), 200
+            return marshal(educando, educandoFields), 200
 
         except IntegrityError:
             logger.error("Erro ao cadastrar o Educando - Email, cpf, Rg ou Nis ja cadastrado no sistema")
@@ -502,7 +499,5 @@ class EducandoId(Resource):
         db.session.delete(educando)
         db.session.commit()
 
-        data = {"token": next_token}
-
         logger.info(f"Educando de id: {id} deletedo com sucesso")
-        return data
+        return []

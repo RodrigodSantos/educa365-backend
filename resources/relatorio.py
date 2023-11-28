@@ -8,7 +8,7 @@ import io
 import uuid
 
 from model.funcionario import Funcionario
-from model.relatorio import Relatorio, relatorioFields, relatorioTokenFields
+from model.relatorio import Relatorio, relatorioFields
 from model.educando import Educando
 from utils.mensagem import Message, msgFields
 
@@ -23,10 +23,8 @@ class Relatorios(Resource):
 
     relatorios = Relatorio.query.all()
 
-    data = {"relatorio": relatorios, "token": next_token}
-
     logger.info("Relatorios listados com sucesso!")
-    return marshal(data, relatorioTokenFields), 200
+    return marshal(relatorios, relatorioFields), 200
 
   @token_verify
   def post(self, cargo, next_token, token_id):
@@ -63,10 +61,9 @@ class Relatorios(Resource):
     db.session.add(relatorio)
     db.session.commit()
 
-    data = {"relatorio": relatorio, "token": next_token}
 
     logger.info(f"Relatorio de id: {relatorio.id} criado com sucesso")
-    return marshal(data, relatorioTokenFields), 200
+    return marshal(relatorio, relatorioFields), 200
 
 class RelatorioId(Resource):
 
@@ -136,10 +133,8 @@ class RelatorioId(Resource):
     db.session.add(relatorioBd)
     db.session.commit()
 
-    data = {"relatorio": relatorioBd, "token": next_token}
-
     logger.info(f"Relatorio de id: {id} atualizado com sucesso!")
-    return marshal(data, relatorioTokenFields), 200
+    return marshal(relatorioBd, relatorioFields), 200
 
   @token_verify
   def delete(self, cargo, next_token, token_id, id):
@@ -159,9 +154,7 @@ class RelatorioId(Resource):
     db.session.delete(relatorio)
     db.session.commit()
 
-    data = {"token": next_token}
-
-    return data
+    return []
 
 class RelatorioDadosId(Resource):
 
@@ -180,7 +173,5 @@ class RelatorioDadosId(Resource):
       codigo = Message(1, f"Relatorio de id: {id} não encontrado")
       return marshal(codigo, msgFields), 404
 
-    data = {"relatorio": relatorio, "token": next_token}
-
     logger.info(f"Dados do Relatorio de id: {id} listados com sucesso!")
-    return marshal(data, relatorioTokenFields), 200
+    return marshal(relatorio, relatorioFields), 200

@@ -1,5 +1,5 @@
 from flask import request, send_file
-from flask_restful import Resource, reqparse, marshal
+from flask_restful import Resource, marshal
 from helpers.database import db
 from helpers.log import logger
 from helpers.auth.token_verifier import token_verify
@@ -15,13 +15,21 @@ from utils.mensagem import Message, msgFields
 class Relatorios(Resource):
   @token_verify
   def get(self, cargo, next_token, token_id):
+    data = request.args
+    educando_id = data.get("educando_id")
+
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
 
         codigo = Message(1, f"Funcionario não autorizado!")
         return marshal(codigo, msgFields), 404
 
-    relatorios = Relatorio.query.all()
+    if educando_id:
+      relatorios = Relatorio.query.filter_by(educando_id=educando_id).all()
+      logger.info(f"Relatórios do educando {educando_id} listados com sucesso!")
+    else:
+      relatorios = Funcionario.query.all()
+      logger.info("Todos funcionarios listados com sucesso!")
 
     logger.info("Relatorios listados com sucesso!")
     return marshal(relatorios, relatorioFields), 200
@@ -157,7 +165,6 @@ class RelatorioId(Resource):
     return []
 
 class RelatorioDadosId(Resource):
-
   @token_verify
   def get(self, cargo, next_token, token_id, id):
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:

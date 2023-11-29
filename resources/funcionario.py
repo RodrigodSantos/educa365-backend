@@ -1,3 +1,4 @@
+from flask import request
 from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
@@ -27,8 +28,8 @@ parser.add_argument("endereco", type=dict, help="Endereço não informado", requ
 class Funcionarios(Resource):
     @token_verify
     def get(self, cargo, next_token, token_id):
-        args = parser.parse_args()
-        cargo = args["cargo"]
+        data = request.args
+        cargo = data.get("cargo")
 
         if cargo:
             funcionarios = Funcionario.query.filter_by(cargo=cargo).all()

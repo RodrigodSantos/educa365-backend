@@ -28,7 +28,7 @@ class Relatorios(Resource):
       relatorios = Relatorio.query.filter_by(educando_id=educando_id).all()
       logger.info(f"Relatórios do educando {educando_id} listados com sucesso!")
     else:
-      relatorios = Funcionario.query.all()
+      relatorios = Relatorio.query.all()
       logger.info("Todos funcionarios listados com sucesso!")
 
     logger.info("Relatorios listados com sucesso!")

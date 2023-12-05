@@ -1,5 +1,8 @@
 from .token_creator import TokenCreator
+from dotenv import load_dotenv
 import os
+
+load_dotenv()
 
 TOKEN_KEY = os.getenv("TOKEN_KEY")
 EXP_TIME_DAYS= int(os.getenv("EXP_TIME_DAYS"))

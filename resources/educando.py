@@ -190,7 +190,6 @@ class Educandos(Resource):
             )
 
             db.session.add(educando)
-            db.session.commit()
             logger.info(f"Educando de id: {educando.id} criado com sucesso")
 
             data = request.get_json()

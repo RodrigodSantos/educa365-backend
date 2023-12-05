@@ -9,6 +9,8 @@ from utils.validations import *
 import uuid
 import datetime
 
+from utils.uuidValidate import is_valid_uuid
+
 # Educando
 from model.educando import Educando, educandoFields
 from model.endereco import Endereco
@@ -46,9 +48,7 @@ parser.add_argument("nomeMae", type=str, help="Nome da mae não informado", requ
 parser.add_argument("nomePai", type=str, help="Nome do pai não informado", required=True)
 parser.add_argument("turma_id", type=str, help="Turma não informada", required=False)
 parser.add_argument("endereco", type=dict, help="endereco não informado", required=False)
-parser.add_argument("responsaveis", type=list, help="Responsavel não informado", required=False)
 parser.add_argument("observacoesEducando", type=dict, help="observacoesEducando não informado", required=False)
-
 
 class Educandos(Resource):
     @token_verify
@@ -195,94 +195,104 @@ class Educandos(Resource):
             data = request.get_json()
             for i, responsavel in enumerate(data.get('responsaveis')):
 
-                # Criacao BolsaFamilia
-                if data.get('responsaveis')[i]['bolsaFamilia'] != None:
-                    bolsaFamilia = BolsaFamilia(
-                            data.get('responsaveis')[i]['bolsaFamilia']['nis']
-                        )
-                    db.session.add(bolsaFamilia)
+                if 'responsavel_id' in data.get('responsaveis')[i]:
+                    if is_valid_uuid(data.get('responsaveis')[i]['responsavel_id']):
+                        responsavel = Responsavel.query.get(uuid.UUID(data.get('responsaveis')[i]['responsavel_id']))
+                    else:
+                        logger.error("Id no formato incorreto")
+
+                        codigo = Message(2, "Id no formato incorreto")
+                        return marshal(codigo, msgFields), 400
+
                 else:
-                    bolsaFamilia = None
+                    # Criacao BolsaFamilia
+                    if data.get('responsaveis')[i]['bolsaFamilia'] != None:
+                        bolsaFamilia = BolsaFamilia(
+                                data.get('responsaveis')[i]['bolsaFamilia']['nis']
+                            )
+                        db.session.add(bolsaFamilia)
+                    else:
+                        bolsaFamilia = None
 
-                # Criacao da Condicao da Moradia
-                condicaoMoradia = CondicaoMoradia(
-                    data.get('responsaveis')[i]['condicaoMoradia']['tipoCasa'],
-                    data.get('responsaveis')[i]['condicaoMoradia']['posseCasa'],
-                    data.get('responsaveis')[i]['condicaoMoradia']['banheiroComFossa'],
-                    data.get('responsaveis')[i]['condicaoMoradia']['aguaCagepa'],
-                    data.get('responsaveis')[i]['condicaoMoradia']['poco'],
-                    data.get('responsaveis')[i]['condicaoMoradia']['energia']
-                )
+                    # Criacao da Condicao da Moradia
+                    condicaoMoradia = CondicaoMoradia(
+                        data.get('responsaveis')[i]['condicaoMoradia']['tipoCasa'],
+                        data.get('responsaveis')[i]['condicaoMoradia']['posseCasa'],
+                        data.get('responsaveis')[i]['condicaoMoradia']['banheiroComFossa'],
+                        data.get('responsaveis')[i]['condicaoMoradia']['aguaCagepa'],
+                        data.get('responsaveis')[i]['condicaoMoradia']['poco'],
+                        data.get('responsaveis')[i]['condicaoMoradia']['energia']
+                    )
 
-                db.session.add(condicaoMoradia)
+                    db.session.add(condicaoMoradia)
 
-                #Criacao ProblemaEnfrentado
-                problemaEnfrentado = ProblemaEnfrentados(
-                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['alcool'],
-                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['lazer'],
-                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['saude'],
-                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['fome'],
-                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['drogas'],
-                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['violencia'],
-                    data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['desemprego']
-                )
+                    #Criacao ProblemaEnfrentado
+                    problemaEnfrentado = ProblemaEnfrentados(
+                        data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['alcool'],
+                        data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['lazer'],
+                        data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['saude'],
+                        data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['fome'],
+                        data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['drogas'],
+                        data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['violencia'],
+                        data.get('responsaveis')[i]['condicaoVida']['problemaEnfrentado']['desemprego']
+                    )
 
-                db.session.add(problemaEnfrentado)
+                    db.session.add(problemaEnfrentado)
 
-                # Criacao Condicao de Vida
-                condicaoVida = CondicaoVida(
-                    data.get('responsaveis')[i]['condicaoVida']['trabalhoDaFamilia'],
-                    data.get('responsaveis')[i]['condicaoVida']['quantasPessoasTrabalhamNaCasa'],
-                    data.get('responsaveis')[i]['condicaoVida']['rendaMensalFamilia'],
-                    data.get('responsaveis')[i]['condicaoVida']['programaGoverno'],
-                    problemaEnfrentado
-                )
+                    # Criacao Condicao de Vida
+                    condicaoVida = CondicaoVida(
+                        data.get('responsaveis')[i]['condicaoVida']['trabalhoDaFamilia'],
+                        data.get('responsaveis')[i]['condicaoVida']['quantasPessoasTrabalhamNaCasa'],
+                        data.get('responsaveis')[i]['condicaoVida']['rendaMensalFamilia'],
+                        data.get('responsaveis')[i]['condicaoVida']['programaGoverno'],
+                        problemaEnfrentado
+                    )
 
-                db.session.add(condicaoVida)
+                    db.session.add(condicaoVida)
 
-                # Criacao do Responsavel
-                if len(data.get('responsaveis')[i]['nomeMae']) <= 2:
-                    logger.error("Nome da mãe do responsavel muito curto")
+                    # Criacao do Responsavel
+                    if len(data.get('responsaveis')[i]['nomeMae']) <= 2:
+                        logger.error("Nome da mãe do responsavel muito curto")
 
-                    codigo = Message(2, "Nome da mãe do responsavel muito curto")
-                    return marshal(codigo, msgFields), 400
+                        codigo = Message(2, "Nome da mãe do responsavel muito curto")
+                        return marshal(codigo, msgFields), 400
 
-                if validateCpf(data.get('responsaveis')[i]['cpf']) == None:
-                    logger.error("Formato de cpf não aceito")
+                    if validateCpf(data.get('responsaveis')[i]['cpf']) == None:
+                        logger.error("Formato de cpf não aceito")
 
-                    codigo = Message(2, "Formato de cpf não aceito")
-                    return marshal(codigo, msgFields), 400
+                        codigo = Message(2, "Formato de cpf não aceito")
+                        return marshal(codigo, msgFields), 400
 
-                if validateRg(data.get('responsaveis')[i]['rg']) == None:
-                    logger.error("Formato de rg não aceito")
+                    if validateRg(data.get('responsaveis')[i]['rg']) == None:
+                        logger.error("Formato de rg não aceito")
 
-                    codigo = Message(2, "Formato de rg não aceito")
-                    return marshal(codigo, msgFields), 400
+                        codigo = Message(2, "Formato de rg não aceito")
+                        return marshal(codigo, msgFields), 400
 
 
-                responsavel = Responsavel(
-                    data.get('responsaveis')[i]['nome'],
-                    data.get('responsaveis')[i]['sexo'],
-                    data.get('responsaveis')[i]['rg'],
-                    data.get('responsaveis')[i]['cpf'],
-                    data.get('responsaveis')[i]['dataNascimento'],
-                    endereco,
-                    data.get('responsaveis')[i]['parentesco'],
-                    data.get('responsaveis')[i]['escolaridade'],
-                    data.get('responsaveis')[i]['apelido'],
-                    data.get('responsaveis')[i]['dataExpedicaoRg'],
-                    data.get('responsaveis')[i]['dataExpedicaoCpf'],
-                    data.get('responsaveis')[i]['profissao'],
-                    data.get('responsaveis')[i]['nomeMae'],
-                    data.get('responsaveis')[i]['ufRg'],
-                    data.get('responsaveis')[i]['emissorRg'],
-                    data.get('responsaveis')[i]['familiaresCasa'],
-                    bolsaFamilia,
-                    condicaoMoradia,
-                    condicaoVida
-                )
+                    responsavel = Responsavel(
+                        data.get('responsaveis')[i]['nome'],
+                        data.get('responsaveis')[i]['sexo'],
+                        data.get('responsaveis')[i]['rg'],
+                        data.get('responsaveis')[i]['cpf'],
+                        data.get('responsaveis')[i]['dataNascimento'],
+                        endereco,
+                        data.get('responsaveis')[i]['parentesco'],
+                        data.get('responsaveis')[i]['escolaridade'],
+                        data.get('responsaveis')[i]['apelido'],
+                        data.get('responsaveis')[i]['dataExpedicaoRg'],
+                        data.get('responsaveis')[i]['dataExpedicaoCpf'],
+                        data.get('responsaveis')[i]['profissao'],
+                        data.get('responsaveis')[i]['nomeMae'],
+                        data.get('responsaveis')[i]['ufRg'],
+                        data.get('responsaveis')[i]['emissorRg'],
+                        data.get('responsaveis')[i]['familiaresCasa'],
+                        bolsaFamilia,
+                        condicaoMoradia,
+                        condicaoVida
+                    )
 
-                db.session.add(responsavel)
+                    db.session.add(responsavel)
 
                 # Add realcionamento Educando - Responsavel
                 educandoResponsavel = EducandoResponsavel(
@@ -485,15 +495,22 @@ class EducandoId(Resource):
             return marshal(codigo, msgFields), 404
 
         educando = Educando.query.get(uuid.UUID(id))
-        educandoResponsaveis = EducandoResponsavel.query.filter_by(educando_id=id).all()
-        for educandoResponsavel in educandoResponsaveis:
-            db.session.delete(educandoResponsavel)
 
         if educando is None:
             logger.error(f"Educando de id: {id} não encontrado")
 
             codigo = Message(1, f"Educando de id: {id} não encontrado")
             return marshal(codigo, msgFields), 404
+
+        educandoResponsaveis = EducandoResponsavel.query.filter_by(educando_id=id).all()
+
+        for educandoResponsavel in educandoResponsaveis:
+            responsavel = educandoResponsavel.responsavel
+            response = EducandoResponsavel.query.filter_by(responsavel_id=responsavel.id).all()
+            if len(response) == 1:
+                db.session.delete(responsavel)
+            db.session.delete(educandoResponsavel)
+
 
         db.session.delete(educando)
         db.session.commit()

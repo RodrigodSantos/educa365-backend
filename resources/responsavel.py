@@ -46,6 +46,18 @@ class Responsaveis(Resource):
         return marshal(responsavel, responsavelFields), 200
 
 class ResponsavelId(Resource):
+
+    def get(self, id):
+        responsavel = Responsavel.query.get(uuid.UUID(id))
+
+        if responsavel is None:
+            logger.error(f"Responsavel de id: {id} não encontrado")
+
+            codigo = Message(1, f"Responsavel de id: {id} não encontrado")
+            return marshal(codigo, msgFields), 404
+
+        return marshal(responsavel, responsavelFields), 200
+
     def post(self, id):
         args = parser.parse_args()
         educando = Educando.query.get(uuid.UUID(id))

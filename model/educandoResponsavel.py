@@ -48,8 +48,8 @@ class EducandoResponsavel(db.Model):
     educando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_educando.pessoa_id"))
     responsavel_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_responsavel.pessoa_id"))
 
-    educando = db.relationship("Educando", uselist=False, backref= db.backref("tb_educando"))
-    responsavel = db.relationship("Responsavel", uselist=False, backref= db.backref("tb_responsavel"))
+    educando = db.relationship("Educando", uselist=False, backref=db.backref("tb_educando"))
+    responsavel = db.relationship("Responsavel", uselist=False, backref=db.backref("tb_responsavel"))
 
     def __init__(self, educando, responsavel):
         self.educando = educando

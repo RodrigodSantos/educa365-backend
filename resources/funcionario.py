@@ -131,7 +131,7 @@ class Funcionarios(Resource):
             return marshal(codigo, msgFields), 400
 class FuncionarioId(Resource):
     @token_verify
-    def get(self, cargo, next_token, id):
+    def get(self, cargo, next_token, token_id, id):
         try:
             funcionario = Funcionario.query.get(uuid.UUID(id))
             if funcionario is None:
@@ -150,7 +150,7 @@ class FuncionarioId(Resource):
             return marshal(codigo, msgFields), 400
 
     @token_verify
-    def put(self, cargo, next_token, id):
+    def put(self, cargo, next_token, token_id, id):
         try:
             args = parser.parse_args()
 
@@ -206,7 +206,7 @@ class FuncionarioId(Resource):
           return marshal(codigo, msgFields), 400
 
     @token_verify
-    def delete(self, cargo, next_token, id):
+    def delete(self, cargo, next_token, token_id, id):
 
         funcionario = Funcionario.query.get(uuid.UUID(id))
 

@@ -1,3 +1,4 @@
+from flask import request
 from flask_restful import Resource, reqparse, marshal
 from helpers.database import db
 from helpers.log import logger
@@ -27,8 +28,8 @@ parser.add_argument("endereco", type=dict, help="Endereço não informado", requ
 class Funcionarios(Resource):
     @token_verify
     def get(self, cargo, next_token, token_id):
-        args = parser.parse_args()
-        cargo = args["cargo"]
+        data = request.args
+        cargo = data.get("cargo")
 
         if cargo:
             funcionarios = Funcionario.query.filter_by(cargo=cargo).all()
@@ -130,7 +131,7 @@ class Funcionarios(Resource):
             return marshal(codigo, msgFields), 400
 class FuncionarioId(Resource):
     @token_verify
-    def get(self, cargo, next_token, id):
+    def get(self, cargo, next_token, token_id, id):
         try:
             funcionario = Funcionario.query.get(uuid.UUID(id))
             if funcionario is None:
@@ -149,7 +150,7 @@ class FuncionarioId(Resource):
             return marshal(codigo, msgFields), 400
 
     @token_verify
-    def put(self, cargo, next_token, id):
+    def put(self, cargo, next_token, token_id, id):
         try:
             args = parser.parse_args()
 
@@ -205,7 +206,7 @@ class FuncionarioId(Resource):
           return marshal(codigo, msgFields), 400
 
     @token_verify
-    def delete(self, cargo, next_token, id):
+    def delete(self, cargo, next_token, token_id, id):
 
         funcionario = Funcionario.query.get(uuid.UUID(id))
 

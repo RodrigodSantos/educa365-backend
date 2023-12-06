@@ -27,7 +27,6 @@ class TestingConfig(Config):
 
 def get_config():
     config_name = os.getenv("FLASK_ENV")
-    print(config_name)
 
     config_by_name = dict(
         development=DevelopmentConfig,

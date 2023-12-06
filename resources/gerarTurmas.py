@@ -1,12 +1,8 @@
-from flask_restful import Resource, reqparse, marshal
+from flask_restful import Resource
 from helpers.database import db
-from helpers.log import logger
 
-import uuid
-
-from model.turma import Turma, turmaFields
-from model.instituicaoEnsino import InstituicaoEnsino, instituicaoEnsinoFields
-from utils.mensagem import Message, msgFields
+from model.turma import Turma
+from model.instituicaoEnsino import InstituicaoEnsino
 
 class GerarTurmas(Resource):
   def post(self):
@@ -14,7 +10,9 @@ class GerarTurmas(Resource):
     turmas = Turma.query.all()
 
     instituicao_1 = InstituicaoEnsino("Creche","11.111.111/1111-11")
+    instituicao_2 = InstituicaoEnsino("Escola","22.222.222/2222-22")
     db.session.add(instituicao_1)
+    db.session.add(instituicao_2)
 
     lista = []
     for turma in turmas:
@@ -34,5 +32,13 @@ class GerarTurmas(Resource):
       db.session.add(Turma("Pré-2", "Tarde", instituicao_1))
     if {"nome": "Maternal-C", "turno": "Integral"} not in lista:
       db.session.add(Turma("Maternal-C", "Integral", instituicao_1))
+    if {"nome": "Turma-a", "turno": "Manhã"} not in lista:
+      db.session.add(Turma("Turma-a", "Manhã", instituicao_2))
+    if {"nome": "Turma-a", "turno": "Tarde"} not in lista:
+      db.session.add(Turma("Turma-a", "Tarde", instituicao_2))
+    if {"nome": "Turma-b", "turno": "Manhã"} not in lista:
+      db.session.add(Turma("Turma-b", "Manhã", instituicao_2))
+    if {"nome": "Turma-b", "turno": "Tarde"} not in lista:
+      db.session.add(Turma("Turma-b", "Tarde", instituicao_2))
 
     db.session.commit()

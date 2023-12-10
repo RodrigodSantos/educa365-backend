@@ -1,10 +1,9 @@
 from datetime import datetime
 
 def calcular_idade(data_nascimento):
-    # Obtém a data atual
-    hoje = datetime.now()
+    data_atual = datetime.now()
 
-    # Calcula a diferença entre os anos
-    idade = hoje.year - data_nascimento.year - ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
+    nascimento = datetime.strptime(data_nascimento, "%Y-%m-%d")
+    idade = data_atual.year - nascimento.year - ((data_atual.month, data_atual.day) < (nascimento.month, nascimento.day))
 
     return idade

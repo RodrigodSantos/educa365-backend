@@ -42,3 +42,8 @@ class GerarTurmas(Resource):
       db.session.add(Turma("Turma-b", "Tarde", instituicao_2))
 
     db.session.commit()
+
+  def delete(self):
+    db.session.query(Turma).delete()
+    db.session.commit()
+    return []

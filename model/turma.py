@@ -1,6 +1,5 @@
 from flask_restful import fields
 from helpers.database import db
-from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 from model.instituicaoEnsino import instituicaoEnsinoFields

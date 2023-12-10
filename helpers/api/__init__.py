@@ -11,7 +11,7 @@ from resources.turma import Turmas, TurmaId
 from resources.responsavel import Responsaveis, ResponsavelId
 from resources.condicaoMoradia import CondicaoMoradias, CondicaoMoradiaId
 from resources.condicaoVida import CondicaoVidas, CondicaoVidaId
-from resources.EducandoResponsavel import EducandoResponsaveis
+from resources.educandoResponsavel import EducandoResponsaveis
 from resources.relatorio import Relatorios, RelatorioId, RelatorioDadosId
 
 from resources.gerarTurmas import GerarTurmas

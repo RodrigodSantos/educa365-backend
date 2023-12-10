@@ -56,7 +56,7 @@ class Educando(Pessoa):
     turma = db.relationship("Turma", uselist=False, backref= db.backref("tb_turma"))
     observacoesEducando = db.relationship("ObservacoesEducando", cascade='all,delete', uselist=False, backref= db.backref("tb_observacoes_educando"))
 
-    def __init__(self, nome, sexo, dataNascimento, rg, cpf, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, observacoesEducando, endereco):
+    def __init__(self, nome, sexo, dataNascimento, rg, cpf, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, observacoesEducando, endereco, turma):
         super().__init__(nome, sexo, rg, cpf, dataNascimento, endereco)
         self.nis = nis
         self.cidadeCartorio = cidadeCartorio
@@ -69,6 +69,7 @@ class Educando(Pessoa):
         self.nomeMae = nomeMae
         self.nomePai = nomePai
         self.observacoesEducando = observacoesEducando
+        self.turma = turma
 
     def __repr__(self):
         return f'<Educando {self.nome}>'

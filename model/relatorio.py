@@ -6,6 +6,7 @@ import datetime
 
 from model.educando import educandoFields
 from model.funcionario import funcionarioFields
+from model.comentario import comentarioFields
 from utils.dateFormat import DateFormat
 
 relatorioFields = {
@@ -13,7 +14,8 @@ relatorioFields = {
     'titulo': fields.String,
     'dataCriacao': DateFormat,
     'educando': fields.Nested(educandoFields),
-    'funcionario': fields.Nested(funcionarioFields)
+    'funcionario': fields.Nested(funcionarioFields),
+    'comentarios': fields.List(fields.Nested(comentarioFields)),
 }
 
 class Relatorio(db.Model):
@@ -29,6 +31,7 @@ class Relatorio(db.Model):
 
     educando = db.relationship("Educando", uselist=False)
     funcionario = db.relationship("Funcionario", uselist=False)
+    comentarios = db.relationship("Comentario", backref="relatorio", lazy=True)
 
     def __init__(self, relatorio, titulo, educando, funcionario):
         self.relatorio = relatorio

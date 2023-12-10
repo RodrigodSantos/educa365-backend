@@ -20,7 +20,7 @@ class Comentarios(Resource):
   def get(self, cargo, next_token, token_id):
     comentarios = Comentario.query.all()
 
-    logger.info("Turmas listadas com sucesso!")
+    logger.info("Comentarios listadas com sucesso!")
     return marshal(comentarios, comentarioFields), 200
 
   @token_verify

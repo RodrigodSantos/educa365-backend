@@ -13,6 +13,7 @@ from resources.condicaoMoradia import CondicaoMoradias, CondicaoMoradiaId
 from resources.condicaoVida import CondicaoVidas, CondicaoVidaId
 from resources.educandoResponsavel import EducandoResponsaveis
 from resources.relatorio import Relatorios, RelatorioId, RelatorioDadosId
+from resources.comentario import Comentarios, ComentariosId
 
 from resources.gerarTurmas import GerarTurmas
 
@@ -76,3 +77,7 @@ api.add_resource(EducandoResponsaveis, '/educandoResponsaveis')
 api.add_resource(Relatorios, '/relatorio')
 api.add_resource(RelatorioId, '/relatorio/<string:id>')
 api.add_resource(RelatorioDadosId, '/relatorioDados/<string:id>')
+
+# Comentário
+api.add_resource(Comentarios, '/comentarios')
+api.add_resource(ComentariosId, '/comentarios/<string:id>')

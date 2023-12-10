@@ -17,6 +17,10 @@ class Relatorios(Resource):
   def get(self, cargo, next_token, token_id):
     data = request.args
     educando_id = data.get("educando_id")
+    funcionario_id = data.get("funcionario_id")
+
+    logger.info(f"educando_id: {educando_id}")
+    logger.info(f"funcionario_id: {funcionario_id}")
 
     if cargo not in ["COORDENADOR(A)", "ASSISTENTE_SOCIAL", "PROFESSOR(A)"]:
         logger.error(f"Funcionario não autorizado!")
@@ -24,11 +28,14 @@ class Relatorios(Resource):
         codigo = Message(1, f"Funcionario não autorizado!")
         return marshal(codigo, msgFields), 404
 
-    if educando_id:
+    if educando_id is not None:
       relatorios = Relatorio.query.filter_by(educando_id=educando_id).all()
       logger.info(f"Relatórios do educando {educando_id} listados com sucesso!")
+    if funcionario_id is not None:
+      relatorios = Relatorio.query.filter_by(funcionario_id=funcionario_id).all()
+      logger.info(f"Relatórios do funcionário {funcionario_id} listados com sucesso!")
     else:
-      relatorios = Relatorio.query.all()
+      relatorios = Relatorio.query.filter(Relatorio.educando_id.is_(None)).all()
       logger.info("Todos funcionarios listados com sucesso!")
 
     logger.info("Relatorios listados com sucesso!")

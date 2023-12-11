@@ -10,6 +10,7 @@ import uuid
 import datetime
 
 from utils.uuidValidate import is_valid_uuid
+from utils.calculoIdade import calcular_idade
 
 # Educando
 from model.educando import Educando, educandoFields

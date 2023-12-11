@@ -36,7 +36,7 @@ class Educando(Pessoa):
     __tablename__ = "tb_educando"
 
     pessoa_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_pessoa.id"), primary_key=True)
-    turma_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_turma.id"), nullable=True)
+    turma_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_turma.id", ondelete='CASCADE'), nullable=True)
     observacoesEducando_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey("tb_observacoes_educando.id", ondelete='CASCADE'), nullable=False)
 
     nis = db.Column(db.String, nullable=False)
@@ -53,7 +53,7 @@ class Educando(Pessoa):
 
     __mapper_args__ = {"polymorphic_identity": "educando"}
 
-    turma = db.relationship("Turma", uselist=False, backref= db.backref("tb_turma"))
+    turma = db.relationship("Turma", uselist=False, cascade='all,delete', backref= db.backref("tb_turma"))
     observacoesEducando = db.relationship("ObservacoesEducando", cascade='all,delete', uselist=False, backref= db.backref("tb_observacoes_educando"))
 
     def __init__(self, nome, sexo, dataNascimento, rg, cpf, nis, cidadeCartorio, sus, nomeCartorio, numeroRegistroNascimento, dataEmissaoCertidao, ufCartorio, etnia, nomeMae, nomePai, observacoesEducando, endereco):
